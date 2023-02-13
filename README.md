@@ -1,4 +1,4 @@
-# VitualBuild
+# VirtualBuild
 
 # Cross-Platform App for Architect Using Augmented Reality
 
