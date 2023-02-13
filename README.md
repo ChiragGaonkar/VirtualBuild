@@ -1,16 +1,5 @@
-# virtualbuild
+# VitualBuild
 
-A new Flutter project.
+# Cross-Platform App for Architect Using Augmented Reality
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Architecture has been present in our system for a long time. Since the stone age, there have only been improvements in the form of architecture we design. But, in today’s generation where technology plays an important role, there is a mix of technology in every application. From our daily activities to our work directly or indirectly we ought to deal with technology. With this, Augmented Reality is one of the fastest growing fields in today’s technocrat world, it is also presumed to be a key technology in almost all industries. This is where our project comes into the limelight. This project of ours discusses augmented reality and the way it can be implemented to make an Architectural design application. We have proposed an AR approach to Architectural design to improve the outcome between the architect and their client. Its always been an issue for the architect to explain their design through just prototypes and 3D models to their clients. But our project mitigates and overcomes this barrier by providing a proper augmented view to the client. Through this, the architect would be in a better position to showcase the design with proper attributes. To implement this various computer vision concepts are used to provide an interactive and immersive experience to the user. They can be implemented by using their plugins in game engine software like Unity 3D or Unreal which are used for the development of the AR application.
