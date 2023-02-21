@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+          titleLarge: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
       home: const HomeScreen(),
