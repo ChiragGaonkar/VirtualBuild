@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/forgotpassword_screen.dart';
+import 'package:virtualbuild/screens/login_screen.dart';
+import 'package:virtualbuild/screens/otp_screen.dart';
+import 'package:virtualbuild/screens/register_screen.dart';
+import 'package:virtualbuild/screens/resetpassword_screen.dart';
 import './screens/home_screen.dart';
 
 void main() {
@@ -39,8 +44,14 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const HomeScreen(),
+      //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
+        RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+        LoginScreen.routeName: (ctx) => const LoginScreen(),
+        ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
+        OTPScreen.routeName: (ctx) => const OTPScreen(),
+        ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
       },
     );
   }
