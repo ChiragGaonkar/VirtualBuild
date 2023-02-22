@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/widgets/header.dart';
+import 'package:virtualbuild/widgets/textfield.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
@@ -24,26 +25,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.05,
               ),
-              TextField(
-                style: TextStyle(color: Color.fromRGBO(103, 103, 103, 1)),
-                decoration: InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: Color.fromRGBO(98, 98, 98, 1)),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromRGBO(98, 98, 98, 1), width: 2.0),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  prefixIcon: Icon(Icons.email,),
-                  fillColor: Color.fromRGBO(98, 98, 98, 1),
-                  filled: true,
-                  labelText: 'Enter Email',
-                ),
-              ),
+              TextFieldClass(),
               SizedBox(
                 height: size.height * 0.02,
               ),
