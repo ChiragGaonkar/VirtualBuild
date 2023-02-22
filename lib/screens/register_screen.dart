@@ -11,6 +11,8 @@ class RegisterScreen extends StatelessWidget {
     return Scaffold(
       body: MyCustomScreen(
         screenContent: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Header(heading: "Create an account"),
           ],

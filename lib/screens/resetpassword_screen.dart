@@ -11,6 +11,8 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       body: MyCustomScreen(
         screenContent: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Header(heading: "Reset Password"),
           ],
