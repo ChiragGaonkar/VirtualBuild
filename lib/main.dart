@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/account_screen.dart';
+import 'package:virtualbuild/screens/chats_screen.dart';
+import 'package:virtualbuild/screens/display_screen.dart';
+import 'package:virtualbuild/screens/explorearchitects_screen.dart';
+import 'package:virtualbuild/screens/exploremodels_screen.dart';
+import 'package:virtualbuild/screens/favorites_screen.dart';
 import 'package:virtualbuild/screens/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/login_screen.dart';
 import 'package:virtualbuild/screens/otp_screen.dart';
@@ -41,10 +47,14 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+          titleMedium: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          ),
         ),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const HomeScreen(),
+      home: DisplayScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
@@ -53,6 +63,12 @@ class MyApp extends StatelessWidget {
         ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
         OTPScreen.routeName: (ctx) => const OTPScreen(),
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
+        DisplayScreen.routeName: (ctx) => DisplayScreen(),
+        AccountScreen.routeName: (ctx) => AccountScreen(),
+        ChatsScreen.routeName: (ctx) => ChatsScreen(),
+        ExploreArchitectsScreen.routeName: (ctx) => ExploreArchitectsScreen(),
+        ExploreModelsScreen.routeName: (ctx) => ExploreModelsScreen(),
+        FavoritesScreen.routeName: (ctx) => FavoritesScreen(),
       },
     );
   }

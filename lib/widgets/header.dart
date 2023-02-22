@@ -13,12 +13,11 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-        width: size.width * 0.6,
-        child: Text(
-          heading,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-
+      width: size.width * 0.6,
+      child: Text(
+        heading,
+        style: Theme.of(context).textTheme.headlineMedium,
+      ),
     );
   }
 }
