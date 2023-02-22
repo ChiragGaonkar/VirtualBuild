@@ -13,7 +13,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 70, horizontal: 30),
+      // margin: const EdgeInsets.fromLTRB(30, 70, 30, 30),
       width: size.width * 0.6,
       child: Text(
         heading,

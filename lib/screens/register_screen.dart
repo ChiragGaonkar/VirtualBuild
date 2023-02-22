@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -8,10 +9,13 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row(
-      children: const [
-        Header(heading: "Create an account"),
-      ],
-    ));
+      body: MyCustomScreen(
+        screenContent: Column(
+          children: const [
+            Header(heading: "Create an account"),
+          ],
+        ),
+      ),
+    );
   }
 }
