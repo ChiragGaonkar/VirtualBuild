@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
 class OTPScreen extends StatelessWidget {
@@ -8,10 +9,12 @@ class OTPScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: const [
-          Header(heading: "OTP Verification!"),
-        ],
+      body: MyCustomScreen(
+        screenContent: Column(
+          children: const [
+            Header(heading: "OTP Verification"),
+          ],
+        ),
       ),
     );
   }
