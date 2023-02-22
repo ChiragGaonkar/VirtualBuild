@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: HomeScreen.routeName,
+      // initialRoute: ForgotPasswordScreen.routeName,
+      home: ForgotPasswordScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
