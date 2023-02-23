@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/widgets/custommenu.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
-import 'package:virtualbuild/widgets/headerwithmenu.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});

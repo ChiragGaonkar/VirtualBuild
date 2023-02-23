@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HeaderWithMenu extends StatelessWidget {
   final String header;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  HeaderWithMenu({
+  const HeaderWithMenu({
     super.key,
     required this.header,
     required this.scaffoldKey,

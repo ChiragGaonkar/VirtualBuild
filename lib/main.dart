@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/account_screen.dart';
-import 'package:virtualbuild/screens/chats_screen.dart';
-import 'package:virtualbuild/screens/display_screen.dart';
-import 'package:virtualbuild/screens/explorearchitects_screen.dart';
-import 'package:virtualbuild/screens/exploremodels_screen.dart';
-import 'package:virtualbuild/screens/favorites_screen.dart';
-import 'package:virtualbuild/screens/forgotpassword_screen.dart';
-import 'package:virtualbuild/screens/login_screen.dart';
-import 'package:virtualbuild/screens/otp_screen.dart';
-import 'package:virtualbuild/screens/register_screen.dart';
-import 'package:virtualbuild/screens/resetpassword_screen.dart';
 import './screens/home_screen.dart';
+import 'screens/account_screen.dart';
+import 'screens/chats_screen.dart';
+import 'screens/display_screen.dart';
+import 'screens/explorearchitects_screen.dart';
+import 'screens/exploremodels_screen.dart';
+import 'screens/favorites_screen.dart';
+import 'screens/forgotpassword_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/otp_screen.dart';
+import 'screens/register_screen.dart';
+import 'screens/resetpassword_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: ForgotPasswordScreen(),
+      home: const ForgotPasswordScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),

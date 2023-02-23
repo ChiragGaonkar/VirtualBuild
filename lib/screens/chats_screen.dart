@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custommenu.dart';
 import '../widgets/customscreen.dart';
-import '../widgets/customtextfield.dart';
 import '../widgets/headerwithmenu.dart';
 
 class ChatsScreen extends StatelessWidget {
