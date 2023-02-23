@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class NextButtonClass extends StatelessWidget {
-  NextButtonClass({Key? key, required this.text}) : super(key: key);
-  String text = "";
-
+  final String text;
+  const NextButtonClass({
+    super.key,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,11 @@ class NextButtonClass extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Colors.red.withOpacity(0.3),
-                  spreadRadius: 6,
+                  spreadRadius: 1,
                   blurRadius: 5,
                   offset: Offset(0, 7),
                 )
-              ]
-          ),
+              ]),
           child: const Icon(
             Icons.arrow_forward,
             color: Colors.white,

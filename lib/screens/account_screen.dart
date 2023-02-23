@@ -15,6 +15,7 @@ class AccountScreen extends StatelessWidget {
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
       body: MyCustomScreen(
+        customColor: Colors.blue,
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

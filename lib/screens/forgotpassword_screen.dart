@@ -3,7 +3,7 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customtextfield.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import '../widgets/nextButton.dart';
+import '../widgets/nextbutton.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
@@ -14,6 +14,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: MyCustomScreen(
+        customColor: Colors.deepOrange,
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.07,
             ),
-            NextButtonClass(text: "Send Code"),
+            const NextButtonClass(text: "Send Code"),
           ],
         ),
       ),
