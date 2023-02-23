@@ -15,7 +15,9 @@ class RegisterScreen extends StatelessWidget {
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [Header(heading: "Create an Account")],
+          children: const [
+            Header(heading: "Create an Account"),
+          ],
         ),
       ),
     );

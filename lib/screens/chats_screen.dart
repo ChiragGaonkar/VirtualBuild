@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custommenu.dart';
 import '../widgets/customscreen.dart';
+import '../widgets/customtextfield.dart';
 import '../widgets/headerwithmenu.dart';
 
 class ChatsScreen extends StatelessWidget {
@@ -20,9 +21,10 @@ class ChatsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderWithMenu(
-              header: "Chats",
+              header: "My Chats",
               scaffoldKey: scaffoldKey,
-            )
+            ),
+            //Can start from here.
           ],
         ),
       ),

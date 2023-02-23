@@ -9,9 +9,15 @@ class MyCustomScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.fromLTRB(
+          size.width * 0.05,
+          size.height * 0.04,
+          size.width * 0.05,
+          0,
+        ),
         child: screenContent,
       ),
     );
