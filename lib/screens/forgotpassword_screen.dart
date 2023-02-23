@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customtextfield.dart';
 import 'package:virtualbuild/widgets/header.dart';
-
-import '../widgets/nextbutton.dart';
+import '../widgets/nextbtn.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});

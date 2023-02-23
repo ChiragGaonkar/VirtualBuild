@@ -27,7 +27,7 @@ class NextButtonClass extends StatelessWidget {
                   color: Colors.red.withOpacity(0.3),
                   spreadRadius: 1,
                   blurRadius: 5,
-                  offset: Offset(0, 7),
+                  offset: const Offset(0, 7),
                 )
               ]),
           child: const Icon(
