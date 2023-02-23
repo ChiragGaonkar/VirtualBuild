@@ -3,6 +3,8 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customtextfield.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
+import '../widgets/nextButton.dart';
+
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
   static const routeName = '/forgot_password';
@@ -40,27 +42,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.07,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Send Code",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                Container(
-                  height: 51,
-                  width: 51,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+            NextButtonClass(text: "Send Code"),
           ],
         ),
       ),
