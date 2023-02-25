@@ -17,6 +17,7 @@ class MyCustomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [customColor, Theme.of(context).scaffoldBackgroundColor],
