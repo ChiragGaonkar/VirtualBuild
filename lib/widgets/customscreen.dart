@@ -29,7 +29,7 @@ class MyCustomScreen extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           size.width * 0.05,
-          size.height * 0.1,
+          size.height * 0.08,
           size.width * 0.05,
           0,
         ),

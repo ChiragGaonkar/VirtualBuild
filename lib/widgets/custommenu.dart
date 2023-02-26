@@ -5,6 +5,7 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
+import 'package:virtualbuild/screens/home_screen.dart';
 
 class CustomMenu extends StatefulWidget {
   const CustomMenu({super.key});
@@ -108,7 +109,8 @@ class _CustomMenuState extends State<CustomMenu> {
               ),
               const Spacer(),
               InkWell(
-                // onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(HomeScreen.routeName),
                 splashColor: Theme.of(context).primaryColor,
                 child: Container(
                   color: Theme.of(context).primaryColor,

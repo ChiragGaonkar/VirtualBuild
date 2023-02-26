@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             // Image is set from the assets folder.
             Image.asset(
-              "assets/manOnHomeScreen.png",
+              "assets/ManOnHomeScreen.png",
               height: 600,
             ),
             //Login and Register Buttons are rendered from top 150px and right 0px away.

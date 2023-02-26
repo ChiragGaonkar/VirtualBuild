@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/forgotpassword_screen.dart';
+import 'package:virtualbuild/screens/register_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+
+import 'display_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String normalText,
     String navigationText,
     MainAxisAlignment position,
+    String choosenScreen,
   ) {
     return Row(
       mainAxisAlignment: position,
@@ -32,7 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
           width: size.width * 0.01,
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            if (choosenScreen == "Register") {
+              Navigator.of(context).pushNamed(RegisterScreen.routeName);
+            } else if (choosenScreen == "ResetPassword") {
+              Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
+            }
+          },
           splashColor: Theme.of(context).primaryColor,
           child: Text(
             navigationText,
@@ -65,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Header(heading: "Welcome back!!"),
               //Other content of the page start here.
               SizedBox(
-                height: size.height * 0.07,
+                height: size.height * 0.05,
               ),
               TextFormField(
                 controller: _emailTextController,
@@ -76,10 +87,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: size.height * 0.04,
+                height: size.height * 0.03,
               ),
               TextFormField(
                 controller: _passwordTextController,
+                obscureText: true,
                 decoration: customDecorationForInput(
                   context,
                   "Enter Password",
@@ -89,12 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              _buildTextLink(
-                size,
-                "Forgot Password? ",
-                "Reset Password",
-                MainAxisAlignment.start,
-              ),
+              _buildTextLink(size, "Forgot Password? ", "Reset Password",
+                  MainAxisAlignment.start, "ResetPassword"),
               SizedBox(
                 height: size.height * 0.07,
               ),
@@ -109,7 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     splashColor: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      // print(_emailTextController.text);
+                      print(_emailTextController.text);
+                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
                     },
                     child: Icon(
                       Icons.arrow_circle_right_outlined,
@@ -134,19 +143,15 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: InkWell(
                   onTap: () {},
-                  child: Image.network(
-                    "https://pngimg.com/uploads/google/google_PNG19635.png",
-                    width: size.width * 0.1,
+                  child: Image.asset(
+                    "assets/Google.png",
+                    width: size.height * 0.05,
                   ),
                 ),
               ),
-              Spacer(),
-              _buildTextLink(
-                size,
-                "Already have an account?",
-                "Log in",
-                MainAxisAlignment.center,
-              ),
+              const Spacer(),
+              _buildTextLink(size, "New to VirtualBuild?", "Register",
+                  MainAxisAlignment.center, "Register"),
               SizedBox(
                 height: size.height * 0.07,
               )

@@ -27,7 +27,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           }
         },
         child: MyCustomScreen(
-          customColor: Colors.greenAccent,
+          // customColor: Colors.greenAccent,
           screenContent: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,16 +49,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: size.height * 0.02,
               ),
               RichText(
-                text: const TextSpan(
-                  style: TextStyle(fontSize: 15),
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.titleSmall,
                   children: [
                     TextSpan(
                       text: "*",
-                      style: TextStyle(
-                        color: Color.fromRGBO(255, 75, 38, 1),
-                      ),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text:
                           " We will send you a message to set or reset your new password",
                     ),
@@ -71,7 +69,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Row(
                 children: [
                   Text(
-                    "Sign In",
+                    "Send OTP",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const Spacer(),
