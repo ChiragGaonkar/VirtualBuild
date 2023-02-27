@@ -5,7 +5,8 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import 'package:otp_text_field/otp_field.dart';
 
-import '../../widgets/customNextBtn.dart';
+import '../../widgets/custombuttontonext.dart';
+
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});

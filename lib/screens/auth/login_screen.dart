@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
-
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import '../../widgets/customNextBtn.dart';
+import '../../widgets/custombuttontonext.dart';
 import '../display_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -104,15 +102,23 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              _buildTextLink(size, "Forgot Password? ", "Reset Password",
-                  MainAxisAlignment.start, "ResetPassword"),
+              _buildTextLink(
+                size,
+                "Forgot Password? ",
+                "Reset Password",
+                MainAxisAlignment.start,
+                "ResetPassword",
+              ),
               SizedBox(
                 height: size.height * 0.07,
               ),
-            NextButtonClass(text: "Sign In", onPressed: () {
-              print(_emailTextController.text);
-              Navigator.of(context).pushNamed(DisplayScreen.routeName);
-            }),
+              NextButtonClass(
+                text: "Sign In",
+                onPressed: () {
+                  print(_emailTextController.text);
+                  Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                },
+              ),
               SizedBox(
                 height: size.height * 0.07,
               ),

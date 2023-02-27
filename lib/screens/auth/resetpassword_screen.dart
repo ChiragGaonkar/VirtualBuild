@@ -3,7 +3,7 @@ import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import '../../widgets/customNextBtn.dart';
+import '../../widgets/custombuttontonext.dart';
 import 'login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -76,11 +76,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(
                 height: size.width * 0.07,
               ),
-              NextButtonClass(text: "Reset", onPressed: () {
-                print(_passwordTextController.text);
-                print(_confirmPasswordTextController.text);
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
-              }),
+              NextButtonClass(
+                  text: "Reset",
+                  onPressed: () {
+                    print(_passwordTextController.text);
+                    print(_confirmPasswordTextController.text);
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                  }),
             ],
           ),
         ),
@@ -88,5 +90,3 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 }
-
-

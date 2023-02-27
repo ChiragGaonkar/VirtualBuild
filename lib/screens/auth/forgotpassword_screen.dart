@@ -3,7 +3,7 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import '../../widgets/customNextBtn.dart';
+import '../../widgets/custombuttontonext.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -68,9 +68,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: size.height * 0.07,
               ),
-              NextButtonClass(text: "Send Code", onPressed: () {
-                print("for got password pressed");
-              }),
+              NextButtonClass(
+                  text: "Send Code",
+                  onPressed: () {
+                    print("for got password pressed");
+                  }),
             ],
           ),
         ),
