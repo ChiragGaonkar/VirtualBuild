@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/login_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+
+import '../../widgets/customNextBtn.dart';
+import 'login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -74,29 +76,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(
                 height: size.width * 0.07,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Reset",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      print(_passwordTextController.text);
-                      print(_confirmPasswordTextController.text);
-                      Navigator.of(context).pushNamed(LoginScreen.routeName);
-                    },
-                    child: Icon(
-                      Icons.arrow_circle_right_outlined,
-                      color: Theme.of(context).primaryColor,
-                      size: 50,
-                    ),
-                  ),
-                ],
-              ),
+              NextButtonClass(text: "Reset", onPressed: () {
+                print(_passwordTextController.text);
+                print(_confirmPasswordTextController.text);
+                Navigator.of(context).pushNamed(LoginScreen.routeName);
+              }),
             ],
           ),
         ),
@@ -104,3 +88,5 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 }
+
+

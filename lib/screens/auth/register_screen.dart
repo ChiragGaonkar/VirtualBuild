@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
-import 'package:virtualbuild/screens/login_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+
+import '../../widgets/customNextBtn.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -87,39 +89,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                     const TextSpan(
-                      text:
-                          "button, you agree to all the terms and conditions of this app.",
+                      text: "button, you agree to all the terms and conditions of this app.",
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: size.width * 0.07,
+                height: size.width * 0.05,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Register",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      print(_emailTextController.text);
-                      print(_passwordTextController.text);
-                      print(_confirmPasswordTextController.text);
-                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
-                    },
-                    child: Icon(
-                      Icons.arrow_circle_right_outlined,
-                      color: Theme.of(context).primaryColor,
-                      size: 50,
-                    ),
-                  ),
-                ],
-              ),
+            NextButtonClass(text: "Register", onPressed: () {
+              print(_emailTextController.text);
+              print(_passwordTextController.text);
+              print(_confirmPasswordTextController.text);
+              Navigator.of(context).pushNamed(DisplayScreen.routeName);
+            }),
               SizedBox(
                 height: size.height * 0.07,
               ),

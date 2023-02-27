@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import './screens/home_screen.dart';
+import 'package:virtualbuild/screens/auth/home_screen.dart';
+import 'package:virtualbuild/screens/auth/login_screen.dart';
+import 'package:virtualbuild/screens/auth/otp_screen.dart';
+import 'package:virtualbuild/screens/auth/register_screen.dart';
+import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'screens/account_screen.dart';
 import 'screens/chats_screen.dart';
 import 'screens/display_screen.dart';
 import 'screens/explorearchitects_screen.dart';
 import 'screens/exploremodels_screen.dart';
 import 'screens/favorites_screen.dart';
-import 'screens/forgotpassword_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/otp_screen.dart';
-import 'screens/register_screen.dart';
-import 'screens/resetpassword_screen.dart';
+import 'screens/auth/forgotpassword_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -58,14 +58,14 @@ class MyApp extends StatelessWidget {
             )),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const ResetPasswordScreen(),
+      home: HomeScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
         RegisterScreen.routeName: (ctx) => const RegisterScreen(),
         LoginScreen.routeName: (ctx) => const LoginScreen(),
         ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
-        OTPScreen.routeName: (ctx) => const OTPScreen(),
+        OTPScreen.routeName: (ctx) => OTPScreen(),
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
         DisplayScreen.routeName: (ctx) => DisplayScreen(),
         AccountScreen.routeName: (ctx) => AccountScreen(),

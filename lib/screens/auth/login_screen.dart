@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/forgotpassword_screen.dart';
-import 'package:virtualbuild/screens/register_screen.dart';
+import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
+import 'package:virtualbuild/screens/auth/register_screen.dart';
+
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import 'display_screen.dart';
+import '../../widgets/customNextBtn.dart';
+import '../display_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -106,28 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.07,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Sign In",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      print(_emailTextController.text);
-                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
-                    },
-                    child: Icon(
-                      Icons.arrow_circle_right_outlined,
-                      color: Theme.of(context).primaryColor,
-                      size: 50,
-                    ),
-                  )
-                ],
-              ),
+            NextButtonClass(text: "Sign In", onPressed: () {
+              print(_emailTextController.text);
+              Navigator.of(context).pushNamed(DisplayScreen.routeName);
+            }),
               SizedBox(
                 height: size.height * 0.07,
               ),
