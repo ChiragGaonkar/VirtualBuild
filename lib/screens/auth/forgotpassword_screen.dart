@@ -3,6 +3,8 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
+import '../../widgets/customNextBtn.dart';
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
   static const routeName = '/forgot_password';
@@ -66,27 +68,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: size.height * 0.07,
               ),
-              Row(
-                children: [
-                  Text(
-                    "Send OTP",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    splashColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      // print(_emailTextController.text);
-                    },
-                    child: Icon(
-                      Icons.arrow_circle_right_outlined,
-                      color: Theme.of(context).primaryColor,
-                      size: 50,
-                    ),
-                  )
-                ],
-              ),
+              NextButtonClass(text: "Send Code", onPressed: () {
+                print("for got password pressed");
+              }),
             ],
           ),
         ),
