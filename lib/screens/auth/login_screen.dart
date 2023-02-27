@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
+import 'package:virtualbuild/widgets/customGoogleSignIn.dart';
 
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
@@ -8,6 +8,7 @@ import 'package:virtualbuild/widgets/header.dart';
 
 import '../../widgets/customNextBtn.dart';
 import '../display_screen.dart';
+import 'forgotpassword_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -22,44 +23,45 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
-  Widget _buildTextLink(
-    Size size,
-    String normalText,
-    String navigationText,
-    MainAxisAlignment position,
-    String choosenScreen,
-  ) {
-    return Row(
-      mainAxisAlignment: position,
-      children: [
-        Text(
-          normalText,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        SizedBox(
-          width: size.width * 0.01,
-        ),
-        InkWell(
-          onTap: () {
-            if (choosenScreen == "Register") {
-              Navigator.of(context).pushNamed(RegisterScreen.routeName);
-            } else if (choosenScreen == "ResetPassword") {
-              Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
-            }
-          },
-          splashColor: Theme.of(context).primaryColor,
-          child: Text(
-            navigationText,
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var passwordVisible = false;
+
+    Widget _buildTextLink(
+        Size size,
+        String normalText,
+        String navigationText,
+        MainAxisAlignment position,
+        String choosenScreen,
+        ) {
+      return Row(
+        mainAxisAlignment: position,
+        children: [
+          Text(
+            normalText,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          SizedBox(
+            width: size.width * 0.01,
+          ),
+          InkWell(
+            onTap: () {
+              if (choosenScreen == "Register") {
+                Navigator.of(context).pushNamed(RegisterScreen.routeName);
+              } else if (choosenScreen == "ResetPassword") {
+                Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
+              }
+            },
+            splashColor: Theme.of(context).primaryColor,
+            child: Text(
+              navigationText,
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          )
+        ],
+      );
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -94,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextFormField(
                 controller: _passwordTextController,
-                obscureText: true,
+                obscureText: passwordVisible,
                 decoration: customDecorationForInput(
                   context,
                   "Enter Password",
@@ -114,27 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Navigator.of(context).pushNamed(DisplayScreen.routeName);
             }),
               SizedBox(
-                height: size.height * 0.07,
+                height: size.height * 0.05,
               ),
-              Center(
-                child: Text(
-                  "sign in with",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              Center(
-                child: InkWell(
-                  onTap: () {},
-                  child: Image.asset(
-                    "assets/Google.png",
-                    width: size.height * 0.05,
-                  ),
-                ),
-              ),
-              const Spacer(),
+              CustomGoogleSignIn(),
               _buildTextLink(size, "New to VirtualBuild?", "Register",
                   MainAxisAlignment.center, "Register"),
               SizedBox(
