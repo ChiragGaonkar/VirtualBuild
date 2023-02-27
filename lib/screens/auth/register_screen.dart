@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
+import 'package:virtualbuild/widgets/customGoogleSignIn.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -23,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var passwordVisible = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
@@ -72,6 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   context,
                   "Confirm Password",
                   Icons.lock_rounded,
+
                 ),
               ),
               SizedBox(
@@ -104,27 +107,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Navigator.of(context).pushNamed(DisplayScreen.routeName);
             }),
               SizedBox(
-                height: size.height * 0.07,
+                height: size.height * 0.05,
               ),
-              Center(
-                child: Text(
-                  "sign in with",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              Center(
-                child: InkWell(
-                  onTap: () {},
-                  child: Image.asset(
-                    "assets/Google.png",
-                    width: size.height * 0.05,
-                  ),
-                ),
-              ),
-              const Spacer(),
+              CustomGoogleSignIn(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
