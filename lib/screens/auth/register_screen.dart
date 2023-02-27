@@ -3,8 +3,8 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
-
 import '../../widgets/custombuttontonext.dart';
+import '../../widgets/customsigningoogle.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -89,7 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                     const TextSpan(
-                      text: "button, you agree to all the terms and conditions of this app.",
+                      text:
+                          "button, you agree to all the terms and conditions of this app.",
                     ),
                   ],
                 ),
@@ -97,34 +98,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: size.width * 0.05,
               ),
-            NextButtonClass(text: "Register", onPressed: () {
-              print(_emailTextController.text);
-              print(_passwordTextController.text);
-              print(_confirmPasswordTextController.text);
-              Navigator.of(context).pushNamed(DisplayScreen.routeName);
-            }),
+              NextButtonClass(
+                  text: "Register",
+                  onPressed: () {
+                    print(_emailTextController.text);
+                    print(_passwordTextController.text);
+                    print(_confirmPasswordTextController.text);
+                    Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                  }),
               SizedBox(
-                height: size.height * 0.07,
+                height: size.height * 0.05,
               ),
-              Center(
-                child: Text(
-                  "sign in with",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              Center(
-                child: InkWell(
-                  onTap: () {},
-                  child: Image.asset(
-                    "assets/Google.png",
-                    width: size.height * 0.05,
-                  ),
-                ),
-              ),
-              const Spacer(),
+              const CustomGoogleSignIn(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
