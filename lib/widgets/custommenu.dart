@@ -5,9 +5,7 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
-
 import '../screens/auth/home_screen.dart';
-
 
 class CustomMenu extends StatefulWidget {
   const CustomMenu({super.key});
@@ -42,7 +40,7 @@ class _CustomMenuState extends State<CustomMenu> {
               const Center(
                 child: CircleAvatar(
                   radius: 65,
-                  backgroundImage: NetworkImage("https://rb.gy/dea01m"),
+                  backgroundImage: AssetImage("assets/Female.png"),
                 ),
               ),
               const SizedBox(

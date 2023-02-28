@@ -61,6 +61,8 @@ flutter:
   assets:
     - assets/ManOnHomeScreen.png
     - assets/Google.png
+    - assets/Male.png
+    - assets/Female.png
 
   #   - images/a_dot_ham.jpeg
 
