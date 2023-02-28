@@ -124,16 +124,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: size.height * 0.07,
               ),
               const CustomGoogleSignIn(),
-              _buildTextLink(
-                size,
-                "New to VirtualBuild?",
-                "Register",
-                MainAxisAlignment.center,
-                "Register",
+              Spacer(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
+                child: _buildTextLink(
+                  size,
+                  "New to VirtualBuild?",
+                  "Register",
+                  MainAxisAlignment.center,
+                  "Register",
+                ),
               ),
-              SizedBox(
-                height: size.height * 0.07,
-              )
             ],
           ),
         ),

@@ -14,7 +14,10 @@ class HeaderWithNavigation extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          onPressed: () => Navigator.of(context).pushNamed(screenToBeRendered),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.of(context).pushNamed(screenToBeRendered);
+          },
           icon: const Icon(
             Icons.arrow_back_ios_new,
             color: Colors.white,

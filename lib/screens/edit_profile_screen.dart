@@ -52,13 +52,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: true,
       body: GestureDetector(
         onTap: () {
-          FocusNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
+          FocusScope.of(context).unfocus();
         },
         child: MyCustomScreen(
           customColor: Theme.of(context).primaryColor,
@@ -68,74 +65,85 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 heading: "Edit Profile",
                 screenToBeRendered: AccountScreen.routeName,
               ),
-              SizedBox(
-                height: size.height * 0.04,
-              ),
-              const CircleAvatar(
-                backgroundImage: AssetImage("assets/Female.png"),
-                radius: 80,
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              //TextFormField
-              _buildTextFormField(
-                _nameController,
-                TextInputType.name,
-                "Name",
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              //TextFormField
-              _buildTextFormField(
-                _emailTextController,
-                TextInputType.emailAddress,
-                "Email",
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              //TextFormField
-              _buildTextFormField(
-                _phoneNoController,
-                TextInputType.number,
-                "Phone Number",
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              //TextFormField
-              _buildTextFormField(
-                _addressController,
-                TextInputType.multiline,
-                "Address",
-              ),
-              const Spacer(),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
-                child: ElevatedButton(
-                  onPressed: () {
-                    print(_nameController.text);
-                    print(_emailTextController.text);
-                    print(_phoneNoController.text);
-                    print(_addressController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(
-                      size.width * 0.8,
-                      size.height * 0.06,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: Text(
-                    "Save",
-                    style: Theme.of(context).textTheme.titleMedium,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.04,
+                      ),
+                      const CircleAvatar(
+                        backgroundImage: AssetImage("assets/Female.png"),
+                        radius: 80,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _nameController,
+                        TextInputType.name,
+                        "Name",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _emailTextController,
+                        TextInputType.emailAddress,
+                        "Email",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _phoneNoController,
+                        TextInputType.number,
+                        "Phone Number",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _addressController,
+                        TextInputType.multiline,
+                        "Address",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.04,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            print(_nameController.text);
+                            print(_emailTextController.text);
+                            print(_phoneNoController.text);
+                            print(_addressController.text);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(
+                              size.width * 0.8,
+                              size.height * 0.06,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: Text(
+                            "Save",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

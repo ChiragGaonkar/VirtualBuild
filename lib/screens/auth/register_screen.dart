@@ -110,31 +110,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: size.height * 0.05,
               ),
               const CustomGoogleSignIn(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account?",
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  SizedBox(
-                    width: size.width * 0.01,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(LoginScreen.routeName);
-                    },
-                    splashColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      "Log in",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account?",
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
-                  )
-                ],
+                    SizedBox(
+                      width: size.width * 0.01,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(LoginScreen.routeName);
+                      },
+                      splashColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        "Log in",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              SizedBox(
-                height: size.height * 0.07,
-              )
             ],
           ),
         ),

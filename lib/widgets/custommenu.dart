@@ -34,6 +34,8 @@ class _CustomMenuState extends State<CustomMenu> {
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
+        backgroundColor:
+            Theme.of(context).scaffoldBackgroundColor.withOpacity(1),
         body: SafeArea(
           child: Column(
             children: [
