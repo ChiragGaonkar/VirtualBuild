@@ -4,14 +4,14 @@ import 'package:virtualbuild/screens/auth/login_screen.dart';
 import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
-import 'package:virtualbuild/screens/edit_profile_screen.dart';
-import 'screens/account_screen.dart';
-import 'screens/chats_screen.dart';
+import 'package:virtualbuild/screens/chats/chats_screen.dart';
+import 'screens/accounts/account_screen.dart';
 import 'screens/display_screen.dart';
-import 'screens/explorearchitects_screen.dart';
-import 'screens/exploremodels_screen.dart';
+import 'screens/architects/explorearchitects_screen.dart';
+import 'screens/housemodels/exploremodels_screen.dart';
 import 'screens/favorites_screen.dart';
 import 'screens/auth/forgotpassword_screen.dart';
+import 'screens/accounts/edit_profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             )),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const AccountScreen(),
+      home: const HomeScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),

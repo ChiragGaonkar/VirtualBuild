@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import 'package:otp_text_field/otp_field.dart';
 
-import '../../widgets/custombuttontonext.dart';
-
+import '../../widgets/auth/custombuttontonext.dart';
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});
@@ -19,33 +19,30 @@ class OTPScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: MyCustomScreen(
-        customColor: Colors.blue,
+        // customColor: Colors.blue,
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Header(heading: "OTP Verification"),
+            const Header(heading: "OTP Verification"),
             SizedBox(
               height: size.height * 0.05,
             ),
             OTPTextField(
-                //controller: otpController,
-                length: 4,
-                width: MediaQuery.of(context).size.width,
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                fieldWidth: 60,
-                otpFieldStyle: OtpFieldStyle(
-                  backgroundColor: Colors.white
-                ),
-                fieldStyle: FieldStyle.box,
-                outlineBorderRadius: 15,
-                style: TextStyle(color: Colors.black, fontSize: 17),
-                onChanged: (pin) {
-
-                },
-                onCompleted: (pin) {
-
-                }),
+              //controller: otpController,
+              length: 4,
+              width: MediaQuery.of(context).size.width,
+              textFieldAlignment: MainAxisAlignment.spaceAround,
+              fieldWidth: 60,
+              otpFieldStyle: OtpFieldStyle(backgroundColor: Colors.white),
+              fieldStyle: FieldStyle.box,
+              outlineBorderRadius: 10,
+              style: const TextStyle(color: Colors.black, fontSize: 17),
+              // onChanged: (pin) {
+              //   // OtpFieldStyle(backgroundColor: Colors.black);
+              // },
+              // onCompleted: (pin) {},
+            ),
             SizedBox(
               height: size.height * 0.02,
             ),
@@ -58,8 +55,7 @@ class OTPScreen extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text:
-                    " Enter the OTP sent to ${email}",
+                    text: " Enter the OTP sent to ${email}",
                   ),
                 ],
               ),
@@ -67,9 +63,13 @@ class OTPScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.07,
             ),
-            NextButtonClass(text: "Send OTP", onPressed: () {
-                print("pressed");
-            }),
+            NextButtonClass(
+                text: "Send OTP",
+                onPressed: () {
+                  print("pressed");
+                  Navigator.of(context)
+                      .pushNamed(ResetPasswordScreen.routeName);
+                }),
           ],
         ),
       ),

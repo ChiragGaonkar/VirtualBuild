@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/widgets/customdecorationforinput.dart';
+import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
-import '../../widgets/custombuttontonext.dart';
+import '../../widgets/auth/custombuttontonext.dart';
 import 'login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

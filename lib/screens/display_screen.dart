@@ -14,7 +14,7 @@ class DisplayScreen extends StatelessWidget {
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
       body: MyCustomScreen(
-        customColor: Colors.blue,
+        // customColor: Colors.blue,
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

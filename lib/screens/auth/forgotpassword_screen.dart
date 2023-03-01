@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
-import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/header.dart';
-
-import '../../widgets/custombuttontonext.dart';
+import '../../widgets/auth/custombuttontonext.dart';
+import '../../widgets/auth/customdecorationforinput.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -72,6 +72,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   text: "Send Code",
                   onPressed: () {
                     print("for got password pressed");
+                    Navigator.of(context).pushNamed(OTPScreen.routeName);
                   }),
             ],
           ),

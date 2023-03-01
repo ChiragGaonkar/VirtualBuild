@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/account_screen.dart';
-import 'package:virtualbuild/widgets/customdecorationforaccountinput.dart';
+import 'package:virtualbuild/screens/accounts/account_screen.dart';
+import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 
@@ -38,7 +38,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: myController,
       minLines: 1,
-      maxLines: 5,
+      maxLines: 2,
       keyboardType: textType,
       decoration: customDecorationForAccountInput(
         context,

@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
-import "package:virtualbuild/screens/register_screen.dart";
-
 import "auth/login_screen.dart";
+import "auth/register_screen.dart";
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

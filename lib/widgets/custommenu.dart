@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/account_screen.dart';
-import 'package:virtualbuild/screens/chats_screen.dart';
+import 'package:virtualbuild/screens/accounts/account_screen.dart';
+import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
-import 'package:virtualbuild/screens/explorearchitects_screen.dart';
-import 'package:virtualbuild/screens/exploremodels_screen.dart';
+import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
+import 'package:virtualbuild/screens/housemodels/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
 import '../screens/auth/home_screen.dart';
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../widgets/custommenu.dart';
-import '../widgets/customscreen.dart';
-import '../widgets/headerwithmenu.dart';
+import '../../widgets/custommenu.dart';
+import '../../widgets/customscreen.dart';
+import '../../widgets/headerwithmenu.dart';
 
-class ExploreModelsScreen extends StatelessWidget {
-  ExploreModelsScreen({super.key});
-  static const routeName = "/exploremodels";
+class ChatsScreen extends StatelessWidget {
+  ChatsScreen({super.key});
+
+  static const routeName = "/chats";
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -14,15 +15,16 @@ class ExploreModelsScreen extends StatelessWidget {
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
       body: MyCustomScreen(
-        customColor: Colors.blue,
+        // customColor: Colors.blue,
         screenContent: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderWithMenu(
-              header: "Explore 3D Models",
+              header: "My Chats",
               scaffoldKey: scaffoldKey,
-            )
+            ),
+            //Can start from here.
           ],
         ),
       ),

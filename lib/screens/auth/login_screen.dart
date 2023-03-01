@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 
-import 'package:virtualbuild/widgets/customdecorationforinput.dart';
+import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
-import '../../widgets/custombuttontonext.dart';
-import '../../widgets/customsigningoogle.dart';
+import '../../widgets/auth/custombuttontonext.dart';
+import '../../widgets/auth/customsigningoogle.dart';
 import '../display_screen.dart';
 
 class LoginScreen extends StatefulWidget {

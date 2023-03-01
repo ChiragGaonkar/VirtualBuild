@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/accounts/edit_profile_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
-import 'package:virtualbuild/screens/edit_profile_screen.dart';
-import 'package:virtualbuild/widgets/customdecorationforaccountinput.dart';
+import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
-import '../widgets/custommenu.dart';
-import '../widgets/headerwithmenu.dart';
+import '../../widgets/custommenu.dart';
+import '../../widgets/headerwithmenu.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
