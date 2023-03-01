@@ -25,6 +25,7 @@ class ChatsScreen extends StatelessWidget {
               scaffoldKey: scaffoldKey,
             ),
             //Can start from here.
+            Header(heading: "Hello world")
           ],
         ),
       ),
