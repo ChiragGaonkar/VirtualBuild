@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
-import '../../widgets/header.dart';
 import '../../widgets/headerwithmenu.dart';
 
 class ChatsScreen extends StatelessWidget {
@@ -27,7 +26,6 @@ class ChatsScreen extends StatelessWidget {
               scaffoldKey: scaffoldKey,
             ),
             //Can start from here.
-            Header(heading: "Hello world")
           ],
         ),
       ),
