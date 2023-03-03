@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             )),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const HomeScreen(),
+      home: DisplayScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
