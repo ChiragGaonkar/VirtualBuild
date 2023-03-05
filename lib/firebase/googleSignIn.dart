@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSignInClass{
-
+class GoogleSignInClass {
   static final GoogleSignInClass _instance = GoogleSignInClass._internal();
 
   factory GoogleSignInClass() => _instance;
@@ -15,21 +14,19 @@ class GoogleSignInClass{
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
-    try{
+    try {
       final googleUser = await googleSignIn.signIn();
-      if(googleUser == null){
+      if (googleUser == null) {
         return;
       }
       _user = googleUser;
       final googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken
-      );
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-    }catch(e){
+    } catch (e) {
       print("google sign in ${e.toString()}");
     }
   }

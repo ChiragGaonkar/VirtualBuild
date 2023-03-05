@@ -24,7 +24,7 @@ class DisplayScreen extends StatelessWidget {
               header: "Discover",
               scaffoldKey: scaffoldKey,
             ),
-            DModels(),
+            // DModels(),
           ],
         ),
       ),

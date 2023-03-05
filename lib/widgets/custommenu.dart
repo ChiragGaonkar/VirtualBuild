@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
@@ -15,6 +17,15 @@ class CustomMenu extends StatefulWidget {
 }
 
 class _CustomMenuState extends State<CustomMenu> {
+  //Code for retrieving data from firestore
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  //Code for retrieving data from firestore ends here
+
   Widget _buildListTile(String titleData, IconData iconData) {
     return ListTile(
       leading: Icon(
@@ -31,6 +42,7 @@ class _CustomMenuState extends State<CustomMenu> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var user;
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
@@ -49,7 +61,8 @@ class _CustomMenuState extends State<CustomMenu> {
                 height: 10,
               ),
               Text(
-                "shreya@gmail.com",
+                // user.email,
+                "Chirag",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(
@@ -111,8 +124,10 @@ class _CustomMenuState extends State<CustomMenu> {
               ),
               const Spacer(),
               InkWell(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(HomeScreen.routeName),
+                onTap: () async {
+                  await Auth().signOut();
+                  Navigator.of(context).pushNamed(HomeScreen.routeName);
+                },
                 splashColor: Theme.of(context).primaryColor,
                 child: Container(
                   color: Theme.of(context).primaryColor,

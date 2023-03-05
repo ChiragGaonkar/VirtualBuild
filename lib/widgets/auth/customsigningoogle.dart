@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/firebase/googleSignIn.dart';
 
 class CustomGoogleSignIn extends StatelessWidget {
   const CustomGoogleSignIn({Key? key}) : super(key: key);
@@ -19,7 +20,10 @@ class CustomGoogleSignIn extends StatelessWidget {
         ),
         Center(
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              var googleSignIn = GoogleSignInClass();
+              googleSignIn.googleLogin();
+            },
             child: Image.asset(
               "assets/Google.png",
               width: size.height * 0.05,

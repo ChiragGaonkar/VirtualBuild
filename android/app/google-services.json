@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1059832218486",
+    "project_id": "virtualbuild-6307d",
+    "storage_bucket": "virtualbuild-6307d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059832218486:android:c06a0ae4d28f43fc787057",
+        "android_client_info": {
+          "package_name": "com.example.virtualbuild"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059832218486-3beno43v0oeenc0vi064kbg8kiugtacc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlN1ReOYQzrHPsvYqx0cHb3IZcyvrb7K8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059832218486-3beno43v0oeenc0vi064kbg8kiugtacc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
