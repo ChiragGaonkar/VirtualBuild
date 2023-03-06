@@ -23,10 +23,10 @@ app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
 
 
-@app.route('/generate_otp')
-def generate_otp():
+@app.route('/generate_otp/<user_email>')
+def generate_otp(user_email):
     otp = randint(100000, 999999)
-    msg = Message("Time to Unlock Your Dream Home!", sender=email, recipients=[email])
+    msg = Message("Time to Unlock Your Dream Home!", sender=email, recipients=[user_email])
     msg.body = f"""Hi there, 
 
 We hope you're doing well! 
