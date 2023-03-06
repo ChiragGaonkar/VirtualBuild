@@ -1,14 +1,14 @@
 from random import randint
 from flask import Flask
 from flask_mail import Mail, Message
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
-cred = credentials.Certificate('key.json')
-firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate('key.json')
+# firebase_admin.initialize_app(cred)
 
-db = firestore.client()
+# db = firestore.client()
 
 email = "virtualbuild01@gmail.com"
 password = "srxdgydasyklzhjd"
