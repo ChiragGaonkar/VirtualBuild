@@ -1,16 +1,19 @@
-import 'package:email_auth/email_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:virtualbuild/firebase/otpverification.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+
 import '../../widgets/auth/custombuttontonext.dart';
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});
   static const routeName = '/otp';
+
   String email = "email@gmai.com";
+
+
 
   @override
   Widget build(BuildContext context) {

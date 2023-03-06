@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -15,6 +16,12 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailTextController = TextEditingController();
+
+  Future<void> sendOtp(String userEmail) async{
+    var url = Uri.http("10.0.2.2:5000", "/generate_otp/$userEmail");
+    var response = await http.get(url);
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               NextButtonClass(
                   text: "Send Code",
-                  onPressed: () {
+                  onPressed: () async {
+                    await sendOtp("virtualbuild01@gmail.com");
                     print("for got password pressed");
                     Navigator.of(context).pushNamed(OTPScreen.routeName);
                   }),
