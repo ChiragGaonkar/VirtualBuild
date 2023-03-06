@@ -68,12 +68,24 @@ class Auth {
     await _firebaseAuth.signOut();
   }
 
-  Future<bool> checkIfEmailInUse({required String email}) async {
-    final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
-    if (list.isNotEmpty) {
-      return true;
-    } else {
-      return false;
+  // Future<bool> checkIfEmailInUse({required String email}) async {
+  //   final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
+  //   if (list.isNotEmpty) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  Future<Map<String, dynamic>> updatePassword({
+    required String email,
+  }) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      print("Passwrod Reset Sucessfully");
+      return {};
+    } on FirebaseAuthException catch (e) {
+      return tellMeTheError(e.code);
     }
   }
 }

@@ -42,7 +42,6 @@ class _CustomMenuState extends State<CustomMenu> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var user;
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
@@ -61,8 +60,8 @@ class _CustomMenuState extends State<CustomMenu> {
                 height: 10,
               ),
               Text(
-                // user.email,
-                "Chirag",
+                user!.email.toString(),
+                // "Chirag",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(

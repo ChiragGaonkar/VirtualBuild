@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomSnackBar extends StatefulWidget {
-  final String errorToBePrinted;
+  final String messageToBePrinted;
+  final Color bgColor;
   const CustomSnackBar({
     super.key,
-    required this.errorToBePrinted,
+    required this.messageToBePrinted,
+    required this.bgColor,
   });
 
   @override
@@ -23,7 +24,7 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
           padding: const EdgeInsets.all(16),
           height: 80,
           decoration: BoxDecoration(
-            color: Color.fromRGBO(199, 44, 65, 1),
+            color: widget.bgColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -41,7 +42,7 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(
-                      widget.errorToBePrinted,
+                      widget.messageToBePrinted,
                       style: Theme.of(context).textTheme.titleSmall,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

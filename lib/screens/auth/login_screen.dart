@@ -1,6 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
@@ -24,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
-  Map<String, dynamic> loginError = {};
+  Map<String, dynamic> errorIfAny = {};
 
   Widget _buildTextLink(
     Size size,
@@ -147,17 +146,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     FocusScope.of(context).unfocus();
 
                     //Logic for authentication
-                    loginError = await Auth().signInWithEmailAndPassword(
+                    errorIfAny = await Auth().signInWithEmailAndPassword(
                       email: _emailTextController.text,
                       password: _passwordTextController.text,
                     );
-                    if (loginError.isEmpty) {
+                    if (errorIfAny.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: "Logged in successfully.",
+                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
                       Navigator.of(context).pushNamed(DisplayScreen.routeName);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: CustomSnackBar(
-                            errorToBePrinted: loginError['error'],
+                            messageToBePrinted: errorIfAny['error'],
+                            bgColor: const Color.fromRGBO(199, 44, 65, 1),
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,

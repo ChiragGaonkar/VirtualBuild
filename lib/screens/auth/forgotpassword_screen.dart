@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:virtualbuild/models/args_otp.dart';
 import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -17,10 +18,10 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailTextController = TextEditingController();
 
-  Future<void> sendOtp(String userEmail) async{
+  Future<String> sendOtp(String userEmail) async {
     var url = Uri.http("10.0.2.2:5000", "/generate_otp/$userEmail");
     var response = await http.get(url);
-    print(response.body);
+    return response.body;
   }
 
   @override
@@ -76,12 +77,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: size.height * 0.07,
               ),
               NextButtonClass(
-                  text: "Send Code",
-                  onPressed: () async {
-                    await sendOtp("virtualbuild01@gmail.com");
-                    print("for got password pressed");
-                    Navigator.of(context).pushNamed(OTPScreen.routeName);
-                  }),
+                text: "Send Code",
+                onPressed: () async {
+                  var otp = await sendOtp(_emailTextController.text);
+                  print("${otp} sent sucessfully");
+                  Navigator.of(context).pushNamed(
+                    OTPScreen.routeName,
+                    arguments: ArgumentsForOTP(
+                      email: _emailTextController.text,
+                      otp: otp,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

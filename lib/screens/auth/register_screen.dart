@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
@@ -25,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _confirmPasswordTextController =
       TextEditingController();
-  Map<String, dynamic> loginError = {};
+  Map<String, dynamic> errorIfAny = {};
 
   @override
   Widget build(BuildContext context) {
@@ -143,18 +142,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FocusScope.of(context).unfocus();
 
                     //Logic for authentication
-                    
-                    loginError = await Auth().createUserWithEmailAndPassword(
+                    errorIfAny = await Auth().createUserWithEmailAndPassword(
                       email: _emailTextController.text,
                       password: _passwordTextController.text,
                     );
-                    if (loginError.isEmpty) {
+                    if (errorIfAny.isEmpty) {
                       Navigator.of(context).pushNamed(DisplayScreen.routeName);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: CustomSnackBar(
-                            errorToBePrinted: loginError['error'],
+                            messageToBePrinted: errorIfAny['error'],
+                            bgColor: Color.fromRGBO(199, 44, 65, 1),
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,

@@ -25,7 +25,7 @@ mail = Mail(app)
 
 @app.route('/generate_otp/<user_email>')
 def generate_otp(user_email):
-    otp = randint(100000, 999999)
+    otp = randint(10000, 99999)
     msg = Message("Time to Unlock Your Dream Home!", sender=email, recipients=[user_email])
     msg.body = f"""Hi there, 
 

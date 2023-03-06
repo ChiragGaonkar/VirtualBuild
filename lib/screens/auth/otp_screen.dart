@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:virtualbuild/firebase/otpverification.dart';
+import 'package:virtualbuild/models/args_otp.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
+import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
 import '../../widgets/auth/custombuttontonext.dart';
 
-class OTPScreen extends StatelessWidget {
+class OTPScreen extends StatefulWidget {
   OTPScreen({super.key});
   static const routeName = '/otp';
 
+  @override
+  State<OTPScreen> createState() => _OTPScreenState();
+}
+
+class _OTPScreenState extends State<OTPScreen> {
   String email = "email@gmai.com";
 
-
+  String otpController = "";
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final args = ModalRoute.of(context)!.settings.arguments as ArgumentsForOTP;
     return Scaffold(
       body: MyCustomScreen(
         // customColor: Colors.blue,
@@ -40,6 +47,7 @@ class OTPScreen extends StatelessWidget {
               enabledBorderColor: Theme.of(context).canvasColor,
               onSubmit: (String verificationCode) {
                 //Code to perform operation;
+                otpController = verificationCode;
               },
             ),
             SizedBox(
@@ -65,9 +73,25 @@ class OTPScreen extends StatelessWidget {
             NextButtonClass(
                 text: "Verify OTP",
                 onPressed: () {
-                  OTPVerification().sendOTP("chiraggaonkar80@gmail.com");
-                  Navigator.of(context)
-                      .pushNamed(ResetPasswordScreen.routeName);
+                  if (otpController == args.otp) {
+                    Navigator.of(context).pushNamed(
+                      ResetPasswordScreen.routeName,
+                      arguments: {"email": args.email},
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: CustomSnackBar(
+                          messageToBePrinted:
+                              "Sorry, the OTP did not match. Please try again.",
+                          bgColor: Color.fromRGBO(199, 44, 65, 1),
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ),
+                    );
+                  }
                 }),
           ],
         ),
