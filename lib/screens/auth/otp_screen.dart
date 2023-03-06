@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
@@ -13,6 +14,8 @@ class OTPScreen extends StatelessWidget {
   static const routeName = '/otp';
 
   String email = "email@gmai.com";
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,7 @@ class OTPScreen extends StatelessWidget {
             NextButtonClass(
                 text: "Send OTP",
                 onPressed: () {
-                  print("pressed");
+
                   Navigator.of(context)
                       .pushNamed(ResetPasswordScreen.routeName);
                 }),
