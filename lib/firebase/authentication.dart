@@ -45,7 +45,6 @@ class Auth {
       );
       return {};
     } on FirebaseAuthException catch (e) {
-      print("Error message ${e.message}");
       return tellMeTheError(e.code);
     }
   }
@@ -67,5 +66,14 @@ class Auth {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<bool> checkIfEmailInUse({required String email}) async {
+    final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
+    if (list.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

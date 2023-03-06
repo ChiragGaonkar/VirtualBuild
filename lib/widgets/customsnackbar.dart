@@ -17,21 +17,24 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         Container(
           padding: const EdgeInsets.all(16),
           height: 80,
           decoration: BoxDecoration(
-              color: const Color(0xFFC72C41),
-              borderRadius: BorderRadius.circular(20)),
+            color: Color.fromRGBO(199, 44, 65, 1),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Row(
             children: [
               SizedBox(
-                width: size.width * 0.1,
+                width: size.width * 0.15,
               ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Oh snap!!",
@@ -55,38 +58,13 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20),
             ),
-            child: Stack(
-              children: [
-                // SvgPicture.asset(
-                //   "assets/icons/bubbles.svg",
-                //   height: 48,
-                //   width: 40,
-                //   color: const Color(0xFF801336),
-                // ),
-              ],
+            child: Image.asset(
+              "assets/Holi.png",
+              height: 70,
+              // color: const Color(0xFF801336),
             ),
           ),
         ),
-        Positioned(
-          top: -20,
-          left: 0,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // SvgPicture.asset(
-              //   "assets/icons/bubbles.svg",
-              //   height: 40,
-              // ),
-              // Positioned(
-              //   top: 10,
-              //   child: SvgPicture.asset(
-              //     "assets/icons/bubble.jpg",
-              //     height: 16,
-              //   ),
-              // )
-            ],
-          ),
-        )
       ],
     );
   }

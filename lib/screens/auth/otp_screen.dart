@@ -1,17 +1,15 @@
+import 'package:email_auth/email_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:virtualbuild/firebase/otpverification.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
-import 'package:otp_text_field/otp_field.dart';
-
 import '../../widgets/auth/custombuttontonext.dart';
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});
   static const routeName = '/otp';
-
   String email = "email@gmai.com";
 
   @override
@@ -28,20 +26,18 @@ class OTPScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.05,
             ),
-            OTPTextField(
-              //controller: otpController,
-              length: 4,
-              width: MediaQuery.of(context).size.width,
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldWidth: 60,
-              otpFieldStyle: OtpFieldStyle(backgroundColor: Colors.white),
-              fieldStyle: FieldStyle.box,
-              outlineBorderRadius: 10,
-              style: const TextStyle(color: Colors.black, fontSize: 17),
-              // onChanged: (pin) {
-              //   // OtpFieldStyle(backgroundColor: Colors.black);
-              // },
-              // onCompleted: (pin) {},
+            OtpTextField(
+              numberOfFields: 5,
+              fieldWidth: size.width * 0.15,
+              showFieldAsBox: true,
+              filled: true,
+              fillColor: Theme.of(context).canvasColor,
+              focusedBorderColor: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(15),
+              enabledBorderColor: Theme.of(context).canvasColor,
+              onSubmit: (String verificationCode) {
+                //Code to perform operation;
+              },
             ),
             SizedBox(
               height: size.height * 0.02,
@@ -64,9 +60,9 @@ class OTPScreen extends StatelessWidget {
               height: size.height * 0.07,
             ),
             NextButtonClass(
-                text: "Send OTP",
+                text: "Verify OTP",
                 onPressed: () {
-                  print("pressed");
+                  OTPVerification().sendOTP("chiraggaonkar80@gmail.com");
                   Navigator.of(context)
                       .pushNamed(ResetPasswordScreen.routeName);
                 }),

@@ -143,6 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FocusScope.of(context).unfocus();
 
                     //Logic for authentication
+                    
                     loginError = await Auth().createUserWithEmailAndPassword(
                       email: _emailTextController.text,
                       password: _passwordTextController.text,
