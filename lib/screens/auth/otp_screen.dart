@@ -6,10 +6,12 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
+import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
+import '../display_screen.dart';
 
 class OTPScreen extends StatefulWidget {
-  OTPScreen({super.key});
+  const OTPScreen({super.key});
   static const routeName = '/otp';
 
   @override
@@ -17,14 +19,13 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  String email = "email@gmai.com";
-
   String otpController = "";
+  Map<String, dynamic> errorIfAny = {};
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final args = ModalRoute.of(context)!.settings.arguments as ArgumentsForOTP;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       body: MyCustomScreen(
         // customColor: Colors.blue,
@@ -62,7 +63,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text: " Enter the OTP sent to ${email}",
+                    text: " Enter the OTP sent to ${args['email']}",
                   ),
                 ],
               ),
@@ -72,12 +73,43 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
             NextButtonClass(
                 text: "Verify OTP",
-                onPressed: () {
-                  if (otpController == args.otp) {
-                    Navigator.of(context).pushNamed(
-                      ResetPasswordScreen.routeName,
-                      arguments: {"email": args.email},
+                onPressed: () async {
+                  print("Otpcontroler ${otpController}");
+                  print("args ${args['localOTP']}");
+                  //Compare OTP: if correct createNewUser
+                  if (otpController == args['localOTP']) {
+                    //Logic for authentication
+                    errorIfAny = await Auth().createUserWithEmailAndPassword(
+                      email: args['email'],
+                      password: args['password'],
                     );
+                    if (errorIfAny.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: "Created account Successfully.",
+                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: errorIfAny['error'],
+                            bgColor: Color.fromRGBO(199, 44, 65, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    }
+                    //Logic for authentication ends here.
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

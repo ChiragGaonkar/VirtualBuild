@@ -113,7 +113,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       //Call function from authentication
                       //Pass the newpassword and email.
-                      Auth().updatePassword(email: args['email']);
+                      // Auth().updatePassword(email: args['email']);
 
                       //Navigate back to login page
                       Navigator.of(context).pushNamed(LoginScreen.routeName);

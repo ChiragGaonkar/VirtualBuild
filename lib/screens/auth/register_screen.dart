@@ -1,13 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/firebase/authentication.dart';
-import 'package:virtualbuild/screens/display_screen.dart';
+import 'package:http/http.dart';
+import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
 import '../../widgets/customsnackbar.dart';
+import 'package:http/http.dart' as http;
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -25,6 +26,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _confirmPasswordTextController =
       TextEditingController();
   Map<String, dynamic> errorIfAny = {};
+  String localOTP = "";
+
+  Future<String> sendOtp(String userEmail) async {
+    var url = Uri.http("10.0.2.2:5000", "/generate_otp/$userEmail");
+    Response response = await http.get(url);
+    print(response.body);
+    return response.body;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,18 +150,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     //Hides the keyboard.
                     FocusScope.of(context).unfocus();
 
-                    //Logic for authentication
-                    errorIfAny = await Auth().createUserWithEmailAndPassword(
-                      email: _emailTextController.text,
-                      password: _passwordTextController.text,
-                    );
-                    if (errorIfAny.isEmpty) {
-                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                    //Check if user already exists
+
+                    //Send OTP to the user
+                    localOTP = await sendOtp(_emailTextController.text);
+                    print(localOTP);
+
+                    if (localOTP != "") {
+                      //Navigate to OTP Screen for verification.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: "OTP sent successfully",
+                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+
+                      Navigator.of(context).pushNamed(
+                        OTPScreen.routeName,
+                        arguments: {
+                          'email': _emailTextController.text,
+                          'password': _passwordTextController.text,
+                          'localOTP': localOTP,
+                        },
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: CustomSnackBar(
-                            messageToBePrinted: errorIfAny['error'],
+                            messageToBePrinted: "Failed to send OTP",
                             bgColor: Color.fromRGBO(199, 44, 65, 1),
                           ),
                           behavior: SnackBarBehavior.floating,
@@ -161,7 +191,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       );
                     }
-                    //Logic for authentication ends here.
                   },
                 ),
                 SizedBox(

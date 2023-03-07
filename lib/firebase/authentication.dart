@@ -77,7 +77,7 @@ class Auth {
   //   }
   // }
 
-  Future<Map<String, dynamic>> updatePassword({
+  Future<Map<String, dynamic>> resetPassword({
     required String email,
   }) async {
     try {

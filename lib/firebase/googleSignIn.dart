@@ -13,11 +13,11 @@ class GoogleSignInClass {
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
-  Future googleLogin() async {
+  Future<String> googleLogin() async {
     try {
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
-        return;
+        return "";
       }
       _user = googleUser;
       final googleAuth = await googleUser.authentication;
@@ -26,8 +26,10 @@ class GoogleSignInClass {
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
+      return "Success";
     } catch (e) {
       print("google sign in ${e.toString()}");
+      return "Error";
     }
   }
 
