@@ -22,7 +22,7 @@ class _CustomSnackBarState extends State<CustomSnackBar> {
       children: [
         Container(
           padding: const EdgeInsets.all(16),
-          height: 80,
+          height: 90,
           decoration: BoxDecoration(
             color: widget.bgColor,
             borderRadius: BorderRadius.circular(20),
