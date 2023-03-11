@@ -118,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Icons.lock_rounded,
                           ),
                           validator: (password) {
-                            if (password != null && password.length < 8) {
-                              return "Enter min 8 char long";
+                            if (password != null && password.length < 6) {
+                              return "Enter min 6 char long";
                             } else {
                               return null;
                             }
@@ -194,8 +194,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         const CustomGoogleSignIn(),
                         // const Spacer(),
                         Padding(
-                          padding:
-                              EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
+                          padding: EdgeInsets.fromLTRB(
+                            0,
+                            size.height * 0.02,
+                            0,
+                            size.height * 0.07,
+                          ),
                           child: _buildTextLink(
                             size,
                             "New to VirtualBuild?",

@@ -1,14 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:virtualbuild/screens/auth/otp_screen.dart';
+import 'package:virtualbuild/firebase/firestore_database.dart';
+import 'package:virtualbuild/screens/auth/user_info_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
-import '../../widgets/customsnackbar.dart';
-import 'package:http/http.dart' as http;
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -25,22 +23,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _confirmPasswordTextController =
       TextEditingController();
-  Map<String, dynamic> errorIfAny = {};
-  String localOTP = "";
-
-  Future<String> sendOtp(String userEmail) async {
-    var url = Uri.http("10.0.2.2:5000", "/generate_otp/$userEmail");
-    Response response = await http.get(url);
-    print(response.body);
-    return response.body;
-  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
           FocusNode currentFocus = FocusScope.of(context);
@@ -50,183 +38,171 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         child: MyCustomScreen(
           // customColor: Colors.blue,
-          screenContent: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Header(heading: "Create an Account"),
-                SizedBox(
-                  height: size.height * 0.05,
-                ),
-                TextFormField(
-                  controller: _emailTextController,
-                  decoration: customDecorationForInput(
-                    context,
-                    "Enter Email",
-                    Icons.email_rounded,
-                  ),
-                  validator: (email) {
-                    if (email != null && !EmailValidator.validate(email)) {
-                      return "Enter a valid email";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                TextFormField(
-                  controller: _passwordTextController,
-                  obscureText: true,
-                  decoration: customDecorationForInput(
-                    context,
-                    "Enter Password",
-                    Icons.lock_rounded,
-                  ),
-                  validator: (password) {
-                    if (password != null && password.length < 8) {
-                      return "Enter min 8 char long";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                TextFormField(
-                  controller: _confirmPasswordTextController,
-                  obscureText: true,
-                  decoration: customDecorationForInput(
-                    context,
-                    "Confirm Password",
-                    Icons.lock_rounded,
-                  ),
-                  validator: (confirmPassword) {
-                    if (confirmPassword != null && confirmPassword.length < 8) {
-                      if (confirmPassword != _passwordTextController.text) {
-                        return "Password doesn't match";
-                      }
-                      return "Enter min 8 char long";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.titleSmall,
-                    children: [
-                      const TextSpan(
-                        text: "*By clicking the ",
-                      ),
-                      TextSpan(
-                        text: "Register ",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
-                      const TextSpan(
-                        text:
-                            "button, you agree to all the terms and conditions of this app.",
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: size.width * 0.05,
-                ),
-                NextButtonClass(
-                  text: "Register",
-                  onPressed: () async {
-                    //Check for the fields are valid in TextFormField.
-                    final isValid = formKey.currentState!.validate();
-                    if (!isValid) return;
-
-                    //Hides the keyboard.
-                    FocusScope.of(context).unfocus();
-
-                    //Check if user already exists
-
-                    //Send OTP to the user
-                    localOTP = await sendOtp(_emailTextController.text);
-                    print(localOTP);
-
-                    if (localOTP != "") {
-                      //Navigate to OTP Screen for verification.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted: "OTP sent successfully",
-                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+          screenContent: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Header(heading: "Create an Account"),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.05,
+                        ),
+                        TextFormField(
+                          controller: _emailTextController,
+                          decoration: customDecorationForInput(
+                            context,
+                            "Enter Email",
+                            Icons.email_rounded,
                           ),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
+                          validator: (email) {
+                            if (email != null &&
+                                !EmailValidator.validate(email)) {
+                              return "Enter a valid email";
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-                      );
-
-                      Navigator.of(context).pushNamed(
-                        OTPScreen.routeName,
-                        arguments: {
-                          'email': _emailTextController.text,
-                          'password': _passwordTextController.text,
-                          'localOTP': localOTP,
-                        },
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted: "Failed to send OTP",
-                            bgColor: Color.fromRGBO(199, 44, 65, 1),
+                        SizedBox(
+                          height: size.height * 0.03,
+                        ),
+                        TextFormField(
+                          controller: _passwordTextController,
+                          obscureText: true,
+                          decoration: customDecorationForInput(
+                            context,
+                            "Enter Password",
+                            Icons.lock_rounded,
                           ),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
+                          validator: (password) {
+                            if (password != null && password.length < 6) {
+                              return "Enter min 6 char long";
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
-                      );
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: size.height * 0.05,
-                ),
-                const CustomGoogleSignIn(),
-                const Spacer(),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      SizedBox(
-                        width: size.width * 0.01,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(LoginScreen.routeName);
-                        },
-                        splashColor: Theme.of(context).primaryColor,
-                        child: Text(
-                          "Log in",
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                        SizedBox(
+                          height: size.height * 0.03,
                         ),
-                      )
-                    ],
+                        TextFormField(
+                          controller: _confirmPasswordTextController,
+                          obscureText: true,
+                          decoration: customDecorationForInput(
+                            context,
+                            "Confirm Password",
+                            Icons.lock_rounded,
+                          ),
+                          validator: (confirmPassword) {
+                            if (confirmPassword != null &&
+                                confirmPassword.length < 6) {
+                              return "Enter min 8 char long";
+                            } else if (confirmPassword !=
+                                _passwordTextController.text) {
+                              return "Password doesn't match";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: Theme.of(context).textTheme.titleSmall,
+                            children: [
+                              const TextSpan(
+                                text: "*By clicking the ",
+                              ),
+                              TextSpan(
+                                text: "Register ",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                              const TextSpan(
+                                text:
+                                    "button, you agree to all the terms and conditions of this app.",
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: size.width * 0.05,
+                        ),
+                        NextButtonClass(
+                          text: "Register",
+                          onPressed: () async {
+                            //Check for the fields are valid in TextFormField.
+                            final isValid = formKey.currentState!.validate();
+                            if (!isValid) return;
+
+                            //Hides the keyboard.
+                            FocusScope.of(context).unfocus();
+
+                            //Check if user already exists
+                            // var answer = FireDatabase().checkEmailAlreadyInUse(
+                            //   email: _emailTextController.text,
+                            // );
+                            // print(answer);
+
+                            // Navigate to userInfoScreen to get other details.
+                            Navigator.of(context).pushNamed(
+                              UserInfoScreen.routeName,
+                              arguments: {
+                                'email': _emailTextController.text,
+                                'password': _passwordTextController.text,
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 0.05,
+                        ),
+                        const CustomGoogleSignIn(),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            0,
+                            size.height * 0.02,
+                            0,
+                            size.height * 0.07,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account?",
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              SizedBox(
+                                width: size.width * 0.01,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(LoginScreen.routeName);
+                                },
+                                splashColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  "Log in",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
