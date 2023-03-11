@@ -29,6 +29,7 @@ class DisplayScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.04,
             ),
+            DModels(),
             ModelsCard()
           ],
         ),
