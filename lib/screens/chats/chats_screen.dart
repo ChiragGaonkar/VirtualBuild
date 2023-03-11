@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
@@ -141,7 +142,15 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 //
               ],
             ),
+<<<<<<< HEAD
           ),
         ));
+=======
+            //Can start from here.
+          ],
+        ),
+      ),
+    );
+>>>>>>> 647e509c1fb9db739a59c7571d92960031b968e5
   }
 }

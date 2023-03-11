@@ -1,22 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
-import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
+import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
-import 'package:otp_text_field/otp_field.dart';
 
+import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
+import '../display_screen.dart';
 
-class OTPScreen extends StatelessWidget {
-  OTPScreen({super.key});
+class OTPScreen extends StatefulWidget {
+  const OTPScreen({super.key});
   static const routeName = '/otp';
 
-  String email = "email@gmai.com";
+  @override
+  State<OTPScreen> createState() => _OTPScreenState();
+}
+
+class _OTPScreenState extends State<OTPScreen> {
+  String otpController = "";
+  Map<String, dynamic> errorIfAny = {};
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       body: MyCustomScreen(
         // customColor: Colors.blue,
@@ -28,20 +37,19 @@ class OTPScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.05,
             ),
-            OTPTextField(
-              //controller: otpController,
-              length: 4,
-              width: MediaQuery.of(context).size.width,
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldWidth: 60,
-              otpFieldStyle: OtpFieldStyle(backgroundColor: Colors.white),
-              fieldStyle: FieldStyle.box,
-              outlineBorderRadius: 10,
-              style: const TextStyle(color: Colors.black, fontSize: 17),
-              // onChanged: (pin) {
-              //   // OtpFieldStyle(backgroundColor: Colors.black);
-              // },
-              // onCompleted: (pin) {},
+            OtpTextField(
+              numberOfFields: 5,
+              fieldWidth: size.width * 0.15,
+              showFieldAsBox: true,
+              filled: true,
+              fillColor: Theme.of(context).canvasColor,
+              focusedBorderColor: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(15),
+              enabledBorderColor: Theme.of(context).canvasColor,
+              onSubmit: (String verificationCode) {
+                //Code to perform operation;
+                otpController = verificationCode;
+              },
             ),
             SizedBox(
               height: size.height * 0.02,
@@ -55,7 +63,7 @@ class OTPScreen extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text: " Enter the OTP sent to ${email}",
+                    text: " Enter the OTP sent to ${args['email']}",
                   ),
                 ],
               ),
@@ -64,11 +72,73 @@ class OTPScreen extends StatelessWidget {
               height: size.height * 0.07,
             ),
             NextButtonClass(
-                text: "Send OTP",
-                onPressed: () {
-                  print("pressed");
-                  Navigator.of(context)
-                      .pushNamed(ResetPasswordScreen.routeName);
+                text: "Verify OTP",
+                onPressed: () async {
+                  //Compare OTP: if correct createNewUser
+                  if (otpController == args['localOTP']) {
+                    //Logic for authentication and create user
+                    errorIfAny = await Auth().createUserWithEmailAndPassword(
+                      email: args['email'],
+                      password: args['password'],
+                    );
+
+                    if (errorIfAny.isEmpty) {
+                      final User? user = Auth().currentUser;
+
+                      await FireDatabase().createUser(
+                        uid: user!.uid.toString(),
+                        name: args['name'],
+                        phoneNumber: args['phoneNumber'],
+                        email: args['email'],
+                        address: args['address'],
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: "Created account Successfully.",
+                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                      //Clears full stack fo screens.
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return DisplayScreen();
+                      }), (r) {
+                        return false;
+                      });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: CustomSnackBar(
+                            messageToBePrinted: errorIfAny['error'],
+                            bgColor: Color.fromRGBO(199, 44, 65, 1),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    }
+                    //Logic for authentication ends here.
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: CustomSnackBar(
+                          messageToBePrinted:
+                              "Sorry, the OTP did not match. Please try again.",
+                          bgColor: Color.fromRGBO(199, 44, 65, 1),
+                        ),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0,
+                      ),
+                    );
+                  }
                 }),
           ],
         ),
