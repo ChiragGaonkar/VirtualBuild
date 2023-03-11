@@ -5,6 +5,7 @@ import 'package:virtualbuild/screens/auth/login_screen.dart';
 import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
+import 'package:virtualbuild/screens/auth/user_info_screen.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/widgettree.dart';
 import 'screens/accounts/account_screen.dart';
@@ -63,14 +64,14 @@ class MyApp extends StatelessWidget {
             )),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const HomeScreen(),
+      home: const WidgetTree(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
         RegisterScreen.routeName: (ctx) => const RegisterScreen(),
         LoginScreen.routeName: (ctx) => const LoginScreen(),
         ForgotPasswordScreen.routeName: (ctx) => const ForgotPasswordScreen(),
-        OTPScreen.routeName: (ctx) => OTPScreen(),
+        OTPScreen.routeName: (ctx) => const OTPScreen(),
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
         DisplayScreen.routeName: (ctx) => DisplayScreen(),
         AccountScreen.routeName: (ctx) => const AccountScreen(),
@@ -79,6 +80,7 @@ class MyApp extends StatelessWidget {
         ExploreModelsScreen.routeName: (ctx) => ExploreModelsScreen(),
         FavoritesScreen.routeName: (ctx) => FavoritesScreen(),
         EditProfileScreen.routeName: (ctx) => const EditProfileScreen(),
+        UserInfoScreen.routeName: (ctz) => const UserInfoScreen()
       },
     );
   }

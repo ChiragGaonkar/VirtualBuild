@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:virtualbuild/models/args_otp.dart';
-import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
+import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -74,16 +74,24 @@ class _OTPScreenState extends State<OTPScreen> {
             NextButtonClass(
                 text: "Verify OTP",
                 onPressed: () async {
-                  print("Otpcontroler ${otpController}");
-                  print("args ${args['localOTP']}");
                   //Compare OTP: if correct createNewUser
                   if (otpController == args['localOTP']) {
-                    //Logic for authentication
+                    //Logic for authentication and create user
                     errorIfAny = await Auth().createUserWithEmailAndPassword(
                       email: args['email'],
                       password: args['password'],
                     );
+
                     if (errorIfAny.isEmpty) {
+                      final User? user = Auth().currentUser;
+
+                      await FireDatabase().createUser(
+                        uid: user!.uid.toString(),
+                        name: args['name'],
+                        phoneNumber: args['phoneNumber'],
+                        email: args['email'],
+                        address: args['address'],
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: CustomSnackBar(
@@ -95,7 +103,14 @@ class _OTPScreenState extends State<OTPScreen> {
                           elevation: 0,
                         ),
                       );
-                      Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                      //Clears full stack fo screens.
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return DisplayScreen();
+                      }), (r) {
+                        return false;
+                      });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

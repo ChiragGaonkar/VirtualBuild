@@ -3,6 +3,7 @@ import 'package:virtualbuild/widgets/3dmodelsdisplay.dart';
 import 'package:virtualbuild/widgets/custommenu.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithmenu.dart';
+import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 
 class DisplayScreen extends StatelessWidget {
   DisplayScreen({super.key});
@@ -11,6 +12,7 @@ class DisplayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -24,7 +26,10 @@ class DisplayScreen extends StatelessWidget {
               header: "Discover",
               scaffoldKey: scaffoldKey,
             ),
-            // DModels(),
+            SizedBox(
+              height: size.height * 0.04,
+            ),
+            ModelsCard()
           ],
         ),
       ),
