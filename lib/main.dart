@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
             )),
       ),
       // initialRoute: HomeScreen.routeName,
-      home: const WidgetTree(),
+      home: const RegisterScreen(),
       //All routes for navigations.
       routes: {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
         DisplayScreen.routeName: (ctx) => DisplayScreen(),
         AccountScreen.routeName: (ctx) => const AccountScreen(),
-        ChatsScreen.routeName: (ctx) => const ChatsScreen(),
+        ChatsScreen.routeName: (ctx) => ChatsScreen(),
         ExploreArchitectsScreen.routeName: (ctx) => ExploreArchitectsScreen(),
         ExploreModelsScreen.routeName: (ctx) => ExploreModelsScreen(),
         FavoritesScreen.routeName: (ctx) => FavoritesScreen(),

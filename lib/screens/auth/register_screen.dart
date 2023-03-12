@@ -4,9 +4,11 @@ import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/screens/auth/user_info_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
+import '../../widgets/customsnackbar.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -146,19 +148,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             FocusScope.of(context).unfocus();
 
                             //Check if user already exists
-                            // var answer = FireDatabase().checkEmailAlreadyInUse(
-                            //   email: _emailTextController.text,
-                            // );
-                            // print(answer);
-
+                            var auth = Auth();
+                            bool exist = await auth.checkIfEmailInUse(email: _emailTextController.text);
                             // Navigate to userInfoScreen to get other details.
-                            Navigator.of(context).pushNamed(
-                              UserInfoScreen.routeName,
-                              arguments: {
-                                'email': _emailTextController.text,
-                                'password': _passwordTextController.text,
-                              },
-                            );
+                            if(!exist){
+                              Navigator.of(context).pushNamed(
+                                UserInfoScreen.routeName,
+                                arguments: {
+                                  'email': _emailTextController.text,
+                                  'password': _passwordTextController.text,
+                                },
+                              );
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: CustomSnackBar(
+                                    messageToBePrinted:
+                                    "Email is already used. Go to login page",
+                                    bgColor: Color.fromRGBO(44, 199, 142, 1),
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                ),
+                              );
+                            }
                           },
                         ),
                         SizedBox(
