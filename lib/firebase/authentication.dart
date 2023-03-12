@@ -68,14 +68,14 @@ class Auth {
     await _firebaseAuth.signOut();
   }
 
-  // Future<bool> checkIfEmailInUse({required String email}) async {
-  //   final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
-  //   if (list.isNotEmpty) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  Future<bool> checkIfEmailInUse({required String email}) async {
+    final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
+    if (list.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future<Map<String, dynamic>> resetPassword({
     required String email,
