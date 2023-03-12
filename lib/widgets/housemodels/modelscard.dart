@@ -35,6 +35,8 @@ class ModelsCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   color: Colors.green,

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/chats/chat_message.dart';
-import '../../widgets/customscreen.dart';
-import 'package:virtualbuild/widgets/header.dart';
-import '../../widgets/chatlist.dart';
 
 class ChatDetail extends StatefulWidget {
   const ChatDetail({super.key});
@@ -162,7 +159,6 @@ class _ChatDetailState extends State<ChatDetail> {
                 ),
               );
             },*/
-
                     child: Text(
                       messages[index].message,
                       style: const TextStyle(fontSize: 15, color: Colors.white),
@@ -174,8 +170,6 @@ class _ChatDetailState extends State<ChatDetail> {
           ),
           Align(
             alignment: Alignment.bottomLeft,
-            //borderRadius: BorderRadius.circular(20),
-
             child: Container(
               padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
               height: 60,
