@@ -164,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted:
-                                    "This Email is already used. Go to login page",
+                                    "Email is already used. Go to login page",
                                     bgColor: Color.fromRGBO(44, 199, 142, 1),
                                   ),
                                   behavior: SnackBarBehavior.floating,
