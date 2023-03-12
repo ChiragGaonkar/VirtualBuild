@@ -90,67 +90,61 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        key: scaffoldKey,
-        endDrawer: const CustomMenu(),
-        body: GestureDetector(
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          child: MyCustomScreen(
-            // customColor: Colors.blue,
-            screenContent: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                HeaderWithMenu(
-                  header: "My Chats",
-                  scaffoldKey: scaffoldKey,
+      key: scaffoldKey,
+      endDrawer: const CustomMenu(),
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: MyCustomScreen(
+          // customColor: Colors.blue,
+          screenContent: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HeaderWithMenu(
+                header: "My Chats",
+                scaffoldKey: scaffoldKey,
+              ),
+              //Can start from here.
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              TextFormField(
+                controller: _searchTextController,
+                decoration: customDecorationForInput(
+                  context,
+                  "Search...",
+                  Icons.search_outlined,
                 ),
-                //Can start from here.
-                SizedBox(
-                  height: size.height * 0.02,
+              ),
+              // SizedBox(
+              //   height: size.height * 0.03,
+              // ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: chatUsers.length,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 25, bottom: 20),
+                  itemBuilder: (context, index) {
+                    return ChatList(
+                      name: chatUsers[index].name,
+                      message: chatUsers[index].message,
+                      imageUrl: chatUsers[index].imageURL,
+                      time: chatUsers[index].time,
+                      unreadCount: chatUsers[index].unreadCount,
+                      isRead: (index == 0 || index == 3) ? true : false,
+                    );
+                  },
                 ),
-                TextFormField(
-                  controller: _searchTextController,
-                  decoration: customDecorationForInput(
-                    context,
-                    "Search...",
-                    Icons.search_outlined,
-                  ),
-                ),
-                // SizedBox(
-                //   height: size.height * 0.03,
-                // ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: chatUsers.length,
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(top: 25, bottom: 20),
-                    itemBuilder: (context, index) {
-                      return ChatList(
-                        name: chatUsers[index].name,
-                        message: chatUsers[index].message,
-                        imageUrl: chatUsers[index].imageURL,
-                        time: chatUsers[index].time,
-                        unreadCount: chatUsers[index].unreadCount,
-                        isRead: (index == 0 || index == 3) ? true : false,
-                      );
-                    },
-                  ),
-                )
+              )
 
-                //
-              ],
-            ),
-<<<<<<< HEAD
+              //
+            ],
           ),
-        ));
-=======
-            //Can start from here.
-          ],
+          //Can start from here.
         ),
       ),
     );
->>>>>>> 647e509c1fb9db739a59c7571d92960031b968e5
   }
 }
