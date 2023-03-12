@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+
+=======
 import 'package:firebase_core/firebase_core.dart';
+>>>>>>> 647e509c1fb9db739a59c7571d92960031b968e5
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
 import 'package:virtualbuild/screens/auth/login_screen.dart';
@@ -75,7 +79,7 @@ class MyApp extends StatelessWidget {
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
         DisplayScreen.routeName: (ctx) => DisplayScreen(),
         AccountScreen.routeName: (ctx) => const AccountScreen(),
-        ChatsScreen.routeName: (ctx) => ChatsScreen(),
+        ChatsScreen.routeName: (ctx) => const ChatsScreen(),
         ExploreArchitectsScreen.routeName: (ctx) => ExploreArchitectsScreen(),
         ExploreModelsScreen.routeName: (ctx) => ExploreModelsScreen(),
         FavoritesScreen.routeName: (ctx) => FavoritesScreen(),
