@@ -63,9 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
           FocusNode currentFocus = FocusScope.of(context);

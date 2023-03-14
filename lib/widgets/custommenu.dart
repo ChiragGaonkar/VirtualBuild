@@ -19,6 +19,7 @@ class CustomMenu extends StatefulWidget {
 class _CustomMenuState extends State<CustomMenu> {
   //Code for retrieving data from firestore
   final User? user = Auth().currentUser;
+  bool _isSelected = false;
 
   Future<void> signOut() async {
     await Auth().signOut();
@@ -26,7 +27,13 @@ class _CustomMenuState extends State<CustomMenu> {
 
   //Code for retrieving data from firestore ends here
 
-  Widget _buildListTile(String titleData, IconData iconData) {
+  Widget _buildListTile(
+    String titleData,
+    IconData iconData,
+    bool isSelected,
+  ) {
+    final theme = Theme.of(context);
+
     return ListTile(
       leading: Icon(
         iconData,
@@ -34,14 +41,16 @@ class _CustomMenuState extends State<CustomMenu> {
       ),
       title: Text(
         titleData,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: theme.textTheme.titleMedium,
       ),
+      tileColor: isSelected ? theme.primaryColor : Colors.transparent,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var name = user!.email!.split("@");
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
@@ -59,21 +68,28 @@ class _CustomMenuState extends State<CustomMenu> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                user!.email.toString(),
-                // "Chirag",
-                style: Theme.of(context).textTheme.titleLarge,
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: Text(
+                  name[0],
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
               InkWell(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(DisplayScreen.routeName),
+                onTap: () {
+                  setState(() {
+                    _isSelected = true;
+                  });
+                  Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                },
                 splashColor: Theme.of(context).primaryColor,
                 child: _buildListTile(
                   "Home",
                   Icons.home,
+                  _isSelected,
                 ),
               ),
               InkWell(
@@ -83,6 +99,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 child: _buildListTile(
                   "Explore 3d Models",
                   Icons.threed_rotation_sharp,
+                  _isSelected,
                 ),
               ),
               InkWell(
@@ -92,6 +109,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 child: _buildListTile(
                   "Hire Architects",
                   Icons.people_alt_outlined,
+                  _isSelected,
                 ),
               ),
               InkWell(
@@ -101,6 +119,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 child: _buildListTile(
                   "Favorites",
                   Icons.favorite_rounded,
+                  _isSelected,
                 ),
               ),
               InkWell(
@@ -110,6 +129,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 child: _buildListTile(
                   "Chats",
                   Icons.mark_chat_read_rounded,
+                  _isSelected,
                 ),
               ),
               InkWell(
@@ -119,6 +139,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 child: _buildListTile(
                   "My Account",
                   Icons.account_circle,
+                  _isSelected,
                 ),
               ),
               const Spacer(),
@@ -133,6 +154,7 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Log out",
                     Icons.logout_rounded,
+                    _isSelected,
                   ),
                 ),
               ),

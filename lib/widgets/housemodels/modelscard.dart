@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+import 'package:virtualbuild/widgets/housemodels/modelscardicons.dart';
+import 'package:virtualbuild/widgets/housemodels/modelscardbuttons.dart';
+import 'package:virtualbuild/widgets/housemodels/waveclipper.dart';
 
-class ModelsCard extends StatelessWidget {
+class ModelsCard extends StatefulWidget {
   const ModelsCard({super.key});
+
+  @override
+  State<ModelsCard> createState() => _ModelsCardState();
+}
+
+class _ModelsCardState extends State<ModelsCard> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    print(size.width);
     return Stack(
       children: [
         Container(
           width: size.width,
-          height: size.height * 0.35,
+          height: 300,
           decoration: BoxDecoration(
-            color: Colors.amber,
+            color: Theme.of(context).canvasColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: ClipRRect(
@@ -27,60 +39,121 @@ class ModelsCard extends StatelessWidget {
           bottom: 0,
           left: 0,
           right: 0,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(15, 0, 20, 15),
-            width: size.width,
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  color: Colors.green,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.keyboard_arrow_up_rounded,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ClipPath(
+            clipper: isExpanded == true ? WaveClipperUp() : WaveClipperDown(),
+            child: GlassmorphicContainer(
+              width: size.width,
+              height: isExpanded == true ? 250 : 120,
+              borderRadius: 20,
+              blur: 30,
+              border: 0,
+              linearGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFffffff).withOpacity(0.1),
+                    const Color(0xFFFFFFFF).withOpacity(0.05),
+                  ],
+                  stops: const [
+                    0.1,
+                    1,
+                  ]),
+              borderGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFFffffff).withOpacity(0.5),
+                  const Color((0xFFFFFFFF)).withOpacity(0.5),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 20, 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        setState(() {
+                          isExpanded = !isExpanded;
+                        });
+                      },
+                      icon: Icon(
+                        isExpanded == true
+                            ? Icons.keyboard_double_arrow_down
+                            : Icons.keyboard_double_arrow_up_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Modern Villa",
-                              style: Theme.of(context).textTheme.headlineSmall,
+                            Row(
+                              children: [
+                                Text(
+                                  "Modern Villa",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                Text(
+                                  "(920 sq.ft)",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                              ],
                             ),
                             Text(
-                              "(920 sq.ft)",
-                              style: Theme.of(context).textTheme.titleSmall,
+                              "By Chirag Gaonkar",
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ],
                         ),
                         Text(
-                          "By Chirag Gaonkar",
-                          style: Theme.of(context).textTheme.titleMedium,
+                          "₹5Cr",
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ],
                     ),
-                    Text(
-                      "₹5Cr",
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                    Expanded(
+                      child: ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        children: [
+                          const ModelsCardIcons(
+                            numOfBeds: 4,
+                            numOfBaths: 5,
+                            numOfFloors: 2,
+                            numOfGarage: 1,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ModelsCardButtons(
+                                buttontext: "Favorite",
+                                whatOnPressed: () {
+                                  //Write a function when add to favorites;
+                                },
+                              ),
+                              ModelsCardButtons(
+                                buttontext: "Buy",
+                                whatOnPressed: () {
+                                  //Write a function to navigate Payment Page;
+                                },
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         )

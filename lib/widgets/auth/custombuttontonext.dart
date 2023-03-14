@@ -46,14 +46,20 @@ class _NextButtonClassState extends State<NextButtonClass> {
           widget.text,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        InkWell(
-          splashColor: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(100),
-          onTap: widget.onPressed,
-          child: Icon(
-            Icons.arrow_circle_right_outlined,
-            color: Theme.of(context).primaryColor,
-            size: 50,
+        PhysicalModel(
+          elevation: 0.1,
+          color: Colors.transparent,
+          shadowColor: Theme.of(context).primaryColor,
+          shape: BoxShape.circle,
+          child: InkWell(
+            splashColor: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(100),
+            onTap: widget.onPressed,
+            child: Icon(
+              Icons.arrow_circle_right_outlined,
+              color: Theme.of(context).primaryColor,
+              size: 50,
+            ),
           ),
         )
       ],

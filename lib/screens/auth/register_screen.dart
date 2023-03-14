@@ -149,9 +149,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             //Check if user already exists
                             var auth = Auth();
-                            bool exist = await auth.checkIfEmailInUse(email: _emailTextController.text);
+                            bool exist = await auth.checkIfEmailInUse(
+                                email: _emailTextController.text);
                             // Navigate to userInfoScreen to get other details.
-                            if(!exist){
+                            if (!exist) {
                               Navigator.of(context).pushNamed(
                                 UserInfoScreen.routeName,
                                 arguments: {
@@ -159,13 +160,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'password': _passwordTextController.text,
                                 },
                               );
-                            }else{
+                            } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted:
-                                    "Email is already used. Go to login page",
-                                    bgColor: Color.fromRGBO(44, 199, 142, 1),
+                                        "This Email is already used. Go to login page",
+                                    bgColor: Color.fromRGBO(199, 44, 65, 1),
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,

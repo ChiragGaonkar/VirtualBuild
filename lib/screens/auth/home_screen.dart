@@ -8,20 +8,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    Size buttonSize = Size(size.width * 0.33, size.height * 0.08);
+    //buttonSize.height = size.height * 0.5;
+
     return Scaffold(
       body: Center(
         //Stack is used to keep the background as Image.
         child: Stack(
           children: [
             // Image is set from the assets folder.
-            Image.asset(
-              "assets/ManOnHomeScreen.png",
-              height: 600,
-            ),
+            Image.asset("assets/ManOnHomeScreen.png",
+                height: size.height * 0.9),
             //Login and Register Buttons are rendered from top 150px and right 0px away.
             Positioned(
-              top: 150,
-              right: 0,
+              top: size.height * 0.25,
+              right: size.width * 0.08,
               child: Column(
                 children: [
                   //Login Button
@@ -30,6 +32,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).pushNamed(LoginScreen.routeName);
                     },
                     style: ElevatedButton.styleFrom(
+                      //fixedSize: buttonSize,
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                       side: BorderSide(
@@ -51,6 +54,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).pushNamed(RegisterScreen.routeName);
                     },
                     style: ElevatedButton.styleFrom(
+                      //fixedSize: buttonSize,
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                       side: BorderSide(
