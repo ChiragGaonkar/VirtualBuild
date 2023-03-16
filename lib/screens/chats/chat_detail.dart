@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/screens/chats/chat_message.dart';
+import 'package:virtualbuild/models/chat_message.dart';
+import 'package:virtualbuild/widgets/headerwithnavigation.dart';
+import '../../widgets/customscreen.dart';
 
 class ChatDetail extends StatefulWidget {
   const ChatDetail({super.key});
@@ -31,207 +33,126 @@ class _ChatDetailState extends State<ChatDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      // body: MyCustomScreen(
-      // screenContent: Column(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       const Header(heading: "Create an Account"),
-      //         SizedBox(
-      //           height: size.height * 0.05,
-      //         ),
-      //     ]
-      // )
-      // )
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: MyCustomScreen(
+          leftPadding: 0,
+          rightPadding: 0,
+          screenContent: Stack(
+            children: [
+              const HeaderWithNavigation(
+                heading: "Chirag Gaonkar",
+                screenToBeRendered: "None",
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: size.height * 0.05),
+                child: SizedBox(
+                  height: size.height * 0.8,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: ListView.builder(
+                      itemCount: messages.length,
+                      //shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          // padding: const EdgeInsets.only(
+                          //left: 14, right: 14, top: 10, bottom: 10),
+                          padding: messages[index].messenger == "receiver"
+                              ? const EdgeInsets.only(
+                                  left: 0,
+                                  right: 25,
+                                  top: 10,
+                                  bottom: 10,
+                                )
+                              : const EdgeInsets.only(
+                                  left: 25,
+                                  right: 0,
+                                  top: 10,
+                                  bottom: 10,
+                                ),
+                          child: Align(
+                            alignment: (messages[index].messenger == "receiver"
+                                ? Alignment.topLeft
+                                : Alignment.topRight),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: (messages[index].messenger == "receiver"
+                                    ? Theme.of(context).canvasColor
+                                    : Theme.of(context).primaryColor),
+                              ),
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                messages[index].message,
+                                style: const TextStyle(
+                                    fontSize: 15, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  width: 2,
-                ),
-                const CircleAvatar(
-                  backgroundImage: AssetImage("assets/Female.png"),
-                  maxRadius: 20,
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Arya Gaonkar",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "Online",
-                        style: TextStyle(
-                            fontSize: 13, color: Colors.grey.shade600),
-                      ),
-                    ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 60,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Theme.of(context).canvasColor.withOpacity(1),
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "Type a message.",
+                              hintStyle: TextStyle(color: Colors.white),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.camera_alt_rounded,
+                            color: Theme.of(context).secondaryHeaderColor,
+                            size: 30,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.send,
+                            color: Theme.of(context).primaryColor,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Icon(
-                  Icons.add,
-                  color: Colors.blue,
-                  size: 45,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            physics: const ClampingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                // padding: const EdgeInsets.only(
-                //left: 14, right: 14, top: 10, bottom: 10),
-                padding: messages[index].messenger == "receiver"
-                    ? EdgeInsets.only(left: 0, right: 25, top: 10, bottom: 10)
-                    : EdgeInsets.only(left: 25, right: 0, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messenger == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messenger == "receiver"
-                          ? Colors.grey[800]
-                          : Colors.orange[900]),
-                    ),
-                    padding: const EdgeInsets.all(16),
-
-                    /*child: 
-                        Text(
-                          messages[index].message,
-                          style: const TextStyle(
-                              fontSize: 15, color: Colors.white,
-                              ),
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              "20:58",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.white),
-                            ),
-                            const Icon(
-                              Icons.done_all,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ],
-                        ),
-                
-                    ),
-                  ),
-                ),
-              );
-            },*/
-                    child: Text(
-                      messages[index].message,
-                      style: const TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.grey[800],
-              child: Row(
-                children: <Widget>[
-                  // GestureDetector(
-                  //   onTap: () {},
-                  //   child: Container(
-                  //     height: 30,
-                  //     width: 30,
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.lightBlue,
-                  //       borderRadius: BorderRadius.circular(30),
-                  //     ),
-                  //     // child: const Icon(
-                  //     //   Icons.add,
-                  //     //   color: Colors.white,
-                  //     //   size: 20,
-                  //     // ),
-                  //   ),
-                  // ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  const Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Type a message.",
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {},
-                    backgroundColor: Colors.grey[800],
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.camera_alt_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {},
-                    backgroundColor: Colors.grey[800],
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.send,
-                      color: Colors.red,
-                      size: 30,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

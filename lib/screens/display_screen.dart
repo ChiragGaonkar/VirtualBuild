@@ -7,7 +7,7 @@ import 'package:virtualbuild/widgets/headerwithmenu.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 
 class DisplayScreen extends StatefulWidget {
-  DisplayScreen({super.key});
+  const DisplayScreen({super.key});
   static const routeName = "/display";
 
   @override
@@ -16,12 +16,6 @@ class DisplayScreen extends StatefulWidget {
 
 class _DisplayScreenState extends State<DisplayScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  int _focusedIndex = 0;
-  void _onItemFocus(int index) {
-    setState(() {
-      _focusedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +58,29 @@ class _DisplayScreenState extends State<DisplayScreen> {
                     SizedBox(
                       height: size.height * 0.04,
                     ),
-                    // DModels(),
                     SizedBox(
-                      height: size.height * 0.04,
-                    ),
-                    const ModelsCard(),
-                    SizedBox(
-                      height: size.height * 0.04,
-                    ),
-                    const ModelsCard(),
-                    SizedBox(
-                      height: size.height * 0.04,
-                    ),
-                    const ModelsCard(),
+                      height: size.height * 0.7,
+                      child: GridView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: 4,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          crossAxisSpacing: 4.0,
+                          mainAxisSpacing: 4.0,
+                        ),
+                        itemBuilder: (context, index) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 0,
+                            ),
+                            child: ModelsCard(),
+                          );
+                        },
+                      ),
+                    )
+                    // const ModelsCard(),
                   ],
                 ),
               ),

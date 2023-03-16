@@ -4,8 +4,8 @@ import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
-import 'package:virtualbuild/screens/chats/chat_users.dart';
-import '../../widgets/chatlist.dart';
+import 'package:virtualbuild/models/chat_users.dart';
+import '../../widgets/chats/chatlist.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
         name: "Jiya Gaonkar",
         message: "yes, i saw you yesterday",
         imageURL: "assets/Female.png",
-        time: "yesterday",
+        time: "Yesterday",
         unreadCount: 0,
         isRead: false),
     ChatUsers(
@@ -106,7 +106,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 header: "My Chats",
                 scaffoldKey: scaffoldKey,
               ),
-              //Can start from here.
               SizedBox(
                 height: size.height * 0.02,
               ),
@@ -118,9 +117,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   Icons.search_outlined,
                 ),
               ),
-              // SizedBox(
-              //   height: size.height * 0.03,
-              // ),
               Expanded(
                 child: ListView.builder(
                   itemCount: chatUsers.length,
@@ -138,11 +134,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   },
                 ),
               )
-
-              //
             ],
           ),
-          //Can start from here.
         ),
       ),
     );

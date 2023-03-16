@@ -17,7 +17,6 @@ class _ModelsCardState extends State<ModelsCard> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(size.width);
     return Stack(
       children: [
         Container(
@@ -45,14 +44,14 @@ class _ModelsCardState extends State<ModelsCard> {
               width: size.width,
               height: isExpanded == true ? 250 : 120,
               borderRadius: 20,
-              blur: 30,
+              blur: 26,
               border: 0,
               linearGradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFFffffff).withOpacity(0.1),
-                    const Color(0xFFFFFFFF).withOpacity(0.05),
+                    Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                    Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
                   ],
                   stops: const [
                     0.1,
@@ -83,8 +82,8 @@ class _ModelsCardState extends State<ModelsCard> {
                         isExpanded == true
                             ? Icons.keyboard_double_arrow_down
                             : Icons.keyboard_double_arrow_up_rounded,
-                        color: Colors.white,
-                        size: 20,
+                        color: Theme.of(context).primaryColor,
+                        size: 25,
                       ),
                     ),
                     Row(

@@ -6,6 +6,7 @@ import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/user_info_screen.dart';
+import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/widgettree.dart';
 import 'screens/accounts/account_screen.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'VirtualBuild',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0x40404040),
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.pink,
         canvasColor: const Color.fromARGB(64, 161, 157, 157),
         secondaryHeaderColor: Colors.white,
         fontFamily: 'Gilroy',
@@ -80,7 +81,8 @@ class MyApp extends StatelessWidget {
         ExploreModelsScreen.routeName: (ctx) => ExploreModelsScreen(),
         FavoritesScreen.routeName: (ctx) => FavoritesScreen(),
         EditProfileScreen.routeName: (ctx) => const EditProfileScreen(),
-        UserInfoScreen.routeName: (ctz) => const UserInfoScreen()
+        UserInfoScreen.routeName: (ctx) => const UserInfoScreen(),
+        ChatDetail.routeName: (ctx) => const ChatDetail(),
       },
     );
   }

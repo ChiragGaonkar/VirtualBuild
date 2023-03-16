@@ -5,12 +5,20 @@ class MyCustomScreen extends StatelessWidget {
   final Color customColor;
   final double xCoordinate;
   final double yCoordinate;
+  final double leftPadding;
+  final double rightPadding;
+  final double topPadding;
+  final double bottomPadding;
   const MyCustomScreen({
     super.key,
     this.customColor = const Color(0x40404040),
     this.xCoordinate = 0.0,
     this.yCoordinate = 0.7,
     required this.screenContent,
+    this.leftPadding = 0.05,
+    this.rightPadding = 0.05,
+    this.topPadding = 0.08,
+    this.bottomPadding = 0,
   });
 
   @override
@@ -28,10 +36,10 @@ class MyCustomScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(
-          size.width * 0.05,
-          size.height * 0.08,
-          size.width * 0.05,
-          0,
+          size.width * leftPadding,
+          size.height * topPadding,
+          size.width * rightPadding,
+          bottomPadding,
         ),
         child: screenContent,
       ),

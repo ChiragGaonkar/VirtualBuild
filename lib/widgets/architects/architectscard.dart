@@ -10,20 +10,6 @@ class ArchitectsCard extends StatelessWidget {
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        Positioned(
-          top: -10,
-          child: PhysicalModel(
-            elevation: 18.0,
-            color: Colors.black,
-            shadowColor: Colors.black,
-            shape: BoxShape.circle,
-            borderRadius: BorderRadius.circular(70),
-            child: const CircleAvatar(
-              radius: 70,
-              backgroundImage: AssetImage("assets/Male.png"),
-            ),
-          ),
-        ),
         Container(
           width: size.width * 0.7,
           height: 160,
@@ -44,7 +30,21 @@ class ArchitectsCard extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        Positioned(
+          top: -10,
+          child: PhysicalModel(
+            elevation: 18.0,
+            color: Colors.black,
+            shadowColor: Colors.black,
+            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(70),
+            child: const CircleAvatar(
+              radius: 70,
+              backgroundImage: AssetImage("assets/Male.png"),
+            ),
+          ),
+        ),
       ],
     );
   }
