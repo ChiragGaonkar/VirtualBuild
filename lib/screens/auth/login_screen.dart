@@ -1,5 +1,7 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
@@ -7,6 +9,8 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../firebase/authentication.dart';
+import '../../firebase/firestore_database.dart';
+import '../../providers/user_data_provider.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customsigningoogle.dart';
 import '../display_screen.dart';
@@ -95,14 +99,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Enter Email",
                             Icons.email_rounded,
                           ),
-                          validator: (email) {
-                            if (email != null &&
-                                !EmailValidator.validate(email)) {
-                              return "Enter a valid email";
-                            } else {
-                              return null;
-                            }
-                          },
+                          // validator: (email) {
+                          //   if (email != null &&
+                          //       !EmailValidator.validate(email)) {
+                          //     return "Enter a valid email";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                         ),
                         SizedBox(
                           height: size.height * 0.03,
@@ -115,13 +119,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Enter Password",
                             Icons.lock_rounded,
                           ),
-                          validator: (password) {
-                            if (password != null && password.length < 6) {
-                              return "Enter min 6 char long";
-                            } else {
-                              return null;
-                            }
-                          },
+                          // validator: (password) {
+                          //   if (password != null && password.length < 6) {
+                          //     return "Enter min 6 char long";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -147,13 +151,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (!isValid) return;
 
                             FocusScope.of(context).unfocus();
-
+                            
                             //Logic for authentication
                             errorIfAny =
                                 await Auth().signInWithEmailAndPassword(
                               email: _emailTextController.text,
                               password: _passwordTextController.text,
                             );
+                            var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+                            await userProvider.getData();
                             if (errorIfAny.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
