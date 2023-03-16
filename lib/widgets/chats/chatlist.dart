@@ -29,7 +29,10 @@ class _ChatListState extends State<ChatList> {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(ChatDetail.routeName);
+        Navigator.of(context).pushNamed(ChatDetail.routeName, arguments: {
+          'name': widget.name,
+          'imageUrl': widget.imageUrl,
+        });
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),

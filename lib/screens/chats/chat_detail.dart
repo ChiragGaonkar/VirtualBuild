@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/chat_message.dart';
-import 'package:virtualbuild/widgets/headerwithnavigation.dart';
+import 'package:virtualbuild/widgets/headerwithphoto.dart';
 import '../../widgets/customscreen.dart';
 
 class ChatDetail extends StatefulWidget {
@@ -34,6 +34,7 @@ class _ChatDetailState extends State<ChatDetail> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -44,9 +45,10 @@ class _ChatDetailState extends State<ChatDetail> {
           rightPadding: 0,
           screenContent: Stack(
             children: [
-              const HeaderWithNavigation(
-                heading: "Chirag Gaonkar",
+              HeaderWithPhoto(
+                heading: args['name'],
                 screenToBeRendered: "None",
+                imageURL: args['imageUrl'],
               ),
               Padding(
                 padding: EdgeInsets.only(top: size.height * 0.05),
