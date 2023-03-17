@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
@@ -7,6 +8,7 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/housemodels/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
+import '../providers/user_data_provider.dart';
 import '../screens/auth/home_screen.dart';
 
 class CustomMenu extends StatefulWidget {
@@ -50,7 +52,7 @@ class _CustomMenuState extends State<CustomMenu> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var name = user!.email!.split("@");
+    var user_data = Provider.of<UserDataProvide>(context, listen: false);
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
@@ -71,7 +73,7 @@ class _CustomMenuState extends State<CustomMenu> {
               Padding(
                 padding: const EdgeInsets.all(5),
                 child: Text(
-                  name[0],
+                  user_data.name,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),

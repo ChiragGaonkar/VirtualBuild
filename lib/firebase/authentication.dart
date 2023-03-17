@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -38,11 +39,13 @@ class Auth {
     required String email,
     required String password,
   }) async {
+    //final prefs = await SharedPreferences.getInstance();
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       return {};
     } on FirebaseAuthException catch (e) {
       return tellMeTheError(e.code);

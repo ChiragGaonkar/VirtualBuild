@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
 import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
+
+import '../../providers/user_data_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -20,13 +23,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    setState(() {
-      _nameController.text = "Shreya Gaonkar";
-      _emailTextController.text = "shreya@gmail.com";
-      _phoneNoController.text = "9527892142";
-      _addressController.text =
-          "E2, Flat G3, Chamunda Enclave, Bondir, Santa Cruz, Goa.";
-    });
     super.initState();
   }
 
@@ -51,6 +47,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var user_data = Provider.of<UserDataProvide>(context, listen: false);
+    _nameController.text = user_data.name;
+    _emailTextController.text = user_data.email;
+    _phoneNoController.text = user_data.number;
+    _addressController.text = user_data.address;
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       body: GestureDetector(
