@@ -24,6 +24,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    var navigatorVar = Navigator.of(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
@@ -99,7 +102,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     errorIfAny = await Auth()
                         .resetPassword(email: _emailTextController.text);
                     if (errorIfAny.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessengerVar.showSnackBar(
                         const SnackBar(
                           content: CustomSnackBar(
                             messageToBePrinted:
@@ -111,9 +114,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           elevation: 0,
                         ),
                       );
-                      Navigator.of(context).pushNamed(LoginScreen.routeName);
+                      navigatorVar.pushNamed(LoginScreen.routeName);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessengerVar.showSnackBar(
                         SnackBar(
                           content: CustomSnackBar(
                             messageToBePrinted: errorIfAny['error'],

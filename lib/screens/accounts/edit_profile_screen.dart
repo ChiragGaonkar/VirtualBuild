@@ -64,7 +64,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               const HeaderWithNavigation(
                 heading: "Edit Profile",
-                screenToBeRendered: AccountScreen.routeName,
+                screenToBeRendered: "None",
               ),
               Expanded(
                 child: SingleChildScrollView(

@@ -22,6 +22,7 @@ class _CustomMenuState extends State<CustomMenu> {
   //Code for retrieving data from firestore
   final User? user = Auth().currentUser;
   bool _isSelected = false;
+  bool _isDrawerOpen = true;
 
   Future<void> signOut() async {
     await Auth().signOut();
@@ -45,125 +46,172 @@ class _CustomMenuState extends State<CustomMenu> {
         titleData,
         style: theme.textTheme.titleMedium,
       ),
-      tileColor: isSelected ? theme.primaryColor : Colors.transparent,
+      // tileColor: isSelected ? theme.primaryColor : Colors.transparent,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var user_data = Provider.of<UserDataProvide>(context, listen: false);
+    var userData = Provider.of<UserDataProvide>(context, listen: false);
+    var navigatorVar = Navigator.of(context);
+
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
         backgroundColor:
             Theme.of(context).scaffoldBackgroundColor.withOpacity(1),
         body: SafeArea(
-          child: Column(
-            children: [
-              const Center(
-                child: CircleAvatar(
-                  radius: 65,
-                  backgroundImage: AssetImage("assets/Female.png"),
+          child: SizedBox(
+            height: size.height,
+            child: Column(
+              children: [
+                const Center(
+                  child: CircleAvatar(
+                    radius: 65,
+                    backgroundImage: AssetImage("assets/Female.png"),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: Text(
-                  user_data.name,
-                  style: Theme.of(context).textTheme.titleLarge,
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    _isSelected = true;
-                  });
-                  Navigator.of(context).pushNamed(DisplayScreen.routeName);
-                },
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "Home",
-                  Icons.home,
-                  _isSelected,
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    userData.name,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () => Navigator.of(context)
-                    .pushNamed(ExploreModelsScreen.routeName),
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "Explore 3d Models",
-                  Icons.threed_rotation_sharp,
-                  _isSelected,
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              InkWell(
-                onTap: () => Navigator.of(context)
-                    .pushNamed(ExploreArchitectsScreen.routeName),
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "Hire Architects",
-                  Icons.people_alt_outlined,
-                  _isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(FavoritesScreen.routeName),
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "Favorites",
-                  Icons.favorite_rounded,
-                  _isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(ChatsScreen.routeName),
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "Chats",
-                  Icons.mark_chat_read_rounded,
-                  _isSelected,
-                ),
-              ),
-              InkWell(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AccountScreen.routeName),
-                splashColor: Theme.of(context).primaryColor,
-                child: _buildListTile(
-                  "My Account",
-                  Icons.account_circle,
-                  _isSelected,
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () async {
-                  await Auth().signOut();
-                  Navigator.of(context).pushNamed(HomeScreen.routeName);
-                },
-                splashColor: Theme.of(context).primaryColor,
-                child: Container(
-                  color: Theme.of(context).primaryColor,
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _isSelected = true;
+                    });
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(DisplayScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
-                    "Log out",
-                    Icons.logout_rounded,
+                    "Home",
+                    Icons.home,
                     _isSelected,
                   ),
                 ),
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushNamed(ExploreModelsScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "Explore 3d Models",
+                    Icons.threed_rotation_sharp,
+                    _isSelected,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushNamed(ExploreArchitectsScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "Hire Architects",
+                    Icons.people_alt_outlined,
+                    _isSelected,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(FavoritesScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "Favorites",
+                    Icons.favorite_rounded,
+                    _isSelected,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(ChatsScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "Chats",
+                    Icons.mark_chat_read_rounded,
+                    _isSelected,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(AccountScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "My Account",
+                    Icons.account_circle,
+                    _isSelected,
+                  ),
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () async {
+                    await Auth().signOut();
+                    navigatorVar.pushNamed(HomeScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: Container(
+                    color: Theme.of(context).primaryColor,
+                    child: _buildListTile(
+                      "Log out",
+                      Icons.logout_rounded,
+                      _isSelected,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+// In case of Animation
+// child: AnimatedCrossFade(
+//             firstChild: Column(
+//              children : [
+//                 InkWell(
+//                   onTap: () async {
+//                     setState(() {
+//                       _isDrawerOpen = false;
+//                     });
+//                     await Future.delayed(Duration(milliseconds: 300));
+//                     Navigator.of(context).pop();
+//                     Navigator.of(context)
+//                         .pushNamed(ExploreModelsScreen.routeName);
+//                   },
+//                   splashColor: Theme.of(context).primaryColor,
+//                   child: _buildListTile(
+//                     "Explore 3d Models",
+//                     Icons.threed_rotation_sharp,
+//                     _isSelected,
+//                   ),
+//                 ),]),
+//             secondChild: SizedBox.shrink(),
+//             crossFadeState: _isDrawerOpen
+//                 ? CrossFadeState.showFirst
+//                 : CrossFadeState.showSecond,
+//             duration: Duration(milliseconds: 300),
+// )
+

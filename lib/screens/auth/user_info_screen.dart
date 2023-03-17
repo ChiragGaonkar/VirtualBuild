@@ -27,7 +27,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Future<String> sendOtp(String userEmail) async {
     var url = Uri.http("10.0.2.2:5000", "/generate_otp/$userEmail");
     Response response = await http.get(url);
-    print(response.body);
     return response.body;
   }
 
@@ -35,6 +34,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final args = ModalRoute.of(context)!.settings.arguments as Map;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    var navigatorVar = Navigator.of(context);
 
     return Scaffold(
       body: GestureDetector(
@@ -140,15 +141,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             //Hides the keyboard.
                             FocusScope.of(context).unfocus();
 
-                            //Check if user already exists
-
                             //Send OTP to the user
                             localOTP = await sendOtp(args['email']);
-                            print(localOTP);
 
                             if (localOTP != "") {
                               //Navigate to OTP Screen for verification.
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted: "OTP sent successfully",
@@ -160,7 +158,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 ),
                               );
 
-                              Navigator.of(context).pushNamed(
+                              navigatorVar.pushNamed(
                                 OTPScreen.routeName,
                                 arguments: {
                                   'email': args['email'],
@@ -172,7 +170,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 },
                               );
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted: "Failed to send OTP",

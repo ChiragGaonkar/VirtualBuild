@@ -67,6 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    var userProvider = Provider.of<UserDataProvide>(context, listen: false);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -99,14 +101,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Enter Email",
                             Icons.email_rounded,
                           ),
-                          // validator: (email) {
-                          //   if (email != null &&
-                          //       !EmailValidator.validate(email)) {
-                          //     return "Enter a valid email";
-                          //   } else {
-                          //     return null;
-                          //   }
-                          // },
+                          validator: (email) {
+                            if (email != null &&
+                                !EmailValidator.validate(email)) {
+                              return "Enter a valid email";
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         SizedBox(
                           height: size.height * 0.03,
@@ -119,13 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Enter Password",
                             Icons.lock_rounded,
                           ),
-                          // validator: (password) {
-                          //   if (password != null && password.length < 6) {
-                          //     return "Enter min 6 char long";
-                          //   } else {
-                          //     return null;
-                          //   }
-                          // },
+                          validator: (password) {
+                            if (password != null && password.length < 6) {
+                              return "Enter min 6 char long";
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -151,17 +153,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (!isValid) return;
 
                             FocusScope.of(context).unfocus();
-                            
+
                             //Logic for authentication
                             errorIfAny =
                                 await Auth().signInWithEmailAndPassword(
                               email: _emailTextController.text,
                               password: _passwordTextController.text,
                             );
-                            var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+
                             await userProvider.getData();
+
                             if (errorIfAny.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted:
@@ -173,10 +176,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   elevation: 0,
                                 ),
                               );
-                              Navigator.of(context)
-                                  .pushNamed(DisplayScreen.routeName);
+                              //Clears full stack fo screens.
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                return const DisplayScreen();
+                              }), (r) {
+                                return false;
+                              });
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              scaffoldMessengerVar.showSnackBar(
                                 SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted: errorIfAny['error'],

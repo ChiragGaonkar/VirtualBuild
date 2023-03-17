@@ -27,7 +27,10 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
     final args = ModalRoute.of(context)!.settings.arguments as Map;
+    var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+
     return Scaffold(
       body: MyCustomScreen(
         // customColor: Colors.blue,
@@ -94,10 +97,9 @@ class _OTPScreenState extends State<OTPScreen> {
                         address: args['address'],
                       );
 
-                      var userProvider = Provider.of<UserDataProvide>(context, listen: false);
                       await userProvider.getData();
 
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessengerVar.showSnackBar(
                         const SnackBar(
                           content: CustomSnackBar(
                             messageToBePrinted: "Created account Successfully.",
@@ -112,16 +114,16 @@ class _OTPScreenState extends State<OTPScreen> {
                       // ignore: use_build_context_synchronously
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return DisplayScreen();
+                        return const DisplayScreen();
                       }), (r) {
                         return false;
                       });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                      scaffoldMessengerVar.showSnackBar(
                         SnackBar(
                           content: CustomSnackBar(
                             messageToBePrinted: errorIfAny['error'],
-                            bgColor: Color.fromRGBO(199, 44, 65, 1),
+                            bgColor: const Color.fromRGBO(199, 44, 65, 1),
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,

@@ -44,7 +44,7 @@ dependencies:
   carousel_slider: ^4.2.1
   glassmorphism: ^3.0.0
   shared_preferences: ^2.0.18
-  provider: ^6.0.5
+  provider:
 
 dev_dependencies:
   flutter_test:

@@ -29,6 +29,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    var navigatorVar = Navigator.of(context);
 
     return Scaffold(
       body: GestureDetector(
@@ -153,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 email: _emailTextController.text);
                             // Navigate to userInfoScreen to get other details.
                             if (!exist) {
-                              Navigator.of(context).pushNamed(
+                              navigatorVar.pushNamed(
                                 UserInfoScreen.routeName,
                                 arguments: {
                                   'email': _emailTextController.text,
@@ -161,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 },
                               );
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted:
