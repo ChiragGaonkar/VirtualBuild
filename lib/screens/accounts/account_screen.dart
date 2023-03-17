@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/accounts/edit_profile_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
+import '../../providers/user_data_provider.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/headerwithmenu.dart';
 
@@ -58,16 +60,19 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _addressController.text =
-          "E2, Flat G3, Chamunda Enclave, Santa Cruz, Goa";
-      _phoneNoController.text = "9527892142";
-    });
+    // setState(() {
+    //   _addressController.text =
+    //       "E2, Flat G3, Chamunda Enclave, Santa Cruz, Goa";
+    //   _phoneNoController.text = "9527892142";
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var user_data = Provider.of<UserDataProvide>(context, listen: false);
+    _addressController.text = user_data.address;
+    _phoneNoController.text = user_data.number;
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -92,11 +97,11 @@ class _AccountScreenState extends State<AccountScreen> {
               height: size.height * 0.02,
             ),
             Text(
-              "Shreya Gaonkar",
+              user_data.name,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             Text(
-              "shreya@gmail.com",
+              user_data.email,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(

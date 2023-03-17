@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
 import '../../firebase/authentication.dart';
+import '../../providers/user_data_provider.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../display_screen.dart';
 
@@ -84,7 +86,6 @@ class _OTPScreenState extends State<OTPScreen> {
 
                     if (errorIfAny.isEmpty) {
                       final User? user = Auth().currentUser;
-
                       await FireDatabase().createUser(
                         uid: user!.uid.toString(),
                         name: args['name'],
@@ -92,6 +93,10 @@ class _OTPScreenState extends State<OTPScreen> {
                         email: args['email'],
                         address: args['address'],
                       );
+
+                      var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+                      await userProvider.getData();
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: CustomSnackBar(
