@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
@@ -68,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    var navigatorVar = Navigator.of(context);
     var userProvider = Provider.of<UserDataProvide>(context, listen: false);
     return Scaffold(
       body: GestureDetector(
@@ -154,6 +156,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             FocusScope.of(context).unfocus();
 
+                            //Start CircularProgressIndicator
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return Center(
+                                  child: LoadingAnimationWidget.inkDrop(
+                                    color: Theme.of(context).primaryColor,
+                                    size: size.width * 0.1,
+                                  ),
+                                );
+                              },
+                            );
+
                             //Logic for authentication
                             errorIfAny =
                                 await Auth().signInWithEmailAndPassword(
@@ -162,6 +177,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
 
                             await userProvider.getData();
+
+                            //Stop CircularProgressIndicator
+                            navigatorVar.pop();
 
                             if (errorIfAny.isEmpty) {
                               scaffoldMessengerVar.showSnackBar(
@@ -176,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   elevation: 0,
                                 ),
                               );
-                              //Clears full stack fo screens.
+                              //Clears full stack of screens.
                               // ignore: use_build_context_synchronously
                               Navigator.pushAndRemoveUntil(context,
                                   MaterialPageRoute(
