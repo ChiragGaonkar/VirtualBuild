@@ -49,7 +49,7 @@ class _ChatListState extends State<ChatList> {
                     width: size.width * 0.05,
                   ),
                   SizedBox(
-                    width: size.width * 0.5,
+                    width: size.width * 0.4,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
