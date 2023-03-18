@@ -56,7 +56,7 @@ class _CustomMenuState extends State<CustomMenu> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var userData = Provider.of<UserDataProvide>(context, listen: false);
-    var higLighter = Provider.of<DrawerNavProvider>(context, listen: true);
+    var highLighter = Provider.of<DrawerNavProvider>(context, listen: true);
     var navigatorVar = Navigator.of(context);
 
     return SizedBox(
@@ -90,7 +90,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(1);
+                    highLighter.highlightDrawerMenu(1);
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(DisplayScreen.routeName);
                   },
@@ -98,12 +98,12 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Home",
                     Icons.home,
-                    higLighter.isHome,
+                    highLighter.isHome,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(2);
+                    highLighter.highlightDrawerMenu(2);
                     Navigator.of(context).pop();
                     Navigator.of(context)
                         .pushNamed(ExploreModelsScreen.routeName);
@@ -112,12 +112,12 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Explore 3d Models",
                     Icons.threed_rotation_sharp,
-                    higLighter.isModels,
+                    highLighter.isModels,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(3);
+                    highLighter.highlightDrawerMenu(3);
 
                     Navigator.of(context).pop();
                     Navigator.of(context)
@@ -127,12 +127,12 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Hire Architects",
                     Icons.people_alt_outlined,
-                    higLighter.isArchitects,
+                    highLighter.isArchitects,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(4);
+                    highLighter.highlightDrawerMenu(4);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(FavoritesScreen.routeName);
@@ -141,12 +141,12 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Favorites",
                     Icons.favorite_rounded,
-                    higLighter.isFavorites,
+                    highLighter.isFavorites,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(5);
+                    highLighter.highlightDrawerMenu(5);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(ChatsScreen.routeName);
@@ -155,12 +155,12 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "Chats",
                     Icons.mark_chat_read_rounded,
-                    higLighter.isChats,
+                    highLighter.isChats,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    higLighter.highlightDrawerMenu(6);
+                    highLighter.highlightDrawerMenu(6);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(AccountScreen.routeName);
@@ -169,7 +169,7 @@ class _CustomMenuState extends State<CustomMenu> {
                   child: _buildListTile(
                     "My Account",
                     Icons.account_circle,
-                    higLighter.isAccount,
+                    highLighter.isAccount,
                   ),
                 ),
                 const Spacer(),
@@ -196,32 +196,3 @@ class _CustomMenuState extends State<CustomMenu> {
     );
   }
 }
-
-// In case of Animation
-// child: AnimatedCrossFade(
-//             firstChild: Column(
-//              children : [
-//                 InkWell(
-//                   onTap: () async {
-//                     setState(() {
-//                       _isDrawerOpen = false;
-//                     });
-//                     await Future.delayed(Duration(milliseconds: 300));
-//                     Navigator.of(context).pop();
-//                     Navigator.of(context)
-//                         .pushNamed(ExploreModelsScreen.routeName);
-//                   },
-//                   splashColor: Theme.of(context).primaryColor,
-//                   child: _buildListTile(
-//                     "Explore 3d Models",
-//                     Icons.threed_rotation_sharp,
-//                     _isSelected,
-//                   ),
-//                 ),]),
-//             secondChild: SizedBox.shrink(),
-//             crossFadeState: _isDrawerOpen
-//                 ? CrossFadeState.showFirst
-//                 : CrossFadeState.showSecond,
-//             duration: Duration(milliseconds: 300),
-// )
-
