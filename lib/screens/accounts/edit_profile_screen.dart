@@ -91,15 +91,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       //TextFormField
                       _buildTextFormField(
-                        _emailTextController,
-                        TextInputType.emailAddress,
-                        "Email",
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      //TextFormField
-                      _buildTextFormField(
                         _phoneNoController,
                         TextInputType.number,
                         "Phone Number",

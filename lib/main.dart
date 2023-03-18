@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:virtualbuild/providers/drawer_nav_provider.dart';
 import 'package:virtualbuild/providers/user_data_provider.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
 import 'package:virtualbuild/screens/auth/login_screen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserDataProvide()),
+        ChangeNotifierProvider(create: (ctx) => DrawerNavProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

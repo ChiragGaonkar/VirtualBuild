@@ -176,8 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               password: _passwordTextController.text,
                             );
 
-                            await userProvider.getData();
-
                             //Stop CircularProgressIndicator
                             navigatorVar.pop();
 
@@ -194,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   elevation: 0,
                                 ),
                               );
+                              await userProvider.getData();
                               //Clears full stack of screens.
                               // ignore: use_build_context_synchronously
                               Navigator.pushAndRemoveUntil(context,

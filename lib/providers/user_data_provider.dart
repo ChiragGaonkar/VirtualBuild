@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UserDataProvide with ChangeNotifier{
+class UserDataProvide with ChangeNotifier {
   String name = "";
   String email = "";
   String address = "";
@@ -17,17 +17,28 @@ class UserDataProvide with ChangeNotifier{
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-         data = documentSnapshot.data() as Map<String, dynamic>;
-         extractData();
+        data = documentSnapshot.data() as Map<String, dynamic>;
+        extractData();
       }
     });
   }
 
-  void extractData(){
+  void setData(
+    String name,
+    String email,
+    String address,
+    String number,
+  ) {
+    this.name = name;
+    this.address = address;
+    this.number = number;
+    this.email = email;
+  }
+
+  void extractData() {
     name = data["name"];
     address = data["address"];
     number = data["phoneNumber"];
     email = data["email"];
   }
-
 }

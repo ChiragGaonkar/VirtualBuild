@@ -97,7 +97,12 @@ class _OTPScreenState extends State<OTPScreen> {
                         address: args['address'],
                       );
 
-                      await userProvider.getData();
+                      userProvider.setData(
+                        args['name'],
+                        args['email'],
+                        args['address'],
+                        args['phoneNumber'],
+                      );
 
                       scaffoldMessengerVar.showSnackBar(
                         const SnackBar(
