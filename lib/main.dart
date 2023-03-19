@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/providers/drawer_nav_provider.dart';
 import 'package:virtualbuild/providers/user_data_provider.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserDataProvide()),
         ChangeNotifierProvider(create: (ctx) => DrawerNavProvider()),
+        ChangeNotifierProvider(create: (ctx) => ChatsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -10,6 +10,7 @@ import 'package:virtualbuild/widgets/header.dart';
 import '../../firebase/authentication.dart';
 import '../../providers/user_data_provider.dart';
 import '../../widgets/auth/custombuttontonext.dart';
+import '../../widgets/customloadingspinner.dart';
 import '../display_screen.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _OTPScreenState extends State<OTPScreen> {
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
     final args = ModalRoute.of(context)!.settings.arguments as Map;
     var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+    var navigatorVar = Navigator.of(context);
 
     return Scaffold(
       body: MyCustomScreen(
@@ -81,6 +83,14 @@ class _OTPScreenState extends State<OTPScreen> {
                 onPressed: () async {
                   //Compare OTP: if correct createNewUser
                   if (otpController == args['localOTP']) {
+                    //Start CircularProgressIndicator
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const CustomLoadingSpinner();
+                      },
+                    );
+                    
                     //Logic for authentication and create user
                     errorIfAny = await Auth().createUserWithEmailAndPassword(
                       email: args['email'],
@@ -103,6 +113,8 @@ class _OTPScreenState extends State<OTPScreen> {
                         args['address'],
                         args['phoneNumber'],
                       );
+
+                      navigatorVar.pop();
 
                       scaffoldMessengerVar.showSnackBar(
                         const SnackBar(

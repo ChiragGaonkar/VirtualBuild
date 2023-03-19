@@ -8,6 +8,7 @@ import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
+import '../../widgets/customloadingspinner.dart';
 import '../../widgets/customsnackbar.dart';
 import 'login_screen.dart';
 
@@ -105,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           validator: (confirmPassword) {
                             if (confirmPassword != null &&
                                 confirmPassword.length < 6) {
-                              return "Enter min 8 char long";
+                              return "Enter min 6 char long";
                             } else if (confirmPassword !=
                                 _passwordTextController.text) {
                               return "Password doesn't match";
@@ -149,10 +150,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             //Hides the keyboard.
                             FocusScope.of(context).unfocus();
 
+                            //Start CircularProgressIndicator
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const CustomLoadingSpinner();
+                              },
+                            );
+
                             //Check if user already exists
                             var auth = Auth();
                             bool exist = await auth.checkIfEmailInUse(
                                 email: _emailTextController.text);
+
+                            navigatorVar.pop();
+
                             // Navigate to userInfoScreen to get other details.
                             if (!exist) {
                               navigatorVar.pushNamed(

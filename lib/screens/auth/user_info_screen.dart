@@ -4,6 +4,7 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
+import '../../widgets/customloadingspinner.dart';
 import '../../widgets/customsnackbar.dart';
 import 'package:http/http.dart' as http;
 
@@ -141,8 +142,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             //Hides the keyboard.
                             FocusScope.of(context).unfocus();
 
+                            //Start CircularProgressIndicator
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const CustomLoadingSpinner();
+                              },
+                            );
+
                             //Send OTP to the user
                             localOTP = await sendOtp(args['email']);
+
+                            navigatorVar.pop();
 
                             if (localOTP != "") {
                               //Navigate to OTP Screen for verification.

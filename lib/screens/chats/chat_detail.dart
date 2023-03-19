@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/models/chat_message.dart';
+import 'package:provider/provider.dart';
+import 'package:virtualbuild/models/chats_model.dart';
+import 'package:virtualbuild/providers/chatsprovider.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/headerwithphoto.dart';
 import '../../widgets/customscreen.dart';
 
@@ -12,29 +16,31 @@ class ChatDetail extends StatefulWidget {
 }
 
 class _ChatDetailState extends State<ChatDetail> {
-  List<ChatMessage> messages = [
-    ChatMessage(message: "Hello, Aryan", messenger: "receiver"),
-    ChatMessage(message: "How have you been?", messenger: "receiver"),
-    ChatMessage(message: "I am fine. wbu?", messenger: "sender"),
-    ChatMessage(message: "I am good.", messenger: "receiver"),
-    ChatMessage(message: "And hows life going on", messenger: "sender"),
-    ChatMessage(
-        message: "good jhukju ujhhlohjlohlohjlo hghjfvghfvu hjhgb",
-        messenger: "receiver"),
-    ChatMessage(
-        message:
-            "qwertyuio qwrertyui asdfghj cvbnm sfddghfjf ghgk jkl asaadasasasa 7877096754 qwertyqwertyqwerty",
-        messenger: "sender"),
-    ChatMessage(message: "good", messenger: "receiver"),
-    ChatMessage(message: "good", messenger: "receiver"),
-    ChatMessage(message: "good", messenger: "receiver"),
-    ChatMessage(message: "good", messenger: "receiver"),
-  ];
+  late ChatsProvider chatsProvider;
+  final _messageTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    chatsProvider = context.read<ChatsProvider>();
+  }
+
+  validateAndSendMessage(String message, bool read, Sender sender) {
+    if (message.trim().isNotEmpty) {
+      _messageTextController.clear();
+      chatsProvider.sendMessage(
+        message,
+        true,
+        Sender.user,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final args = ModalRoute.of(context)!.settings.arguments as Map;
+    // final chatsProvider = Provider.of<ChatsProvider>(context, listen: true);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -56,48 +62,65 @@ class _ChatDetailState extends State<ChatDetail> {
                   height: size.height * 0.8,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ListView.builder(
-                      itemCount: messages.length,
-                      //shrinkWrap: true,
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      physics: const ClampingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          // padding: const EdgeInsets.only(
-                          //left: 14, right: 14, top: 10, bottom: 10),
-                          padding: messages[index].messenger == "receiver"
-                              ? const EdgeInsets.only(
-                                  left: 0,
-                                  right: 25,
-                                  top: 10,
-                                  bottom: 10,
-                                )
-                              : const EdgeInsets.only(
-                                  left: 25,
-                                  right: 0,
-                                  top: 10,
-                                  bottom: 10,
+                    child: StreamBuilder(
+                      stream: chatsProvider.getChatStream("UserIdArchitectId"),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CustomLoadingSpinner();
+                        } else {
+                          var listMessage = snapshot.data?.docs;
+                          return ListView.builder(
+                            itemCount: listMessage?.length,
+                            //shrinkWrap: true,
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            physics: const ClampingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final message = listMessage?[index]['message'];
+                              final sender = listMessage?[index]['sender'];
+                              final time = listMessage?[index]['time'];
+                              final read = listMessage?[index]['read'];
+                              return Container(
+                                // padding: const EdgeInsets.only(
+                                //left: 14, right: 14, top: 10, bottom: 10),
+                                padding: sender == "architect"
+                                    ? const EdgeInsets.only(
+                                        left: 0,
+                                        right: 25,
+                                        top: 10,
+                                        bottom: 10,
+                                      )
+                                    : const EdgeInsets.only(
+                                        left: 25,
+                                        right: 0,
+                                        top: 10,
+                                        bottom: 10,
+                                      ),
+                                child: Align(
+                                  alignment: (sender == "architect"
+                                      ? Alignment.topLeft
+                                      : Alignment.topRight),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: (sender == "architect"
+                                          ? Theme.of(context).canvasColor
+                                          : Theme.of(context).primaryColor),
+                                    ),
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text(
+                                      message,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                          child: Align(
-                            alignment: (messages[index].messenger == "receiver"
-                                ? Alignment.topLeft
-                                : Alignment.topRight),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: (messages[index].messenger == "receiver"
-                                    ? Theme.of(context).canvasColor
-                                    : Theme.of(context).primaryColor),
-                              ),
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                messages[index].message,
-                                style: const TextStyle(
-                                    fontSize: 15, color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        );
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ),
@@ -119,9 +142,10 @@ class _ChatDetailState extends State<ChatDetail> {
                         const SizedBox(
                           width: 15,
                         ),
-                        const Expanded(
+                        Expanded(
                           child: TextField(
-                            decoration: InputDecoration(
+                            controller: _messageTextController,
+                            decoration: const InputDecoration(
                               hintText: "Type a message.",
                               hintStyle: TextStyle(color: Colors.white),
                               border: InputBorder.none,
@@ -140,7 +164,13 @@ class _ChatDetailState extends State<ChatDetail> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            validateAndSendMessage(
+                              _messageTextController.text,
+                              true,
+                              Sender.user,
+                            );
+                          },
                           icon: Icon(
                             Icons.send,
                             color: Theme.of(context).primaryColor,

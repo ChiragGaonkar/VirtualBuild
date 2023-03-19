@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -160,12 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return Center(
-                                  child: LoadingAnimationWidget.inkDrop(
-                                    color: Theme.of(context).primaryColor,
-                                    size: size.width * 0.1,
-                                  ),
-                                );
+                                return const CustomLoadingSpinner();
                               },
                             );
 

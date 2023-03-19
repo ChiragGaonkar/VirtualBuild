@@ -6,6 +6,7 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customdecorationforinput.dart';
+import '../../widgets/customloadingspinner.dart';
 import '../../widgets/customsnackbar.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -98,9 +99,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     //Hides the keyboard.
                     FocusScope.of(context).unfocus();
 
+                    //Start CircularProgressIndicator
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const CustomLoadingSpinner();
+                      },
+                    );
+
                     //Logic for resetpassword
                     errorIfAny = await Auth()
                         .resetPassword(email: _emailTextController.text);
+
+                    navigatorVar.pop();
                     if (errorIfAny.isEmpty) {
                       scaffoldMessengerVar.showSnackBar(
                         const SnackBar(
