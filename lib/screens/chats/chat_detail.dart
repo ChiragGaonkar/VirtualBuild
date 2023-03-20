@@ -33,6 +33,7 @@ class _ChatDetailState extends State<ChatDetail> {
         true,
         Sender.user,
       );
+      chatsProvider.getHiredArchitects("EGAy9SR4tvb4FyIwzJuKaZOcKIZ2");
     }
   }
 

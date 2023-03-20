@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:virtualbuild/models/chats_model.dart';
@@ -48,6 +47,24 @@ class ChatsProvider with ChangeNotifier {
         .collection('messages')
         .orderBy('time')
         .snapshots();
+  }
+
+  void getHiredArchitects(String userid) async {
+    //Get the ArchitectsId which are connected to user
+    var userData = FirebaseFirestore.instance.collection("users");
+    var docSnapShot = await userData.doc(userid).get();
+    if (docSnapShot.exists) {
+      Map<String, dynamic>? data = docSnapShot.data();
+      var value = data?['hiredArchitects'];
+      print("Your Name: ${value}");
+    }
+
+    //Use Architect id to get Architect Details.
+
+    
+
+    //return those Architects to chats_screen to render on screen.
+
   }
 
   void sendMessage(String message, bool read, Sender sender) {
