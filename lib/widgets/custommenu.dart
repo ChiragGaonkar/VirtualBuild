@@ -57,9 +57,9 @@ class _CustomMenuState extends State<CustomMenu> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var userData = Provider.of<UserDataProvide>(context, listen: false);
-    var highLighter = Provider.of<DrawerNavProvider>(context, listen: true);
+    var highLighter = Provider.of<DrawerNavProvider>(context, listen: false);
     var navigatorVar = Navigator.of(context);
-
+    highLighter.changeHighLighter(ModalRoute.of(context)!.settings.name);
     return SizedBox(
       width: size.width * 0.6,
       child: Scaffold(
@@ -83,7 +83,7 @@ class _CustomMenuState extends State<CustomMenu> {
                     future: userData.getData(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                      String name = snapshot.data["name"];
+                        String name = snapshot.data["name"];
                         return Padding(
                           padding: const EdgeInsets.all(5),
                           child: Text(
@@ -100,7 +100,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(1);
+                    //highLighter.highlightDrawerMenu(1);
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(DisplayScreen.routeName);
                   },
@@ -113,7 +113,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(2);
+                    //highLighter.highlightDrawerMenu(2);
                     Navigator.of(context).pop();
                     Navigator.of(context)
                         .pushNamed(ExploreModelsScreen.routeName);
@@ -127,7 +127,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(3);
+                    //highLighter.highlightDrawerMenu(3);
 
                     Navigator.of(context).pop();
                     Navigator.of(context)
@@ -142,7 +142,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(4);
+                    //highLighter.highlightDrawerMenu(4);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(FavoritesScreen.routeName);
@@ -156,7 +156,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(5);
+                    //highLighter.highlightDrawerMenu(5);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(ChatsScreen.routeName);
@@ -170,7 +170,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 ),
                 InkWell(
                   onTap: () {
-                    highLighter.highlightDrawerMenu(6);
+                    //highLighter.highlightDrawerMenu(6);
 
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(AccountScreen.routeName);
