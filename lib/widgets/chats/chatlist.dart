@@ -40,73 +40,78 @@ class _ChatListState extends State<ChatList> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Container(
-                width: 100,
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                child: Stack(
-                  // overflow: Overflow.visible,
-                  clipBehavior: Clip.none,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(6.5, 0, 0, 0),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage(widget.imageUrl),
-                        maxRadius: 30,
-                      ),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+              child: Stack(
+                // overflow: Overflow.visible,
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(6.5, 0, 0, 0),
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(widget.imageUrl),
+                      maxRadius: 30,
                     ),
-                    Positioned(
-                        left: 0,
-                        bottom: -8,
-                        child: Container(
-                          height: 18,
-                          width: 75,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
-
-                          // ignore: prefer_const_constructors
-                          child: Text(
-                            "Consultant",
-                            // "Hired",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ))
-                  ],
-                )),
+                  ),
+                  Positioned(
+                      left: 0,
+                      bottom: -8,
+                      child: Container(
+                        height: 18,
+                        width: 75,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                        child: Text(
+                          "Consultant",
+                          // "Hired",
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                        ),
+                      ))
+                ],
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.06,
+            ),
             Expanded(
               flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: size.height * 0.005,
                   ),
                   Container(
                       child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        width: 180,
-                        child: Text(
-                          widget.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      Flexible(
+                        child: Container(
+                          child: Text(
+                            widget.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        width: 70,
                         child: Text(
                           widget.time,
                           textAlign: TextAlign.right,
@@ -121,8 +126,8 @@ class _ChatListState extends State<ChatList> {
                       ),
                     ],
                   )),
-                  const SizedBox(
-                    height: 3,
+                  SizedBox(
+                    height: size.height * 0.009,
                   ),
                   Text(
                     widget.message,

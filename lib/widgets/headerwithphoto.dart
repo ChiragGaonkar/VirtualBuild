@@ -37,10 +37,15 @@ class HeaderWithPhoto extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          heading,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        Expanded(
+          child: Text(
+            heading,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        )
       ],
     );
   }

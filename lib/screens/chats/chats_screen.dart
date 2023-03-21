@@ -19,7 +19,7 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   List<ChatUsers> chatUsers = [
     ChatUsers(
-        name: "Arya Gaonkar",
+        name: "Arya Rajiv Kiran Dessai Gaonkar",
         message:
             "I have some particular plans about building my new house, i would like to hear your thoughts regarding the same ",
         imageURL: "assets/Female.png",
