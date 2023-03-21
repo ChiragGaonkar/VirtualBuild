@@ -20,10 +20,13 @@ import 'screens/housemodels/exploremodels_screen.dart';
 import 'screens/favorites_screen.dart';
 import 'screens/auth/forgotpassword_screen.dart';
 import 'screens/accounts/edit_profile_screen.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

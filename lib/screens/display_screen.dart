@@ -30,7 +30,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HeaderWithMenu(
-              header: "Discover",
+              header: "Bring to Light",
               scaffoldKey: scaffoldKey,
             ),
             Expanded(

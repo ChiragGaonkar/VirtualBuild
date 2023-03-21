@@ -8,6 +8,7 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/housemodels/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import '../providers/drawer_nav_provider.dart';
 import '../providers/user_data_provider.dart';
 import '../screens/auth/home_screen.dart';
@@ -78,13 +79,22 @@ class _CustomMenuState extends State<CustomMenu> {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    userData.name,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
+                FutureBuilder(
+                    future: userData.getData(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                      String name = snapshot.data["name"];
+                        return Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(
+                            name,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        );
+                      } else {
+                        return CustomLoadingSpinner();
+                      }
+                    }),
                 const SizedBox(
                   height: 20,
                 ),

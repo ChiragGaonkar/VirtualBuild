@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
 import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 
@@ -20,6 +22,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _emailTextController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _addressController = TextEditingController();
+  var prefeb;
+
+  Future<Map<String, String>> fetchData() async {
+    String? temp;
+    Map<String, String> data = {};
+    prefeb = await SharedPreferences.getInstance();
+    temp = prefeb.getString('name');
+    data["name"] = temp.toString();
+    temp = prefeb.getString('address');
+    data["address"] = temp.toString();
+    temp = prefeb.getString('phoneNumber');
+    data["phoneNumber"] = temp.toString();
+    return data;
+  }
 
   @override
   void initState() {
@@ -48,10 +64,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
-    _nameController.text = user_data.name;
-    _emailTextController.text = user_data.email;
-    _phoneNoController.text = user_data.number;
-    _addressController.text = user_data.address;
+    // _nameController.text = user_data.name;
+    // _emailTextController.text = user_data.email;
+    // _phoneNoController.text = user_data.number;
+    // _addressController.text = user_data.address;
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       body: GestureDetector(
@@ -81,29 +97,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: size.height * 0.02,
                       ),
                       //TextFormField
-                      _buildTextFormField(
-                        _nameController,
-                        TextInputType.name,
-                        "Name",
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      //TextFormField
-                      _buildTextFormField(
-                        _phoneNoController,
-                        TextInputType.number,
-                        "Phone Number",
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      //TextFormField
-                      _buildTextFormField(
-                        _addressController,
-                        TextInputType.multiline,
-                        "Address",
-                      ),
+                      FutureBuilder(
+                          future: user_data.getData(),
+                          builder: (context, AsyncSnapshot snaphot) {
+                            if (!snaphot.hasData) {
+                              return CustomLoadingSpinner();
+                            } else {
+                              _nameController.text = snaphot.data["name"];
+                              _phoneNoController.text =
+                                  snaphot.data['phoneNumber'];
+                              _addressController.text = snaphot.data['address'];
+                              return Column(
+                                children: [
+                                  _buildTextFormField(
+                                    _nameController,
+                                    TextInputType.name,
+                                    "Name",
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  //TextFormField
+                                  _buildTextFormField(
+                                    _phoneNoController,
+                                    TextInputType.number,
+                                    "Phone Number",
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  //TextFormField
+                                  _buildTextFormField(
+                                    _addressController,
+                                    TextInputType.multiline,
+                                    "Address",
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
                       SizedBox(
                         height: size.height * 0.04,
                       ),

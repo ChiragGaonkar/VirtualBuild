@@ -19,7 +19,7 @@ class HeaderWithMenu extends StatelessWidget {
           width: size.width * 0.6,
           child: Text(
             header,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
         IconButton(
