@@ -1,10 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/widgets/architects/architectscard.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_grid_list/responsive_grid_list.dart';
+import 'package:virtualbuild/providers/architects_provider.dart';
+import 'package:virtualbuild/providers/models_provider.dart';
+import 'package:virtualbuild/widgets/architects/architectatcarousel.dart';
 import 'package:virtualbuild/widgets/custommenu.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithmenu.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DisplayScreen extends StatefulWidget {
   const DisplayScreen({super.key});
@@ -20,6 +25,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var modelData = Provider.of<ModelsProvider>(context, listen: false);
+    var architectData = Provider.of<ArchitectsProvider>(context, listen: false);
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -36,51 +43,72 @@ class _DisplayScreenState extends State<DisplayScreen> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: size.height * 0.05,
+                      height: size.height * 0.02,
                     ),
-                    CarouselSlider.builder(
-                      itemBuilder: (context, itemIndex, pageViewIndex) {
-                        return const ArchitectsCard();
-                      },
-                      itemCount: 8,
-                      options: CarouselOptions(
-                        height: 200,
-                        autoPlayCurve: Curves.easeInOut,
-                        viewportFraction: 0.8,
-                        enlargeCenterPage: true,
-                        initialPage: 2,
-                        autoPlay: true,
-                        reverse: true,
+                    if (!kIsWeb)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                        child: Text(
+                          "Top Architects",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: Theme.of(context).primaryColor),
+                        ),
                       ),
-                    ),
+                    if (!kIsWeb)
+                      CarouselSlider.builder(
+                        itemBuilder: (context, itemIndex, pageViewIndex) {
+                          return ArchitectAtCarousel(
+                            architectData:
+                                architectData.getArchitects[itemIndex],
+                          );
+                        },
+                        itemCount: architectData.getArchitects.length,
+                        options: CarouselOptions(
+                          height: 300,
+                          autoPlayCurve: Curves.easeInOut,
+                          viewportFraction: 0.8,
+                          enlargeCenterPage: true,
+                          initialPage: 2,
+                          autoPlay: true,
+                          reverse: true,
+                        ),
+                      ),
                     SizedBox(
                       height: size.height * 0.04,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: Text(
+                        "Popular 3D Models",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
                     SizedBox(
-                      height: size.height * 0.7,
-                      child: GridView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: 4,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          crossAxisSpacing: 4.0,
-                          mainAxisSpacing: 4.0,
+                      height: size.height,
+                      width: size.width,
+                      child: ResponsiveGridList(
+                        rowMainAxisAlignment: MainAxisAlignment.end,
+                        minItemsPerRow: 1,
+                        minItemWidth: 300,
+                        listViewBuilderOptions: ListViewBuilderOptions(
+                          padding: EdgeInsets.zero,
                         ),
-                        itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 0,
-                            ),
-                            child: ModelsCard(),
-                          );
-                        },
+                        children: List.generate(
+                          modelData.getModel.length,
+                          (index) => ModelsCard(
+                            modelData: modelData.getModel[index],
+                          ),
+                        ),
                       ),
                     )
-                    // const ModelsCard(),
                   ],
                 ),
               ),

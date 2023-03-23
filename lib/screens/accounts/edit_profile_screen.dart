@@ -101,7 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           future: user_data.getData(),
                           builder: (context, AsyncSnapshot snaphot) {
                             if (!snaphot.hasData) {
-                              return CustomLoadingSpinner();
+                              return const CustomLoadingSpinner();
                             } else {
                               _nameController.text = snaphot.data["name"];
                               _phoneNoController.text =

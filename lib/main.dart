@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:virtualbuild/providers/architects_provider.dart';
 import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/providers/drawer_nav_provider.dart';
+import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/providers/user_data_provider.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
 import 'package:virtualbuild/screens/auth/login_screen.dart';
@@ -41,13 +43,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => UserDataProvide()),
         ChangeNotifierProvider(create: (ctx) => DrawerNavProvider()),
         ChangeNotifierProvider(create: (ctx) => ChatsProvider()),
+        ChangeNotifierProvider(create: (ctx) => ModelsProvider()),
+        ChangeNotifierProvider(create: (ctx) => ArchitectsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'VirtualBuild',
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0x40404040),
-          primarySwatch: Colors.pink,
+          primarySwatch: Colors.deepOrange,
           canvasColor: const Color.fromARGB(64, 161, 157, 157),
           secondaryHeaderColor: Colors.white,
           fontFamily: 'Gilroy',
