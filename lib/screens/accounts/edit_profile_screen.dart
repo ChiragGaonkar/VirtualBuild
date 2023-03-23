@@ -23,19 +23,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _phoneNoController = TextEditingController();
   final _addressController = TextEditingController();
   var prefeb;
-
-  Future<Map<String, String>> fetchData() async {
-    String? temp;
-    Map<String, String> data = {};
-    prefeb = await SharedPreferences.getInstance();
-    temp = prefeb.getString('name');
-    data["name"] = temp.toString();
-    temp = prefeb.getString('address');
-    data["address"] = temp.toString();
-    temp = prefeb.getString('phoneNumber');
-    data["phoneNumber"] = temp.toString();
-    return data;
-  }
+  bool init = false;
 
   @override
   void initState() {
@@ -64,10 +52,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
-    // _nameController.text = user_data.name;
-    // _emailTextController.text = user_data.email;
-    // _phoneNoController.text = user_data.number;
-    // _addressController.text = user_data.address;
+    final userData = ModalRoute.of(context)!.settings.arguments as Map;
+    if (!init) {
+      _nameController.text = userData["name"].toString();
+      //_emailTextController.text = userData["email"].toString();
+      _phoneNoController.text = userData["phoneNumber"].toString();
+      _addressController.text = userData["address"].toString();
+      init = true;
+    }
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       body: GestureDetector(
@@ -80,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               const HeaderWithNavigation(
                 heading: "Edit Profile",
-                screenToBeRendered: "None",
+                screenToBeRendered: "", // change afterwards
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -97,45 +89,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: size.height * 0.02,
                       ),
                       //TextFormField
-                      FutureBuilder(
-                          future: user_data.getData(),
-                          builder: (context, AsyncSnapshot snaphot) {
-                            if (!snaphot.hasData) {
-                              return CustomLoadingSpinner();
-                            } else {
-                              _nameController.text = snaphot.data["name"];
-                              _phoneNoController.text =
-                                  snaphot.data['phoneNumber'];
-                              _addressController.text = snaphot.data['address'];
-                              return Column(
-                                children: [
-                                  _buildTextFormField(
-                                    _nameController,
-                                    TextInputType.name,
-                                    "Name",
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  //TextFormField
-                                  _buildTextFormField(
-                                    _phoneNoController,
-                                    TextInputType.number,
-                                    "Phone Number",
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
-                                  //TextFormField
-                                  _buildTextFormField(
-                                    _addressController,
-                                    TextInputType.multiline,
-                                    "Address",
-                                  ),
-                                ],
-                              );
-                            }
-                          }),
+                      _buildTextFormField(
+                        _nameController,
+                        TextInputType.name,
+                        "Name",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _phoneNoController,
+                        TextInputType.number,
+                        "Phone Number",
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      //TextFormField
+                      _buildTextFormField(
+                        _addressController,
+                        TextInputType.multiline,
+                        "Address",
+                      ),
                       SizedBox(
                         height: size.height * 0.04,
                       ),
@@ -148,6 +124,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             print(_emailTextController.text);
                             print(_phoneNoController.text);
                             print(_addressController.text);
+                            user_data.updateData(
+                                _nameController.text,
+                                _addressController.text,
+                                _phoneNoController.text);
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(

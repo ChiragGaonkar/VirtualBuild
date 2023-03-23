@@ -24,17 +24,7 @@ class _AccountScreenState extends State<AccountScreen>
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneNoController = TextEditingController();
   var prefeb;
-
-  Future<Map<String, String>> fetchData() async {
-    String? temp;
-    Map<String, String> data = {};
-    prefeb = await SharedPreferences.getInstance();
-    temp = prefeb.getString('address');
-    data['address'] = temp.toString();
-    temp = prefeb.getString('phoneNumber');
-    data['phoneNumber'] = temp.toString();
-    return data;
-  }
+  String name = "";
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -48,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen>
     super.initState();
   }
 
-  Widget _buildTheNavigation(String heading, String screenToBeRendered) {
+  Widget _buildTheNavigation(String heading, Future<Object?> navigator) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -57,7 +47,7 @@ class _AccountScreenState extends State<AccountScreen>
           style: Theme.of(context).textTheme.titleLarge,
         ),
         IconButton(
-          onPressed: () => Navigator.of(context).pushNamed(screenToBeRendered),
+          onPressed: () => navigator,
           icon: const Icon(
             Icons.arrow_forward_ios,
             color: Colors.white,
@@ -86,7 +76,12 @@ class _AccountScreenState extends State<AccountScreen>
 
   @override
   Widget build(BuildContext context) {
-    print("build");
+    final reload = ModalRoute.of(context)!.settings.arguments as Map;
+
+    if (reload["reload"] == true) {
+      setState(() {});
+    }
+
     var size = MediaQuery.of(context).size;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
     return Scaffold(
@@ -116,7 +111,7 @@ class _AccountScreenState extends State<AccountScreen>
                 future: user_data.getData(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    String name = snapshot.data["name"];
+                    name = snapshot.data["name"];
                     String email = snapshot.data["email"];
                     _addressController.text = snapshot.data["address"];
                     _phoneNoController.text = snapshot.data["phoneNumber"];
@@ -147,8 +142,52 @@ class _AccountScreenState extends State<AccountScreen>
                     return CustomLoadingSpinner();
                   }
                 }),
-            _buildTheNavigation("My Orders", DisplayScreen.routeName),
-            _buildTheNavigation("Edit Profile", EditProfileScreen.routeName),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "My Orders",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(DisplayScreen.routeName),
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Edit Profile",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(EditProfileScreen.routeName, arguments: {
+                    "name": name,
+                    "phoneNumber": _phoneNoController.text,
+                    "address": _addressController.text
+                  }),
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            // _buildTheNavigation(
+            //     "Edit Profile",
+            //     Navigator.of(context)
+            //         .pushNamed(EditProfileScreen.routeName, arguments: {
+            //       "name": name,
+            //       "phoneNumber": _phoneNoController.text,
+            //       "address": _addressController.text
+            //     })),
           ],
         ),
       ),
