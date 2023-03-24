@@ -179,7 +179,8 @@ class _CustomMenuState extends State<CustomMenu> {
                     //highLighter.highlightDrawerMenu(6);
 
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(AccountScreen.routeName);
+                    Navigator.of(context).pushNamed(AccountScreen.routeName,
+                        arguments: {"": ""});
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
