@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
@@ -92,7 +93,12 @@ class _CustomMenuState extends State<CustomMenu> {
                           ),
                         );
                       } else {
-                        return CustomLoadingSpinner();
+                        return Center(
+                          child: LoadingAnimationWidget.waveDots(
+                            color: Theme.of(context).secondaryHeaderColor,
+                            size: 20,
+                          ),
+                        );
                       }
                     }),
                 const SizedBox(

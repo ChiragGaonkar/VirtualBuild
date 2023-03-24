@@ -97,26 +97,69 @@ class _ChatDetailState extends State<ChatDetail> {
                                         top: 10,
                                         bottom: 10,
                                       ),
-                                child: Align(
-                                  alignment: (sender == "architect"
-                                      ? Alignment.topLeft
-                                      : Alignment.topRight),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: (sender == "architect"
-                                          ? Theme.of(context).canvasColor
-                                          : Theme.of(context).primaryColor),
-                                    ),
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      message,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Align(
+                                      alignment: (sender == "architect"
+                                          ? Alignment.topLeft
+                                          : Alignment.topRight),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: (sender == "architect"
+                                              ? Theme.of(context).canvasColor
+                                              : Theme.of(context).primaryColor),
+                                        ),
+                                        //padding: const EdgeInsets.all(16),
+                                        child: Stack(
+                                          //mainAxisSize: MainAxisSize.min,
+                                          //crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 16,
+                                                right: 80,
+                                                top: 16,
+                                                bottom: 25,
+                                              ),
+                                              //Flexible(
+                                              child: Text(
+                                                message,
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 5,
+                                              right: 10,
+                                              child: Row(
+                                                children: const [
+                                                  Text(
+                                                    "12:43 am",
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Icon(
+                                                    Icons.done_all,
+                                                    size: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               );
                             },
