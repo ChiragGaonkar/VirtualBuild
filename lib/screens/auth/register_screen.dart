@@ -160,13 +160,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             //Check if user already exists
                             var auth = Auth();
-                            bool exist = await auth.checkIfEmailInUse(
+                            int exist = await auth.checkIfEmailInUse(
                                 email: _emailTextController.text);
 
                             navigatorVar.pop();
 
                             // Navigate to userInfoScreen to get other details.
-                            if (!exist) {
+                            if (exist == 0) {
                               navigatorVar.pushNamed(
                                 UserInfoScreen.routeName,
                                 arguments: {
@@ -174,12 +174,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'password': _passwordTextController.text,
                                 },
                               );
-                            } else {
+                            } else if (exist == 1) {
                               scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
                                     messageToBePrinted:
                                         "This Email is already used. Go to login page",
+                                    bgColor: Color.fromRGBO(199, 44, 65, 1),
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                ),
+                              );
+                            } else {
+                              scaffoldMessengerVar.showSnackBar(
+                                const SnackBar(
+                                  content: CustomSnackBar(
+                                    messageToBePrinted:
+                                        "Register failed. Please try again.",
                                     bgColor: Color.fromRGBO(199, 44, 65, 1),
                                   ),
                                   behavior: SnackBarBehavior.floating,
