@@ -30,18 +30,6 @@ class UserDataProvide with ChangeNotifier {
     return data;
   }
 
-  void setData(
-    String name,
-    String email,
-    String address,
-    String number,
-  ) {
-    this.name = name;
-    this.address = address;
-    this.number = number;
-    this.email = email;
-  }
-
   void extractData() async {
     final prefeb = await SharedPreferences.getInstance();
     name = data["name"];
@@ -52,5 +40,25 @@ class UserDataProvide with ChangeNotifier {
     await prefeb.setString('phoneNumber', number);
     email = data["email"];
     await prefeb.setString('email', email);
+  }
+
+  Future<void> updateData(String name, String address, String phone) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update({"name": name, "address": address, "phoneNumber": phone});
+  }
+
+  void setData(
+    String name,
+    String email,
+    String address,
+    String number,
+  ) {
+    this.name = name;
+    this.address = address;
+    this.number = number;
+    this.email = email;
   }
 }
