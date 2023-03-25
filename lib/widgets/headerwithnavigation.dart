@@ -20,12 +20,14 @@ class HeaderWithNavigation extends StatelessWidget {
             FocusScope.of(context).unfocus();
             if (screenToBeRendered == "None") {
               Navigator.of(context).pop();
-            } else if (screenToBeRendered == "") {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(AccountScreen.routeName,
-                  arguments: {"reload": true});
-            } else {
+            }
+            //  else if (screenToBeRendered == "") {
+            //   // Navigator.of(context).pop();
+            //   // Navigator.of(context).pop();
+            //   // Navigator.of(context).pushNamed(AccountScreen.routeName,
+            //   //     arguments: {"reload": true});
+            // }
+            else {
               Navigator.of(context)
                   .pushNamed(screenToBeRendered, arguments: {"": ""});
             }

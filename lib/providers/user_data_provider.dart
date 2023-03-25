@@ -44,7 +44,7 @@ class UserDataProvide with ChangeNotifier {
 
   Future<void> updateData(String name, String address, String phone) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .update({"name": name, "address": address, "phoneNumber": phone});

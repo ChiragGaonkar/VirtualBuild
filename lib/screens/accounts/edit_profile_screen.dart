@@ -53,6 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var size = MediaQuery.of(context).size;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
     final userData = ModalRoute.of(context)!.settings.arguments as Map;
+    final navigationVar = Navigator.of(context);
     if (!init) {
       _nameController.text = userData["name"].toString();
       //_emailTextController.text = userData["email"].toString();
@@ -72,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               const HeaderWithNavigation(
                 heading: "Edit Profile",
-                screenToBeRendered: "", // change afterwards
+                screenToBeRendered: "None", // change afterwards
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -119,15 +120,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         padding:
                             EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
                         child: ElevatedButton(
-                          onPressed: () {
-                            print(_nameController.text);
-                            print(_emailTextController.text);
-                            print(_phoneNoController.text);
-                            print(_addressController.text);
-                            user_data.updateData(
+                          onPressed: () async {
+                            //Start CircularProgressIndicator
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const CustomLoadingSpinner();
+                              },
+                            );
+
+                            await user_data.updateData(
                                 _nameController.text,
                                 _addressController.text,
                                 _phoneNoController.text);
+                            navigationVar.pop();
+                            navigationVar.pop();
+                            navigationVar.pop();
+                            navigationVar.pushNamed(AccountScreen.routeName,
+                                arguments: {"reload": true});
                           },
                           style: ElevatedButton.styleFrom(
                             minimumSize: Size(

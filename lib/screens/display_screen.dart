@@ -100,6 +100,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
                         minItemWidth: 300,
                         listViewBuilderOptions: ListViewBuilderOptions(
                           padding: EdgeInsets.zero,
+                          // shrinkWrap: true,
+                          // physics: const NeverScrollableScrollPhysics(),
                         ),
                         children: List.generate(
                           modelData.getModel.length,
