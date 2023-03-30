@@ -6,7 +6,7 @@ import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
-import '../../widgets/auth/customdecorationforinput.dart';
+import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
 import '../../widgets/customloadingspinner.dart';
 import '../../widgets/customsnackbar.dart';

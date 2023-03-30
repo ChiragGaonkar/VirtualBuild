@@ -5,7 +5,7 @@ import 'package:virtualbuild/screens/auth/login_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import '../../widgets/auth/custombuttontonext.dart';
-import '../../widgets/auth/customdecorationforinput.dart';
+import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/customloadingspinner.dart';
 import '../../widgets/customsnackbar.dart';
 

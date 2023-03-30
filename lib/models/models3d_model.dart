@@ -1,4 +1,5 @@
 class Models3D {
+  final String modelId;
   final String modelImageURL;
   final String modelName;
   final double modelArea;
@@ -10,6 +11,7 @@ class Models3D {
   final int modelGarage;
 
   Models3D({
+    required this.modelId,
     required this.modelImageURL,
     required this.modelName,
     required this.modelArea,

@@ -6,7 +6,7 @@ import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
 import 'package:virtualbuild/models/chat_users.dart';
 import '../../widgets/chats/chatlist.dart';
-import '../../widgets/auth/customdecorationforinput.dart';
+import '../../widgets/customdecorationforinput.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});

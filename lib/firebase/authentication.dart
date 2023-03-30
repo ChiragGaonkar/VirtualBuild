@@ -57,10 +57,14 @@ class Auth {
     required String password,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      )
+          .then((value) {
+        value.user!.updateDisplayName("User");
+      });
       return {};
     } on FirebaseAuthException catch (e) {
       return tellMeTheError(e.code);

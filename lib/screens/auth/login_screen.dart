@@ -1,17 +1,15 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/screens/auth/forgotpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
-import 'package:virtualbuild/widgets/auth/customdecorationforinput.dart';
+import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../firebase/authentication.dart';
-import '../../firebase/firestore_database.dart';
 import '../../providers/user_data_provider.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/auth/customsigningoogle.dart';
@@ -72,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
     var navigatorVar = Navigator.of(context);
     var userProvider = Provider.of<UserDataProvide>(context, listen: false);
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -175,7 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             //Stop CircularProgressIndicator
                             navigatorVar.pop();
 
-                            if (errorIfAny.isEmpty) {
+                            if (errorIfAny.isEmpty &&
+                                user!.displayName == "User") {
                               scaffoldMessengerVar.showSnackBar(
                                 const SnackBar(
                                   content: CustomSnackBar(
@@ -202,7 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               scaffoldMessengerVar.showSnackBar(
                                 SnackBar(
                                   content: CustomSnackBar(
-                                    messageToBePrinted: errorIfAny['error'],
+                                    messageToBePrinted: errorIfAny.isEmpty
+                                        ? "Architect not found. Register!!"
+                                        : errorIfAny['error'],
                                     bgColor:
                                         const Color.fromRGBO(199, 44, 65, 1),
                                   ),

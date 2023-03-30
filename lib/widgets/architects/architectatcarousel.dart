@@ -67,23 +67,27 @@ class ArchitectAtCarousel extends StatelessWidget {
                     ],
                   ),
                   child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          architectData.architectName,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                          "${architectData.architectOfficeLocation['city']}, ${architectData.architectOfficeLocation['state']}",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Text(
-                          "(${architectData.architectType} Architect)",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
+                    child: FittedBox(
+                      fit: BoxFit.fill,
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            architectData.architectName,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            "${architectData.architectOfficeLocation['city']}, ${architectData.architectOfficeLocation['state']}",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Text(
+                            "(${architectData.architectType} Architect)",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
