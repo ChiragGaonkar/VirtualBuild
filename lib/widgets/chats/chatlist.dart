@@ -64,16 +64,18 @@ class _ChatListState extends State<ChatList> {
                           borderRadius: BorderRadius.circular(10),
                           color: Theme.of(context).primaryColor,
                         ),
-                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                        padding: const EdgeInsets.fromLTRB(2, 2, 2, 2),
                         child: Text(
-                          "Consultant",
+                          "Consult",
                           // "Hired",
                           textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(
+                                color: Theme.of(context).secondaryHeaderColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ))
                 ],
@@ -102,7 +104,7 @@ class _ChatListState extends State<ChatList> {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
-                                .titleMedium!
+                                .titleSmall!
                                 .copyWith(
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold,
@@ -116,7 +118,7 @@ class _ChatListState extends State<ChatList> {
                           widget.time,
                           textAlign: TextAlign.right,
                           style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                              Theme.of(context).textTheme.labelMedium!.copyWith(
                                     color: Theme.of(context).primaryColor,
                                     // color: Theme.of(context).canvasColor,
                                     // color: Colors.white,

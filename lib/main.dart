@@ -51,36 +51,42 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'VirtualBuild',
         theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0x40404040),
+          // scaffoldBackgroundColor: const Color(0x40404040),
+          scaffoldBackgroundColor: Colors.black,
           primarySwatch: Colors.orange,
           canvasColor: const Color.fromARGB(64, 161, 157, 157),
           secondaryHeaderColor: Colors.white,
           fontFamily: 'Gilroy',
           textTheme: const TextTheme(
-              headlineLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              headlineMedium: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
-              headlineSmall: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              titleLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              titleMedium: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ),
-              titleSmall: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              )),
+            headlineLarge: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            headlineMedium: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
+            headlineSmall: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            titleLarge: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            titleMedium: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            titleSmall: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
+            labelMedium: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
+          ),
         ),
         // initialRoute: HomeScreen.routeName,
         home: WidgetTree(),

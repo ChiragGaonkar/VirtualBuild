@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
@@ -62,7 +63,7 @@ class ModelsDetailScreen extends StatelessWidget {
               height: size.height * 0.02,
             ),
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: size.height * 0.7,
                 width: size.width,
                 // color: Colors.amber,
@@ -70,14 +71,27 @@ class ModelsDetailScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                        ),
-                        child: Image.network(
-                          modelData.modelImageURL,
-                          fit: BoxFit.cover,
+                      // ClipRRect(
+                      //   borderRadius: const BorderRadius.only(
+                      //     bottomLeft: Radius.circular(30),
+                      //     bottomRight: Radius.circular(30),
+                      //   ),
+                      //   child: Image.network(
+                      //     modelData.modelImageURL,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
+                      Container(
+                        height: size.height * 0.5,
+                        child: ModelViewer(
+                          backgroundColor: Colors.white,
+                          src: 'assets/3dModels/Mining.glb',
+                          alt: "A 3d model of astronaut",
+                          ar: true,
+                          autoPlay: true,
+                          autoRotate: true,
+                          cameraControls: true,
+                          loading: Loading.eager,
                         ),
                       ),
                       const SizedBox(

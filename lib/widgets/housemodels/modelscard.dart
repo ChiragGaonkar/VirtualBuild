@@ -33,7 +33,7 @@ class _ModelsCardState extends State<ModelsCard> {
         children: [
           Container(
             width: 400,
-            height: 300,
+            height: 250,
             decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(20),
@@ -112,7 +112,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                           widget.modelData.modelName,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .titleLarge,
+                                              .titleMedium,
                                         ),
                                         // Text(
                                         //   "(${widget.modelData.modelArea} sq.ft)",
@@ -126,15 +126,19 @@ class _ModelsCardState extends State<ModelsCard> {
                                       "By ${widget.modelData.modelArchitect}",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium,
+                                          .titleSmall,
                                     ),
                                   ],
                                 ),
                                 Text(
                                   "₹${widget.modelData.modelPrice}k",
-                                  style: Theme.of(context).textTheme.titleLarge,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: size.height * 0.015,
                             ),
                             Expanded(
                               child: ListView(

@@ -127,27 +127,30 @@ class _ChatDetailState extends State<ChatDetail> {
                                               //Flexible(
                                               child: Text(
                                                 message,
-                                                style: const TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.white),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall,
                                               ),
                                             ),
                                             Positioned(
                                               bottom: 5,
                                               right: 10,
                                               child: Row(
-                                                children: const [
+                                                children: [
                                                   Text(
                                                     "12:43 am",
-                                                    style: TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white,
-                                                    ),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelSmall!
+                                                        .copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .secondaryHeaderColor),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 4,
                                                   ),
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.done_all,
                                                     size: 20,
                                                     color: Colors.white,

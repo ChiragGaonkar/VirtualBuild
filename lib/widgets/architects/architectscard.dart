@@ -21,16 +21,21 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Align(
-          alignment: AlignmentDirectional.center,
+        Positioned(
+          top: 20,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(widget.architectData.architectImage),
-            radius: 70,
+            radius: 62,
+            backgroundColor: Theme.of(context).primaryColor,
+            child: CircleAvatar(
+              backgroundImage:
+                  NetworkImage(widget.architectData.architectImage),
+              radius: 60,
+            ),
           ),
         ),
         Container(
           width: 400,
-          height: 300,
+          height: 250,
           decoration: BoxDecoration(
             color: Theme.of(context).canvasColor,
             borderRadius: BorderRadius.circular(20),
@@ -102,28 +107,29 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                             children: [
                               Text(
                                 widget.architectData.architectName,
-                                style: Theme.of(context).textTheme.titleLarge,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Text(
                                 "${widget.architectData.architectOfficeLocation['city']}, ${widget.architectData.architectOfficeLocation['state']}",
-                                style: Theme.of(context).textTheme.titleMedium,
+                                style: Theme.of(context).textTheme.titleSmall,
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: size.height * 0.015,
+                          ),
                           Expanded(
                             child: ListView(
-                              // physics: const NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                               children: [
                                 Text(
                                   "Registration No. ${widget.architectData.architectRegNumber}",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(
                                   "${widget.architectData.architectType} Architect (${widget.architectData.architectExperience} years)",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 const SizedBox(
                                   height: 20,

@@ -39,7 +39,7 @@ class HeaderWithNavigation extends StatelessWidget {
         ),
         Text(
           heading,
-          style: Theme.of(context).textTheme.titleLarge,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ],
     );

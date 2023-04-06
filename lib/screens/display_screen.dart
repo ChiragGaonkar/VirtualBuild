@@ -29,7 +29,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
     super.initState();
     gridController.addListener(() {
       setState(() {
-        closeTopContainer = gridController.offset > 0;
+        closeTopContainer = gridController.offset > 50;
       });
     });
   }
@@ -54,26 +54,26 @@ class _DisplayScreenState extends State<DisplayScreen> {
             ),
             if (!closeTopContainer)
               SizedBox(
-                height: size.height * 0.02,
+                height: size.height * 0.01,
               ),
             if (!kIsWeb)
               if (!closeTopContainer)
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                   child: Text(
                     "Top Architects",
                     style: Theme.of(context)
                         .textTheme
-                        .headlineSmall!
+                        .titleLarge!
                         .copyWith(color: Theme.of(context).primaryColor),
                   ),
                 ),
             if (!kIsWeb)
               AnimatedOpacity(
-                duration: const Duration(milliseconds: 1000),
+                duration: const Duration(milliseconds: 500),
                 opacity: closeTopContainer ? 0 : 1,
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 1000),
+                  duration: const Duration(milliseconds: 500),
                   width: size.width,
                   alignment: Alignment.topCenter,
                   height: closeTopContainer ? 0 : 300,
@@ -96,16 +96,13 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   ),
                 ),
               ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: Text(
                 "Popular 3D Models",
                 style: Theme.of(context)
                     .textTheme
-                    .headlineSmall!
+                    .titleLarge!
                     .copyWith(color: Theme.of(context).primaryColor),
               ),
             ),

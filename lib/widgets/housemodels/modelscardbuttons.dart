@@ -27,7 +27,10 @@ class ModelsCardButtons extends StatelessWidget {
         ),
         child: Text(
           buttontext,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall!
+              .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
     );

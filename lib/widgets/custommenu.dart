@@ -45,7 +45,8 @@ class _CustomMenuState extends State<CustomMenu> {
       ),
       title: Text(
         titleData,
-        style: theme.textTheme.titleMedium!.copyWith(
+        style: theme.textTheme.titleSmall!.copyWith(
+          fontWeight: FontWeight.bold,
           color: isSelected ? theme.primaryColor : theme.secondaryHeaderColor,
         ),
       ),
@@ -89,7 +90,7 @@ class _CustomMenuState extends State<CustomMenu> {
                           padding: const EdgeInsets.all(5),
                           child: Text(
                             name,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         );
                       } else {

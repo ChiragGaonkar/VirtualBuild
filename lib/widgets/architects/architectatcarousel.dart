@@ -15,16 +15,9 @@ class ArchitectAtCarousel extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Align(
-          alignment: AlignmentDirectional.center,
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(architectData.architectImage),
-            radius: 70,
-          ),
-        ),
         Container(
           width: 400,
-          height: 300,
+          height: 250,
           decoration: BoxDecoration(
             color: Theme.of(context).canvasColor,
             borderRadius: BorderRadius.circular(20),
@@ -76,15 +69,15 @@ class ArchitectAtCarousel extends StatelessWidget {
                         children: [
                           Text(
                             architectData.architectName,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
                             "${architectData.architectOfficeLocation['city']}, ${architectData.architectOfficeLocation['state']}",
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                           Text(
                             "(${architectData.architectType} Architect)",
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ],
                       ),
@@ -92,6 +85,16 @@ class ArchitectAtCarousel extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: AlignmentDirectional.topCenter,
+          child: CircleAvatar(
+            radius: 68,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(architectData.architectImage),
+              radius: 65,
             ),
           ),
         ),
