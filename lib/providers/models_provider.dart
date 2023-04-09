@@ -15,6 +15,7 @@ class ModelsProvider with ChangeNotifier {
       modelBaths: 7,
       modelFloors: 3,
       modelGarage: 2,
+      model3dURL: 'assets/3dModels/Villa1.glb',
     ),
     Models3D(
       modelId: "2",
@@ -28,6 +29,7 @@ class ModelsProvider with ChangeNotifier {
       modelBaths: 5,
       modelFloors: 2,
       modelGarage: 1,
+      model3dURL: 'assets/3dModels/Villa2.glb',
     ),
     Models3D(
       modelId: "3",
@@ -41,6 +43,7 @@ class ModelsProvider with ChangeNotifier {
       modelBaths: 2,
       modelFloors: 2,
       modelGarage: 2,
+      model3dURL: 'assets/3dModels/Villa3.glb',
     ),
     Models3D(
       modelId: "4",
@@ -54,6 +57,7 @@ class ModelsProvider with ChangeNotifier {
       modelBaths: 2,
       modelFloors: 3,
       modelGarage: 2,
+      model3dURL: 'assets/3dModels/Villa6.glb',
     ),
   ];
 

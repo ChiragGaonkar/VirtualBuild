@@ -1,4 +1,5 @@
 class ArchitectsModel {
+  final String architectId;
   final String architectAboutMe;
   final String architectImage;
   final String architectType;
@@ -11,6 +12,7 @@ class ArchitectsModel {
   final List<String> skills;
 
   ArchitectsModel({
+    required this.architectId,
     required this.architectAboutMe,
     required this.architectImage,
     required this.architectType,

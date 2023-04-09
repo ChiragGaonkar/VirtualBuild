@@ -38,25 +38,6 @@ class _AccountScreenState extends State<AccountScreen>
     super.initState();
   }
 
-  Widget _buildTheNavigation(String heading, Future<Object?> navigator) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          heading,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        IconButton(
-          onPressed: () => navigator,
-          icon: const Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildTextFormField(
     TextEditingController inputText,
     String infoText,
@@ -66,10 +47,11 @@ class _AccountScreenState extends State<AccountScreen>
       maxLines: 4,
       controller: inputText,
       readOnly: true,
+      style: Theme.of(context).textTheme.titleSmall,
       decoration: customDecorationForAccountInput(
         context,
         infoText,
-        Theme.of(context).textTheme.headlineSmall,
+        Theme.of(context).textTheme.titleLarge,
       ),
     );
   }
@@ -119,11 +101,11 @@ class _AccountScreenState extends State<AccountScreen>
                       children: [
                         Text(
                           name,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(
                           email,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -147,7 +129,7 @@ class _AccountScreenState extends State<AccountScreen>
               children: [
                 Text(
                   "My Orders",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 IconButton(
                   onPressed: () =>
@@ -164,7 +146,7 @@ class _AccountScreenState extends State<AccountScreen>
               children: [
                 Text(
                   "Edit Profile",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context)

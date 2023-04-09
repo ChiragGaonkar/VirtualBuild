@@ -114,8 +114,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
                 listViewBuilderOptions: ListViewBuilderOptions(
                   padding: EdgeInsets.zero,
                   controller: gridController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  shrinkWrap: true,
+                  // physics: const AlwaysScrollableScrollPhysics(),
+                  // shrinkWrap: true,
                 ),
                 children: List.generate(
                   modelData.getModel.length,

@@ -4,6 +4,7 @@ import 'package:virtualbuild/models/architects_model.dart';
 class ArchitectsProvider with ChangeNotifier {
   final List<ArchitectsModel> _architects = [
     ArchitectsModel(
+      architectId: "1",
       architectAboutMe:
           "Dedicated architect with a passion for creating inspiring spaces that enhance people's lives.",
       architectImage:
@@ -18,6 +19,7 @@ class ArchitectsProvider with ChangeNotifier {
       skills: [],
     ),
     ArchitectsModel(
+      architectId: "2",
       architectAboutMe:
           "Creative and detail-oriented architect with a focus on sustainability and functionality",
       architectImage:
@@ -32,6 +34,7 @@ class ArchitectsProvider with ChangeNotifier {
       skills: [],
     ),
     ArchitectsModel(
+      architectId: "3",
       architectAboutMe:
           "Creative and detail-oriented architect with a focus on sustainability and functionality",
       architectImage:
@@ -46,6 +49,7 @@ class ArchitectsProvider with ChangeNotifier {
       skills: [],
     ),
     ArchitectsModel(
+      architectId: "4",
       architectAboutMe:
           "Creative and detail-oriented architect with a focus on sustainability and functionality",
       architectImage:
@@ -64,4 +68,5 @@ class ArchitectsProvider with ChangeNotifier {
   List<ArchitectsModel> get getArchitects {
     return [..._architects];
   }
+  
 }

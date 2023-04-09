@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
 import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
-
 import '../../providers/user_data_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -19,7 +17,6 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _nameController = TextEditingController();
-  final _emailTextController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _addressController = TextEditingController();
   var prefeb;
@@ -40,10 +37,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       minLines: 1,
       maxLines: 2,
       keyboardType: textType,
+      style: Theme.of(context).textTheme.titleSmall,
       decoration: customDecorationForAccountInput(
         context,
         inputTextlabel,
-        Theme.of(context).textTheme.titleMedium,
+        Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

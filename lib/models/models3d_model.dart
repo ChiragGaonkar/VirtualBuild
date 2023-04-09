@@ -1,6 +1,7 @@
 class Models3D {
   final String modelId;
   final String modelImageURL;
+  final String model3dURL;
   final String modelName;
   final double modelArea;
   final double modelPrice;
@@ -13,6 +14,7 @@ class Models3D {
   Models3D({
     required this.modelId,
     required this.modelImageURL,
+    required this.model3dURL,
     required this.modelName,
     required this.modelArea,
     required this.modelPrice,
