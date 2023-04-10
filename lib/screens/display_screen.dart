@@ -5,6 +5,7 @@ import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:virtualbuild/providers/architects_provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/widgets/architects/architectatcarousel.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/custommenu.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithmenu.dart';
@@ -77,22 +78,30 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   width: size.width,
                   alignment: Alignment.topCenter,
                   height: closeTopContainer ? 0 : 300,
-                  child: CarouselSlider.builder(
-                    itemBuilder: (context, itemIndex, pageViewIndex) {
-                      return ArchitectAtCarousel(
-                        architectData: architectData.getArchitects[itemIndex],
+                  child: StreamBuilder(
+                    stream: architectData.getArchitects,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const CustomLoadingSpinner();
+                      }
+                      return CarouselSlider.builder(
+                        itemBuilder: (context, itemIndex, pageViewIndex) {
+                          return ArchitectAtCarousel(
+                            architectData: snapshot.data![itemIndex],
+                          );
+                        },
+                        itemCount: snapshot.data!.length,
+                        options: CarouselOptions(
+                          height: 300,
+                          autoPlayCurve: Curves.easeInOut,
+                          viewportFraction: 0.8,
+                          enlargeCenterPage: true,
+                          initialPage: 2,
+                          autoPlay: true,
+                          reverse: true,
+                        ),
                       );
                     },
-                    itemCount: architectData.getArchitects.length,
-                    options: CarouselOptions(
-                      height: 300,
-                      autoPlayCurve: Curves.easeInOut,
-                      viewportFraction: 0.8,
-                      enlargeCenterPage: true,
-                      initialPage: 2,
-                      autoPlay: true,
-                      reverse: true,
-                    ),
                   ),
                 ),
               ),

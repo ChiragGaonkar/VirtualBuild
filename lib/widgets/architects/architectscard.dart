@@ -5,7 +5,7 @@ import '../housemodels/modelscardbuttons.dart';
 import '../housemodels/waveclipper.dart';
 
 class ArchitectsCard extends StatefulWidget {
-  final ArchitectsModel architectData;
+  final ArchitectModel architectData;
   const ArchitectsCard({super.key, required this.architectData});
 
   @override
@@ -28,7 +28,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
             backgroundColor: Theme.of(context).primaryColor,
             child: CircleAvatar(
               backgroundImage:
-                  NetworkImage(widget.architectData.architectImage),
+                  AssetImage(widget.architectData.architectImageUrl.toString()),
               radius: 60,
             ),
           ),
@@ -124,7 +124,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                               children: [
                                 Text(
-                                  "Registration No. ${widget.architectData.architectRegNumber}",
+                                  "Registration No. ${widget.architectData.architectRegisterNum}",
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(

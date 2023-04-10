@@ -1,27 +1,55 @@
-class ArchitectsModel {
-  final String architectId;
-  final String architectAboutMe;
-  final String architectImage;
-  final String architectType;
-  final List<String> architectClients;
-  final double architectExperience;
+class ArchitectModel {
+  final String architectID;
   final String architectName;
-  final Map<String, String> architectOfficeLocation;
-  final List<String> architectProjects;
-  final String architectRegNumber;
-  final List<String> skills;
+  final String architectType;
+  final String architectRegisterNum;
+  final String architectExperience;
+  final Map<String, dynamic> architectOfficeLocation;
+  final String aboutMe;
+  final List skills;
+  final String? architectImageUrl;
+  final List? architectClientsId;
+  final List? architectProjectsId;
 
-  ArchitectsModel({
-    required this.architectId,
-    required this.architectAboutMe,
-    required this.architectImage,
-    required this.architectType,
-    required this.architectClients,
-    required this.architectExperience,
+  ArchitectModel({
+    required this.architectID,
     required this.architectName,
+    required this.architectType,
+    required this.architectRegisterNum,
+    required this.architectExperience,
     required this.architectOfficeLocation,
-    required this.architectProjects,
-    required this.architectRegNumber,
+    required this.aboutMe,
     required this.skills,
+    this.architectImageUrl,
+    this.architectClientsId,
+    this.architectProjectsId,
   });
+
+  Map<String, dynamic> toJson() => {
+        'architectID': architectID,
+        'architectName': architectName,
+        'architectType': architectType,
+        'architectRegisterNum': architectRegisterNum,
+        'architectExperience': architectExperience,
+        'architectOfficeLocation': architectOfficeLocation,
+        'aboutMe': aboutMe,
+        'skills': skills,
+        'architectImageUrl': "",
+        'architectClientsId': [],
+        'architectProjectsId': [],
+      };
+
+  static ArchitectModel fromJson(Map<String, dynamic> json) => ArchitectModel(
+        architectID: json['architectID'],
+        architectName: json['architectName'],
+        architectType: json['architectType'],
+        architectRegisterNum: json['architectRegisterNum'],
+        architectExperience: json['architectExperience'],
+        architectOfficeLocation: json['architectOfficeLocation'],
+        aboutMe: 'aboutMe',
+        skills: json['skills'],
+        architectImageUrl: json['architectImageUrl'],
+        architectClientsId: json['architectClientsId'],
+        architectProjectsId: json['architectProjectsId'],
+      );
 }

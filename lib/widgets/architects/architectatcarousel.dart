@@ -4,7 +4,7 @@ import 'package:virtualbuild/models/architects_model.dart';
 import '../housemodels/waveclipper.dart';
 
 class ArchitectAtCarousel extends StatelessWidget {
-  final ArchitectsModel architectData;
+  final ArchitectModel architectData;
   const ArchitectAtCarousel({
     super.key,
     required this.architectData,
@@ -93,7 +93,8 @@ class ArchitectAtCarousel extends StatelessWidget {
           child: CircleAvatar(
             radius: 68,
             child: CircleAvatar(
-              backgroundImage: NetworkImage(architectData.architectImage),
+              backgroundImage:
+                  AssetImage(architectData.architectImageUrl.toString()),
               radius: 65,
             ),
           ),
