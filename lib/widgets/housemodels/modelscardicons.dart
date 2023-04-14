@@ -61,7 +61,7 @@ class ModelsCardIcons extends StatelessWidget {
           iconTextCombine(
             Icons.garage_rounded,
             numOfGarage.toString(),
-            "Garage",
+            "Parkings",
             context,
           ),
         ],

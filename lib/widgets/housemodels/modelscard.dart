@@ -123,7 +123,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                       ],
                                     ),
                                     Text(
-                                      "By ${widget.modelData.modelArchitect}",
+                                      "By ${widget.modelData.modelArchitectname}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
@@ -146,10 +146,13 @@ class _ModelsCardState extends State<ModelsCard> {
                                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 children: [
                                   ModelsCardIcons(
-                                    numOfBeds: widget.modelData.modelBeds,
-                                    numOfBaths: widget.modelData.modelBaths,
+                                    numOfBeds:
+                                        widget.modelData.modelNumberOfBedrooms,
+                                    numOfBaths:
+                                        widget.modelData.modelNumberOfBaths,
                                     numOfFloors: widget.modelData.modelFloors,
-                                    numOfGarage: widget.modelData.modelGarage,
+                                    numOfGarage: widget
+                                        .modelData.modelGarageNumOfParkings,
                                   ),
                                   const SizedBox(
                                     height: 10,

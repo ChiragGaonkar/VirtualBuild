@@ -6,6 +6,7 @@ import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/providers/drawer_nav_provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/providers/user_data_provider.dart';
+import 'package:virtualbuild/screens/architects/architect_detail_screen.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
 import 'package:virtualbuild/screens/auth/login_screen.dart';
 import 'package:virtualbuild/screens/auth/otp_screen.dart';
@@ -108,6 +109,8 @@ class MyApp extends StatelessWidget {
           UserInfoScreen.routeName: (ctx) => const UserInfoScreen(),
           ChatDetail.routeName: (ctx) => const ChatDetail(),
           ModelsDetailScreen.routeName: (ctx) => const ModelsDetailScreen(),
+          ArchitectDetailScreen.routeName: (ctx) =>
+              const ArchitectDetailScreen(),
         },
       ),
     );

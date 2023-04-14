@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
-import 'package:virtualbuild/screens/housemodels/models_detail_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 import '../../providers/models_provider.dart';

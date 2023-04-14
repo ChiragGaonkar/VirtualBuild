@@ -46,7 +46,7 @@ class ArchitectModel {
         architectRegisterNum: json['architectRegisterNum'],
         architectExperience: json['architectExperience'],
         architectOfficeLocation: json['architectOfficeLocation'],
-        aboutMe: 'aboutMe',
+        aboutMe: json['aboutMe'],
         skills: json['skills'],
         architectImageUrl: json['architectImageUrl'],
         architectClientsId: json['architectClientsId'],
