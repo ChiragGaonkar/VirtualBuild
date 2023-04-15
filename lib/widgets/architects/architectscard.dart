@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/models/architects_model.dart';
 import 'package:virtualbuild/screens/architects/architect_detail_screen.dart';
+import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import '../housemodels/modelscardbuttons.dart';
 import '../housemodels/waveclipper.dart';
 
@@ -159,9 +162,28 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                         height: 10,
                                       ),
                                       ModelsCardButtons(
-                                        buttontext: "Hire",
+                                        buttontext: "Message",
                                         whatOnPressed: () {
-                                          //Write a function to navigate Payment Page;
+                                          //Get the Architects Id
+                                          var aid =
+                                              widget.architectData.architectID;
+
+                                          //Get the Users Id
+                                          final User? user = Auth().currentUser;
+                                          var uid = user!.uid;
+
+                                          //Route to the architects message page.
+                                          Navigator.of(context).pushNamed(
+                                            ChatDetail.routeName,
+                                            arguments: {
+                                              'aid': aid,
+                                              'uid': uid,
+                                              'name': widget
+                                                  .architectData.architectName,
+                                              'imageUrl': widget.architectData
+                                                  .architectImageUrl,
+                                            },
+                                          );
                                         },
                                       )
                                     ],

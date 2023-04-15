@@ -18,7 +18,7 @@ class ModelsCardButtons extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
       elevation: 4,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: whatOnPressed,
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(125, 45),
           shape: RoundedRectangleBorder(

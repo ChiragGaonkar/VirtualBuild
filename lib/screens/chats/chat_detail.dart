@@ -6,6 +6,7 @@ import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/headerwithphoto.dart';
 import '../../widgets/customscreen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ChatDetail extends StatefulWidget {
   const ChatDetail({super.key});
@@ -25,15 +26,16 @@ class _ChatDetailState extends State<ChatDetail> {
     chatsProvider = context.read<ChatsProvider>();
   }
 
-  validateAndSendMessage(String message, bool read, Sender sender) {
+  validateAndSendMessage(
+      String message, bool read, Sender sender, String architectId) {
     if (message.trim().isNotEmpty) {
       _messageTextController.clear();
       chatsProvider.sendMessage(
         message,
         true,
         Sender.user,
+        architectId,
       );
-      chatsProvider.getHiredArchitects("EGAy9SR4tvb4FyIwzJuKaZOcKIZ2");
     }
   }
 
@@ -41,15 +43,14 @@ class _ChatDetailState extends State<ChatDetail> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    // final chatsProvider = Provider.of<ChatsProvider>(context, listen: true);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: MyCustomScreen(
-          leftPadding: 0,
-          rightPadding: 0,
+          // leftPadding: 0,
+          // rightPadding: 0,
           screenContent: Stack(
             children: [
               HeaderWithPhoto(
@@ -64,7 +65,8 @@ class _ChatDetailState extends State<ChatDetail> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: StreamBuilder(
-                      stream: chatsProvider.getChatStream("UserIdArchitectId"),
+                      stream: chatsProvider
+                          .getChatStream(args['uid'] + args['aid']),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (!snapshot.hasData) {
@@ -138,7 +140,9 @@ class _ChatDetailState extends State<ChatDetail> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    "12:43 am",
+                                                    timeago.format(
+                                                        time.toDate(),
+                                                        locale: 'en_short'),
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .labelSmall!
@@ -216,6 +220,7 @@ class _ChatDetailState extends State<ChatDetail> {
                               _messageTextController.text,
                               true,
                               Sender.user,
+                              args['aid'],
                             );
                           },
                           icon: Icon(

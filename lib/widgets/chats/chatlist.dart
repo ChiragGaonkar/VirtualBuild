@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/chats/chat_detail.dart';
 
 class ChatList extends StatefulWidget {
@@ -6,9 +8,9 @@ class ChatList extends StatefulWidget {
   final String message;
   final String imageUrl;
   final String time;
-  // String status;
   final int unreadCount;
   final bool isRead;
+  final String chatsId;
   const ChatList({
     super.key,
     required this.name,
@@ -16,7 +18,7 @@ class ChatList extends StatefulWidget {
     required this.imageUrl,
     required this.time,
     required this.unreadCount,
-    // required this.status,
+    required this.chatsId,
     required this.isRead,
   });
   @override
@@ -30,7 +32,10 @@ class _ChatListState extends State<ChatList> {
 
     return InkWell(
       onTap: () {
+        final User? user = Auth().currentUser;
         Navigator.of(context).pushNamed(ChatDetail.routeName, arguments: {
+          'aid': widget.chatsId.replaceAll(user!.uid, ""),
+          'uid': user.uid,
           'name': widget.name,
           'imageUrl': widget.imageUrl,
         });
@@ -115,7 +120,7 @@ class _ChatListState extends State<ChatList> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
-                          widget.time,
+                          widget.time.toString(),
                           textAlign: TextAlign.right,
                           style:
                               Theme.of(context).textTheme.labelMedium!.copyWith(
