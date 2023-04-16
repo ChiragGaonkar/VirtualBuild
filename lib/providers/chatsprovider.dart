@@ -27,7 +27,7 @@ class ChatsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getMessagedArchitectsDetails() async {
+  Future<List<ChatArchitectsListModel>> getMessagedArchitectsDetails() async {
     final User? user = Auth().currentUser;
     var userId = user!.uid;
     List<dynamic> architectIdArray = await getMessagedArchitectsID();
@@ -78,12 +78,11 @@ class ChatsProvider with ChangeNotifier {
       // print("Hello ${docArchitectSnapshot.get('architectName')}");
     }).toList();
     await Future.wait(futures);
-    // print("World ${[..._chatArchitectsList]}");
-    notifyListeners();
+    return [..._chatArchitectsList];
   }
 
   String convertTimeStampToDate(timestamp) {
-    return timeago.format(timestamp.toDate());
+    return timeago.format(timestamp.toDate(), locale: 'en_short');
   }
 
   Stream<QuerySnapshot> getChatStream(String uniqueId) {

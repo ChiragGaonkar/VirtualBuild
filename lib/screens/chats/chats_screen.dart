@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/providers/chatsprovider.dart';
+import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
@@ -18,11 +19,12 @@ class ChatsScreen extends StatefulWidget {
 class _ChatsScreenState extends State<ChatsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final chatsArchitectsList =
-        Provider.of<ChatsProvider>(context, listen: false).getArchitectsList;
+        Provider.of<ChatsProvider>(context, listen: false);
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -51,23 +53,31 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   Icons.search_outlined,
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: chatsArchitectsList.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 25, bottom: 20),
-                  itemBuilder: (context, index) {
-                    return ChatList(
-                      name: chatsArchitectsList[index].name,
-                      message: chatsArchitectsList[index].message,
-                      imageUrl: chatsArchitectsList[index].imageURL,
-                      time: chatsArchitectsList[index].time,
-                      unreadCount: chatsArchitectsList[index].unreadCount,
-                      chatsId: chatsArchitectsList[index].chatId,
-                      isRead: (index == 0 || index == 3) ? true : false,
-                    );
-                  },
-                ),
+              FutureBuilder(
+                future: chatsArchitectsList.getMessagedArchitectsDetails(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Expanded(
+                        child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 25, bottom: 20),
+                      itemBuilder: (context, index) {
+                        return ChatList(
+                          name: snapshot.data![index].name,
+                          message: snapshot.data![index].message,
+                          imageUrl: snapshot.data![index].imageURL,
+                          time: snapshot.data![index].time,
+                          unreadCount: snapshot.data![index].unreadCount,
+                          chatsId: snapshot.data![index].chatId,
+                          isRead: (index == 0 || index == 3) ? true : false,
+                        );
+                      },
+                    ));
+                  } else {
+                    return const Center(child: CustomLoadingSpinner());
+                  }
+                },
               )
             ],
           ),

@@ -9,8 +9,6 @@ import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/housemodels/exploremodels_screen.dart';
 import 'package:virtualbuild/screens/favorites_screen.dart';
-import 'package:virtualbuild/widgets/customloadingspinner.dart';
-import '../providers/chatsprovider.dart';
 import '../providers/drawer_nav_provider.dart';
 import '../providers/user_data_provider.dart';
 import '../screens/auth/home_screen.dart';
@@ -163,9 +161,7 @@ class _CustomMenuState extends State<CustomMenu> {
                   ),
                 ),
                 InkWell(
-                  onTap: () async {
-                    await Provider.of<ChatsProvider>(context, listen: false)
-                        .getMessagedArchitectsDetails();
+                  onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(ChatsScreen.routeName);
                   },
