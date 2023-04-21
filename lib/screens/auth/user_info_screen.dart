@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
@@ -5,9 +6,7 @@ import 'package:virtualbuild/widgets/header.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/customloadingspinner.dart';
-import '../../widgets/customsnackbar.dart';
 import 'package:http/http.dart' as http;
-
 import 'otp_screen.dart';
 
 class UserInfoScreen extends StatefulWidget {
@@ -158,10 +157,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             if (localOTP != "") {
                               //Navigate to OTP Screen for verification.
                               scaffoldMessengerVar.showSnackBar(
-                                const SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted: "OTP sent successfully",
-                                    bgColor: Color.fromRGBO(44, 199, 142, 1),
+                                SnackBar(
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Hurray!',
+                                    message: "OTP sent successfully",
+                                    contentType: ContentType.success,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,
@@ -182,10 +182,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                               );
                             } else {
                               scaffoldMessengerVar.showSnackBar(
-                                const SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted: "Failed to send OTP",
-                                    bgColor: Color.fromRGBO(199, 44, 65, 1),
+                                SnackBar(
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Oh snap!',
+                                    message: "Failed to send OTP",
+                                    contentType: ContentType.failure,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,

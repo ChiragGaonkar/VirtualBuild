@@ -4,6 +4,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
+import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
@@ -54,6 +55,16 @@ class _CustomMenuState extends State<CustomMenu> {
     );
   }
 
+  widthOfMenuBar(width) {
+    if (width < 450) {
+      return width * 0.6;
+    } else if (width < 1000) {
+      return width * 0.4;
+    } else {
+      return width * 0.2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -62,7 +73,7 @@ class _CustomMenuState extends State<CustomMenu> {
     var navigatorVar = Navigator.of(context);
     highLighter.changeHighLighter(ModalRoute.of(context)!.settings.name);
     return SizedBox(
-      width: size.width * 0.6,
+      width: widthOfMenuBar(size.width),
       child: Scaffold(
         backgroundColor:
             Theme.of(context).scaffoldBackgroundColor.withOpacity(1),
@@ -170,6 +181,19 @@ class _CustomMenuState extends State<CustomMenu> {
                     "Chats",
                     Icons.mark_chat_read_rounded,
                     highLighter.isChats,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushNamed(ChatWithBotScreen.routeName);
+                  },
+                  splashColor: Theme.of(context).primaryColor,
+                  child: _buildListTile(
+                    "AI Architect",
+                    Icons.ac_unit_rounded,
+                    highLighter.isAIArchitect,
                   ),
                 ),
                 InkWell(

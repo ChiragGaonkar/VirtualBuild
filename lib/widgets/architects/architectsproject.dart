@@ -25,7 +25,7 @@ class ArchitectsProjectsCard extends StatelessWidget {
           color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-            image: NetworkImage(
+            image: AssetImage(
               modelData.modelImageURL,
             ),
             fit: BoxFit.cover,

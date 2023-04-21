@@ -13,6 +13,7 @@ import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/user_info_screen.dart';
+import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/housemodels/models_detail_screen.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           // scaffoldBackgroundColor: const Color(0x40404040),
           scaffoldBackgroundColor: Colors.black,
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.teal,
           canvasColor: const Color.fromARGB(64, 161, 157, 157),
           secondaryHeaderColor: Colors.white,
           fontFamily: 'Gilroy',
@@ -111,6 +112,7 @@ class MyApp extends StatelessWidget {
           ModelsDetailScreen.routeName: (ctx) => const ModelsDetailScreen(),
           ArchitectDetailScreen.routeName: (ctx) =>
               const ArchitectDetailScreen(),
+          ChatWithBotScreen.routeName: (ctx) => const ChatWithBotScreen(),
         },
       ),
     );

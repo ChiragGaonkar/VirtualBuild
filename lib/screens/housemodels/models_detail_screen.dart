@@ -40,7 +40,7 @@ class ModelsDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     child: Wrap(
                       alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                      // crossAxisAlignment: WrapCrossAlignment.center,
                       spacing: 20,
                       runSpacing: 10,
                       children: [
@@ -59,7 +59,7 @@ class ModelsDetailScreen extends StatelessWidget {
                               isMobile ? size.height * 0.5 : size.height * 0.8,
                           width: 600,
                           child: ModelViewer(
-                            backgroundColor: Theme.of(context).canvasColor,
+                            // backgroundColor: Theme.of(context).canvasColor,
                             src: modelData.model3dURL,
                             alt: "A 3d model of astronaut",
                             ar: true,
@@ -69,7 +69,7 @@ class ModelsDetailScreen extends StatelessWidget {
                             loading: Loading.eager,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: 500,
                           // color: Colors.green,
                           child: ModelFeatures(modelData: modelData),

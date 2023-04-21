@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
-import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 import '../../firebase/authentication.dart';
 import '../../providers/user_data_provider.dart';
@@ -177,11 +177,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (errorIfAny.isEmpty &&
                                 user!.displayName == "User") {
                               scaffoldMessengerVar.showSnackBar(
-                                const SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted:
-                                        "Logged in successfully.",
-                                    bgColor: Color.fromRGBO(44, 199, 142, 1),
+                                SnackBar(
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Hurray!!',
+                                    message: 'Logged in successfully',
+                                    contentType: ContentType.success,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,
@@ -201,12 +201,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             } else {
                               scaffoldMessengerVar.showSnackBar(
                                 SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted: errorIfAny.isEmpty
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Oh snap!',
+                                    message: errorIfAny.isEmpty
                                         ? "Architect not found. Register!!"
                                         : errorIfAny['error'],
-                                    bgColor:
-                                        const Color.fromRGBO(199, 44, 65, 1),
+                                    contentType: ContentType.failure,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,

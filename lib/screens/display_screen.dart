@@ -57,7 +57,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-            if (!kIsWeb)
+            if (size.width < 450)
               if (!closeTopContainer)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -69,7 +69,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                         .copyWith(color: Theme.of(context).primaryColor),
                   ),
                 ),
-            if (!kIsWeb)
+            if (size.width < 450)
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: closeTopContainer ? 0 : 1,

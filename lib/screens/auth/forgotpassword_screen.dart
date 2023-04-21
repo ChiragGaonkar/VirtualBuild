@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
@@ -7,7 +8,6 @@ import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/customloadingspinner.dart';
-import '../../widgets/customsnackbar.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -114,11 +114,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     navigatorVar.pop();
                     if (errorIfAny.isEmpty) {
                       scaffoldMessengerVar.showSnackBar(
-                        const SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted:
-                                "Mail sent to registered email.",
-                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                        SnackBar(
+                          content: AwesomeSnackbarContent(
+                            title: 'Oh snap!',
+                            message: "Mail sent to registered email.",
+                            contentType: ContentType.success,
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,
@@ -129,9 +129,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     } else {
                       scaffoldMessengerVar.showSnackBar(
                         SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted: errorIfAny['error'],
-                            bgColor: const Color.fromRGBO(199, 44, 65, 1),
+                          content: AwesomeSnackbarContent(
+                            title: 'Oh snap!',
+                            message: errorIfAny['error'],
+                            contentType: ContentType.failure,
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,

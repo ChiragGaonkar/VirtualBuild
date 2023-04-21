@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 
 import '../screens/accounts/account_screen.dart';
 import '../screens/architects/explorearchitects_screen.dart';
@@ -14,6 +15,7 @@ class DrawerNavProvider with ChangeNotifier {
   bool isFavorites = false;
   bool isChats = false;
   bool isAccount = false;
+  bool isAIArchitect = false;
 
   void changeHighLighter(String? route) {
     switch (route) {
@@ -35,6 +37,9 @@ class DrawerNavProvider with ChangeNotifier {
       case AccountScreen.routeName:
         highlightDrawerMenu(6);
         break;
+      case ChatWithBotScreen.routeName:
+        highlightDrawerMenu(7);
+        break;
       default:
         print("error ${route}");
     }
@@ -49,6 +54,7 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = false;
         isChats = false;
         isAccount = false;
+        isAIArchitect = false;
         break;
 
       case 2:
@@ -58,6 +64,7 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = false;
         isChats = false;
         isAccount = false;
+        isAIArchitect = false;
         break;
 
       case 3:
@@ -67,6 +74,7 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = false;
         isChats = false;
         isAccount = false;
+        isAIArchitect = false;
         break;
 
       case 4:
@@ -76,6 +84,7 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = true;
         isChats = false;
         isAccount = false;
+        isAIArchitect = false;
         break;
 
       case 5:
@@ -85,6 +94,7 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = false;
         isChats = true;
         isAccount = false;
+        isAIArchitect = false;
         break;
 
       case 6:
@@ -94,6 +104,17 @@ class DrawerNavProvider with ChangeNotifier {
         isFavorites = false;
         isChats = false;
         isAccount = true;
+        isAIArchitect = false;
+        break;
+
+      case 7:
+        isHome = false;
+        isModels = false;
+        isArchitects = false;
+        isFavorites = false;
+        isChats = false;
+        isAccount = false;
+        isAIArchitect = true;
         break;
     }
   }

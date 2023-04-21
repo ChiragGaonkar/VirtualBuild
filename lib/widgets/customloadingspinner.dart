@@ -9,10 +9,15 @@ class CustomLoadingSpinner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Center(
-      child: LoadingAnimationWidget.inkDrop(
-        color: Theme.of(context).primaryColor,
-        size: size.width * 0.1,
+    return SizedBox(
+      height: size.height * 0.6,
+      child: Center(
+        child: LoadingAnimationWidget.threeArchedCircle(
+          // leftDotColor: Theme.of(context).primaryColor,
+          // rightDotColor: Theme.of(context).secondaryHeaderColor,
+          color: Theme.of(context).primaryColor,
+          size: 50,
+        ),
       ),
     );
   }

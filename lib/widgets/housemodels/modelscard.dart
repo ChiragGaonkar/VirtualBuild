@@ -38,7 +38,7 @@ class _ModelsCardState extends State<ModelsCard> {
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: NetworkImage(
+                image: AssetImage(
                   widget.modelData.modelImageURL,
                 ),
                 fit: BoxFit.cover,
@@ -123,7 +123,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                       ],
                                     ),
                                     Text(
-                                      "By ${widget.modelData.modelArchitectname}",
+                                      "By Arch. ${widget.modelData.modelArchitectname}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,

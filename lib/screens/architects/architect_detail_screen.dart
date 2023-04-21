@@ -7,9 +7,7 @@ import 'package:virtualbuild/widgets/architects/architectdetailscard.dart';
 import 'package:virtualbuild/widgets/architects/architectsproject.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
-
 import '../../providers/models_provider.dart';
-import '../../widgets/housemodels/modelscard.dart';
 
 class ArchitectDetailScreen extends StatelessWidget {
   const ArchitectDetailScreen({super.key});

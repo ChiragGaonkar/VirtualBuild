@@ -1,10 +1,10 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
-import 'package:virtualbuild/widgets/customsnackbar.dart';
 import 'package:virtualbuild/widgets/header.dart';
 
 import '../../firebase/authentication.dart';
@@ -90,7 +90,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         return const CustomLoadingSpinner();
                       },
                     );
-                    
+
                     //Logic for authentication and create user
                     errorIfAny = await Auth().createUserWithEmailAndPassword(
                       email: args['email'],
@@ -117,10 +117,11 @@ class _OTPScreenState extends State<OTPScreen> {
                       navigatorVar.pop();
 
                       scaffoldMessengerVar.showSnackBar(
-                        const SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted: "Created account Successfully.",
-                            bgColor: Color.fromRGBO(44, 199, 142, 1),
+                        SnackBar(
+                          content: AwesomeSnackbarContent(
+                            title: 'Hurray!',
+                            message: "Created account Successfully.",
+                            contentType: ContentType.success,
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,
@@ -138,9 +139,10 @@ class _OTPScreenState extends State<OTPScreen> {
                     } else {
                       scaffoldMessengerVar.showSnackBar(
                         SnackBar(
-                          content: CustomSnackBar(
-                            messageToBePrinted: errorIfAny['error'],
-                            bgColor: const Color.fromRGBO(199, 44, 65, 1),
+                          content: AwesomeSnackbarContent(
+                            title: 'Oh snap!',
+                            message: errorIfAny['error'],
+                            contentType: ContentType.failure,
                           ),
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,
@@ -151,11 +153,12 @@ class _OTPScreenState extends State<OTPScreen> {
                     //Logic for authentication ends here.
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: CustomSnackBar(
-                          messageToBePrinted:
+                      SnackBar(
+                        content: AwesomeSnackbarContent(
+                          title: 'Oh snap!',
+                          message:
                               "Sorry, the OTP did not match. Please try again.",
-                          bgColor: Color.fromRGBO(199, 44, 65, 1),
+                          contentType: ContentType.warning,
                         ),
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: Colors.transparent,
