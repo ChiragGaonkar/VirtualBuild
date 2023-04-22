@@ -204,11 +204,11 @@ class ModelsProvider with ChangeNotifier {
     ),
   ];
 
-  RangeValues currentRangeValuesPrice = const RangeValues(1000, 12000);
-  RangeValues currentRangeValuesArea = const RangeValues(1000, 12000);
-  double currentValueFloor = 1;
-  double currentValueBeds = 1;
-  double currentValueBaths = 1;
+  RangeValues currentRangeValuesPrice = const RangeValues(4000, 12000);
+  RangeValues currentRangeValuesArea = const RangeValues(1800, 3000);
+  double currentValueFloor = 3;
+  double currentValueBeds = 6;
+  double currentValueBaths = 5;
 
   List<Models3D> get getModel {
     return [...models];
