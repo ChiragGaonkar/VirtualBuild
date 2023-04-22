@@ -44,7 +44,7 @@ class _FilterModelsState extends State<FilterModels> {
                       ),
                       onChanged: (RangeValues values) {
                         setState(() {
-                          _currentRangeValuesPrice = values;
+                          //_currentRangeValuesPrice = values;
                           modelData.currentRangeValuesPrice = values;
                         });
                       },
