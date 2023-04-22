@@ -19,7 +19,7 @@ class ExploreModelsScreen extends StatefulWidget {
 
 class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool init = false;
   bool isFilterOn = false;
 
   @override
@@ -70,7 +70,9 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         setState(() {
+                          print(isFilterOn);
                           isFilterOn = !isFilterOn;
+                          init = true;
                         });
                       },
                       icon: Icon(
@@ -86,20 +88,39 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              Flexible(
-                child: ResponsiveGridList(
-                  rowMainAxisAlignment: MainAxisAlignment.end,
-                  minItemsPerRow: 1,
-                  minItemWidth: 300,
-                  listViewBuilderOptions: ListViewBuilderOptions(
-                    padding: EdgeInsets.zero,
-                  ),
-                  children: List.generate(
-                    modelData.getModel.length,
-                    (index) => ModelsCard(modelData: modelData.getModel[index]),
+              if (!init) ...[
+                Flexible(
+                  child: ResponsiveGridList(
+                    rowMainAxisAlignment: MainAxisAlignment.end,
+                    minItemsPerRow: 1,
+                    minItemWidth: 300,
+                    listViewBuilderOptions: ListViewBuilderOptions(
+                      padding: EdgeInsets.zero,
+                    ),
+                    children: List.generate(
+                      modelData.getModel.length,
+                      (index) =>
+                          ModelsCard(modelData: modelData.getModel[index]),
+                    ),
                   ),
                 ),
-              ),
+              ] else ...[
+                Flexible(
+                  child: ResponsiveGridList(
+                    rowMainAxisAlignment: MainAxisAlignment.end,
+                    minItemsPerRow: 1,
+                    minItemWidth: 300,
+                    listViewBuilderOptions: ListViewBuilderOptions(
+                      padding: EdgeInsets.zero,
+                    ),
+                    children: List.generate(
+                      modelData.getFilteredModel.length,
+                      (index) => ModelsCard(
+                          modelData: modelData.getFilteredModel[index]),
+                    ),
+                  ),
+                ),
+              ],
               SizedBox(
                 height: size.height * 0.02,
               ),
