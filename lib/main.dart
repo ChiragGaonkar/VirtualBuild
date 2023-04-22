@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ import 'screens/favorites_screen.dart';
 import 'screens/auth/forgotpassword_screen.dart';
 import 'screens/accounts/edit_profile_screen.dart';
 import 'firebase_options.dart';
+import 'package:page_transition/page_transition.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,8 +92,15 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // initialRoute: HomeScreen.routeName,
-        home: WidgetTree(),
+        home: AnimatedSplashScreen(
+          backgroundColor: Colors.black,
+          splash: "assets/Logo.png",
+          splashIconSize: 400,
+          duration: 4000,
+          splashTransition: SplashTransition.fadeTransition,
+          nextScreen: const WidgetTree(),
+          pageTransitionType: PageTransitionType.leftToRightWithFade,
+        ),
         //All routes for navigations.
         routes: {
           HomeScreen.routeName: (ctx) => const HomeScreen(),

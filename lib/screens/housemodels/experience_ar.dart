@@ -1,56 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/widgets/customscreen.dart';
-import 'package:virtualbuild/widgets/headerwithnavigation.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ModelsDetailScreen extends StatefulWidget {
-  const ModelsDetailScreen({super.key});
+class Experience3dVisualizations extends StatelessWidget {
+  const Experience3dVisualizations({super.key});
 
-  @override
-  State<ModelsDetailScreen> createState() => _ModelsDetailScreenState();
-}
-
-class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: MyCustomScreen(
-        screenContent: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HeaderWithNavigation(
-              heading: "Experience AR",
-              screenToBeRendered: "None",
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Expanded(
-              child: SizedBox(
-                height: size.height * 0.7,
-                width: size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.5,
-                        child: const WebView(
-                          initialUrl: 'assets/model_viewer.html',
-                          javascriptMode: JavascriptMode.unrestricted,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: IconButton(
+        onPressed: () async {
+          String url = "https://modelviewer.dev/";
+          //var urlLauchable = await canLaunchUrl(Uri.parse(url));
+          if (!await launchUrl(
+            Uri.parse(url),
+            mode: LaunchMode.externalApplication,
+          )) {
+            throw 'Could not launch $url';
+          }
+        },
+        icon: Icon(
+          Icons.architecture,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     );
