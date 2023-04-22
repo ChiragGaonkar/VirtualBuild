@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
 
 class ModelsProvider with ChangeNotifier {
-  final List<Models3D> _models = [
+  bool init = false;
+  List<Models3D> models = [
     Models3D(
       modelId: '1',
       modelImageURL: "assets/imagesModels/GECBunglow.png",
@@ -41,7 +42,7 @@ class ModelsProvider with ChangeNotifier {
       modelImageURL: "assets/imagesModels/Villa1.png",
       model3dURL: "assets/3dModels/Villa1.glb",
       modelName: "Serenity House",
-      modelPrice: 50,
+      modelPrice: 5000,
       modelEstimatedPrice: 10000000,
       modelArchitectname: "Mahesh Naik",
       modelArchitectID: "1",
@@ -203,11 +204,37 @@ class ModelsProvider with ChangeNotifier {
     ),
   ];
 
+  RangeValues currentRangeValuesPrice = const RangeValues(1000, 12000);
+  RangeValues currentRangeValuesArea = const RangeValues(1000, 12000);
+  double currentValueFloor = 1;
+  double currentValueBeds = 1;
+  double currentValueBaths = 1;
+
   List<Models3D> get getModel {
-    return [..._models];
+    return [...models];
+  }
+
+  List<Models3D> get getFilteredModel {
+    print("currentRangeValuesPrice $currentRangeValuesPrice");
+    print("currentRangeValuesArea $currentRangeValuesArea");
+    print("currentValueFloor $currentValueFloor");
+    print("currentValueBeds $currentValueBeds");
+    List<Models3D> w3 = models
+        .where((e) =>
+            (e.modelPrice >= currentRangeValuesPrice.start &&
+                e.modelPrice <= currentRangeValuesPrice.end) &&
+            (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
+                e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+            (e.modelFloors >= currentValueFloor) &&
+            (e.modelNumberOfBedrooms >= currentValueBeds) &&
+            (e.modelNumberOfBaths >= currentValueBaths))
+        .toList();
+    //models = w3;
+    print(w3.length);
+    return w3;
   }
 
   Models3D getModelById(String id) {
-    return _models.firstWhere((prod) => prod.modelId == id);
+    return models.firstWhere((prod) => prod.modelId == id);
   }
 }
