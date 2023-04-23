@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/models_provider.dart';
 
 class FilterModels extends StatefulWidget {
   const FilterModels({super.key});
@@ -16,6 +19,7 @@ class _FilterModelsState extends State<FilterModels> {
 
   @override
   Widget build(BuildContext context) {
+    var modelData = Provider.of<ModelsProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Container(
       child: Column(
@@ -31,16 +35,17 @@ class _FilterModelsState extends State<FilterModels> {
                   SizedBox(width: size.width * 0.1),
                   Expanded(
                     child: RangeSlider(
-                      values: _currentRangeValuesPrice,
+                      values: modelData.currentRangeValuesPrice,
                       max: 20000,
                       divisions: 5,
                       labels: RangeLabels(
-                        '₹${_currentRangeValuesPrice.start.round().toString()}',
-                        '₹${_currentRangeValuesPrice.end.round().toString()}',
+                        '₹${modelData.currentRangeValuesPrice.start.round().toString()}',
+                        '₹${modelData.currentRangeValuesPrice.end.round().toString()}',
                       ),
                       onChanged: (RangeValues values) {
                         setState(() {
-                          _currentRangeValuesPrice = values;
+                          //_currentRangeValuesPrice = values;
+                          modelData.currentRangeValuesPrice = values;
                         });
                       },
                     ),
@@ -58,16 +63,17 @@ class _FilterModelsState extends State<FilterModels> {
                   SizedBox(width: size.width * 0.1),
                   Expanded(
                     child: RangeSlider(
-                      values: _currentRangeValuesArea,
+                      values: modelData.currentRangeValuesArea,
                       max: 3000,
                       divisions: 5,
                       labels: RangeLabels(
-                        '${_currentRangeValuesArea.start.round().toString()} sqft',
-                        '${_currentRangeValuesArea.end.round().toString()} sqft',
+                        '${modelData.currentRangeValuesArea.start.round().toString()} sqft',
+                        '${modelData.currentRangeValuesArea.end.round().toString()} sqft',
                       ),
                       onChanged: (RangeValues values) {
                         setState(() {
                           _currentRangeValuesArea = values;
+                          modelData.currentRangeValuesArea = values;
                         });
                       },
                     ),
@@ -92,14 +98,15 @@ class _FilterModelsState extends State<FilterModels> {
                         inactiveTickMarkColor: Colors.orange,
                       ),
                       child: Slider(
-                        value: _currentValueFloor,
+                        value: modelData.currentValueFloor,
                         min: 1,
                         max: 7,
                         divisions: 6,
-                        label: _currentValueFloor.round().toString(),
+                        label: modelData.currentValueFloor.round().toString(),
                         onChanged: (double val) {
                           setState(() {
                             _currentValueFloor = val;
+                            modelData.currentValueFloor = val;
                           });
                         },
                       ),
@@ -125,14 +132,15 @@ class _FilterModelsState extends State<FilterModels> {
                         inactiveTickMarkColor: Colors.orange,
                       ),
                       child: Slider(
-                        value: _currentValueBeds,
+                        value: modelData.currentValueBeds,
                         min: 1,
                         max: 7,
                         divisions: 6,
-                        label: _currentValueBeds.round().toString(),
+                        label: modelData.currentValueBeds.round().toString(),
                         onChanged: (double val) {
                           setState(() {
                             _currentValueBeds = val;
+                            modelData.currentValueBeds = val;
                           });
                         },
                       ),
@@ -158,14 +166,15 @@ class _FilterModelsState extends State<FilterModels> {
                         inactiveTickMarkColor: Colors.orange,
                       ),
                       child: Slider(
-                        value: _currentValueBaths,
+                        value: modelData.currentValueBaths,
                         min: 1,
                         max: 7,
                         divisions: 6,
-                        label: _currentValueBaths.round().toString(),
+                        label: modelData.currentValueBaths.round().toString(),
                         onChanged: (double val) {
                           setState(() {
                             _currentValueBaths = val;
+                            modelData.currentValueBaths = val;
                           });
                         },
                       ),

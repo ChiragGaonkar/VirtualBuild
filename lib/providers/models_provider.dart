@@ -2,29 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
 
 class ModelsProvider with ChangeNotifier {
-  final List<Models3D> _models = [
+  bool init = false;
+  List<Models3D> models = [
     Models3D(
       modelId: '1',
-      modelImageURL:
-          "https://t4.ftcdn.net/jpg/01/88/09/67/240_F_188096730_3hHZnyYI7zH7ATN4QJdNoZgMJDRAdbGW.jpg",
-      model3dURL: "assets/3dModels/Villa1.glb",
-      modelName: "Starlight Hills",
+      modelImageURL: "assets/imagesModels/GECBunglow.png",
+      model3dURL: "assets/3dModels/GECBunglow.glb",
+      modelName: "GEC Guest House",
       modelPrice: 25,
       modelEstimatedPrice: 10000000,
       modelArchitectname: "Ganesh Gaonkar",
       modelArchitectID: "1",
       modelColorScheme: "Monochromatic",
-      modelFloors: 2,
-      modelTotalSquareFootage: 947,
+      modelFloors: 1,
+      modelTotalSquareFootage: 400,
       modelRoofStyle: "Gambrel",
       modelNumberOfCommonRooms: 2,
-      modelNumberOfBedrooms: 4,
-      modelNumberOfBaths: 5,
+      modelNumberOfBedrooms: 2,
+      modelNumberOfBaths: 3,
       modelFlooringOfRooms: ["Laminate"],
-      modelLightingOfRooms: [
-        "Track lighting",
-        "Galaxy and nebula cloud fixtures"
-      ],
+      modelLightingOfRooms: ["Track lighting"],
       modelCeilingHeight: 9.0,
       modelKitchenCountertops: "Laminate",
       modelKitchenCabinetry: "Flat Panel",
@@ -32,77 +29,212 @@ class ModelsProvider with ChangeNotifier {
       modelBathroomVanity: "Pedestal Sink Vanity",
       modelFlooringOfBathrooms: "Laminate",
       modelYard: true,
-      modelDeck: true,
+      modelDeck: false,
       modelPatio: false,
-      modelGarageNumOfParkings: 5,
-      modelPool: true,
+      modelGarageNumOfParkings: 2,
+      modelPool: false,
       modelLandscapingStyle: "Japanese Garden",
       modelTechnologyAndSmartFeatures: ["Smart thermostat"],
       modelEnergyEfficiencyTools: ["Solar panels"],
     ),
-    // Models3D(
-    //   modelId: "1",
-    //   modelImageURL:
-    //       "https://t4.ftcdn.net/jpg/01/88/09/67/240_F_188096730_3hHZnyYI7zH7ATN4QJdNoZgMJDRAdbGW.jpg",
-    //   modelName: "Villa De Chirag",
-    //   modelArea: 1001,
-    //   modelPrice: 50,
-    //   modelArchitect: "Chirag Gaonkar",
-    //   modelBeds: 7,
-    //   modelBaths: 7,
-    //   modelFloors: 3,
-    //   modelGarage: 2,
-    //   model3dURL: 'assets/3dModels/Villa1.glb',
-    // ),
-    // Models3D(
-    //   modelId: "2",
-    //   modelImageURL:
-    //       "https://t3.ftcdn.net/jpg/03/40/93/62/240_F_340936278_XLR86aeXaXEUbWlqYZ8qciya9IewWsZu.jpg",
-    //   modelName: "Villa De Mithilesh",
-    //   modelArea: 920,
-    //   modelPrice: 28,
-    //   modelArchitect: "Mithilesh Kapadi",
-    //   modelBeds: 4,
-    //   modelBaths: 5,
-    //   modelFloors: 2,
-    //   modelGarage: 1,
-    //   model3dURL: 'assets/3dModels/Villa2.glb',
-    // ),
-    // Models3D(
-    //   modelId: "3",
-    //   modelImageURL:
-    //       "https://t3.ftcdn.net/jpg/02/89/22/96/240_F_289229654_N3VloeJOMDF6rHvM7XHMIHZNznYpia3v.jpg",
-    //   modelName: "Villa De Madhura",
-    //   modelArea: 800,
-    //   modelPrice: 25,
-    //   modelArchitect: "Madhura Patil",
-    //   modelBeds: 5,
-    //   modelBaths: 2,
-    //   modelFloors: 2,
-    //   modelGarage: 2,
-    //   model3dURL: 'assets/3dModels/Villa3.glb',
-    // ),
-    // Models3D(
-    //   modelId: "4",
-    //   modelImageURL:
-    //       "https://t3.ftcdn.net/jpg/01/88/09/66/240_F_188096655_J4c4pxOikLiHMkN9vqE6dQ3mH9CtfITo.jpg",
-    //   modelName: "Gayatri De Villa",
-    //   modelArea: 820,
-    //   modelPrice: 30,
-    //   modelArchitect: "Gayatri Gaonkar",
-    //   modelBeds: 4,
-    //   modelBaths: 2,
-    //   modelFloors: 3,
-    //   modelGarage: 2,
-    //   model3dURL: 'assets/3dModels/Villa6.glb',
-    // ),
+    Models3D(
+      modelId: '2',
+      modelImageURL: "assets/imagesModels/Villa1.png",
+      model3dURL: "assets/3dModels/Villa1.glb",
+      modelName: "Serenity House",
+      modelPrice: 5000,
+      modelEstimatedPrice: 10000000,
+      modelArchitectname: "Mahesh Naik",
+      modelArchitectID: "1",
+      modelColorScheme: "Complementary",
+      modelFloors: 2,
+      modelTotalSquareFootage: 600,
+      modelRoofStyle: "Deck Roof",
+      modelNumberOfCommonRooms: 4,
+      modelNumberOfBedrooms: 4,
+      modelNumberOfBaths: 6,
+      modelFlooringOfRooms: ["Vinyl"],
+      modelLightingOfRooms: ["Ambient lighting"],
+      modelCeilingHeight: 9.0,
+      modelKitchenCountertops: "Quartz",
+      modelKitchenCabinetry: "Flat Panel",
+      modelFlooringOfKitchen: "Vinyl",
+      modelBathroomVanity: "Free-Standing Vanity",
+      modelFlooringOfBathrooms: "Vinyl",
+      modelYard: true,
+      modelDeck: true,
+      modelPatio: false,
+      modelGarageNumOfParkings: 2,
+      modelPool: true,
+      modelLandscapingStyle: "French Garden",
+      modelTechnologyAndSmartFeatures: ["Security system"],
+      modelEnergyEfficiencyTools: ["•	High-efficiency HVAC system"],
+    ),
+    Models3D(
+      modelId: '3',
+      modelImageURL: "assets/imagesModels/Villa2.png",
+      model3dURL: "assets/3dModels/Villa2.glb",
+      modelName: "Whispering Pines",
+      modelPrice: 47,
+      modelEstimatedPrice: 10000000,
+      modelArchitectname: "Shreya Gaonkar",
+      modelArchitectID: "1",
+      modelColorScheme: "Triadic",
+      modelFloors: 1,
+      modelTotalSquareFootage: 457,
+      modelRoofStyle: "Flat or terraced",
+      modelNumberOfCommonRooms: 2,
+      modelNumberOfBedrooms: 2,
+      modelNumberOfBaths: 3,
+      modelFlooringOfRooms: ["Laminate"],
+      modelLightingOfRooms: ["Track lighting"],
+      modelCeilingHeight: 9.0,
+      modelKitchenCountertops: "Laminate",
+      modelKitchenCabinetry: "Flat Panel",
+      modelFlooringOfKitchen: "Vinyl",
+      modelBathroomVanity: "Pedestal Sink Vanity",
+      modelFlooringOfBathrooms: "Laminate",
+      modelYard: true,
+      modelDeck: false,
+      modelPatio: false,
+      modelGarageNumOfParkings: 2,
+      modelPool: false,
+      modelLandscapingStyle: "Japanese Garden",
+      modelTechnologyAndSmartFeatures: ["Smart thermostat"],
+      modelEnergyEfficiencyTools: ["Solar panels"],
+    ),
+    Models3D(
+      modelId: '4',
+      modelImageURL: "assets/imagesModels/Villa3.png",
+      model3dURL: "assets/3dModels/Villa3.glb",
+      modelName: "Seaside Retreat",
+      modelPrice: 70,
+      modelEstimatedPrice: 10000000,
+      modelArchitectname: "Jonita Gandhi",
+      modelArchitectID: "1",
+      modelColorScheme: "Monochromatic",
+      modelFloors: 1,
+      modelTotalSquareFootage: 400,
+      modelRoofStyle: "Gambrel",
+      modelNumberOfCommonRooms: 2,
+      modelNumberOfBedrooms: 2,
+      modelNumberOfBaths: 3,
+      modelFlooringOfRooms: ["Laminate"],
+      modelLightingOfRooms: ["Track lighting"],
+      modelCeilingHeight: 9.0,
+      modelKitchenCountertops: "Laminate",
+      modelKitchenCabinetry: "Flat Panel",
+      modelFlooringOfKitchen: "Vinyl",
+      modelBathroomVanity: "Pedestal Sink Vanity",
+      modelFlooringOfBathrooms: "Laminate",
+      modelYard: true,
+      modelDeck: false,
+      modelPatio: false,
+      modelGarageNumOfParkings: 2,
+      modelPool: false,
+      modelLandscapingStyle: "Japanese Garden",
+      modelTechnologyAndSmartFeatures: ["Smart thermostat"],
+      modelEnergyEfficiencyTools: ["Solar panels"],
+    ),
+    Models3D(
+      modelId: '5',
+      modelImageURL: "assets/imagesModels/Villa4.png",
+      model3dURL: "assets/3dModels/Villa4.glb",
+      modelName: "Tranquility Manor",
+      modelPrice: 67,
+      modelEstimatedPrice: 10000000,
+      modelArchitectname: "Tara Shetkar",
+      modelArchitectID: "1",
+      modelColorScheme: "Monochromatic",
+      modelFloors: 1,
+      modelTotalSquareFootage: 400,
+      modelRoofStyle: "Gambrel",
+      modelNumberOfCommonRooms: 2,
+      modelNumberOfBedrooms: 2,
+      modelNumberOfBaths: 3,
+      modelFlooringOfRooms: ["Laminate"],
+      modelLightingOfRooms: ["Track lighting"],
+      modelCeilingHeight: 9.0,
+      modelKitchenCountertops: "Laminate",
+      modelKitchenCabinetry: "Flat Panel",
+      modelFlooringOfKitchen: "Vinyl",
+      modelBathroomVanity: "Pedestal Sink Vanity",
+      modelFlooringOfBathrooms: "Laminate",
+      modelYard: true,
+      modelDeck: false,
+      modelPatio: false,
+      modelGarageNumOfParkings: 2,
+      modelPool: false,
+      modelLandscapingStyle: "Japanese Garden",
+      modelTechnologyAndSmartFeatures: ["Smart thermostat"],
+      modelEnergyEfficiencyTools: ["Solar panels"],
+    ),
+    Models3D(
+      modelId: '6',
+      modelImageURL: "assets/imagesModels/Villa5.png",
+      model3dURL: "assets/3dModels/Villa6.glb",
+      modelName: "Sunrise Haven",
+      modelPrice: 42,
+      modelEstimatedPrice: 10000000,
+      modelArchitectname: "Vishwas Kapadi",
+      modelArchitectID: "1",
+      modelColorScheme: "Monochromatic",
+      modelFloors: 1,
+      modelTotalSquareFootage: 400,
+      modelRoofStyle: "Gambrel",
+      modelNumberOfCommonRooms: 2,
+      modelNumberOfBedrooms: 2,
+      modelNumberOfBaths: 3,
+      modelFlooringOfRooms: ["Laminate"],
+      modelLightingOfRooms: ["Track lighting"],
+      modelCeilingHeight: 9.0,
+      modelKitchenCountertops: "Laminate",
+      modelKitchenCabinetry: "Flat Panel",
+      modelFlooringOfKitchen: "Vinyl",
+      modelBathroomVanity: "Pedestal Sink Vanity",
+      modelFlooringOfBathrooms: "Laminate",
+      modelYard: true,
+      modelDeck: false,
+      modelPatio: false,
+      modelGarageNumOfParkings: 2,
+      modelPool: false,
+      modelLandscapingStyle: "Japanese Garden",
+      modelTechnologyAndSmartFeatures: ["Smart thermostat"],
+      modelEnergyEfficiencyTools: ["Solar panels"],
+    ),
   ];
 
+  RangeValues currentRangeValuesPrice = const RangeValues(4000, 12000);
+  RangeValues currentRangeValuesArea = const RangeValues(1800, 3000);
+  double currentValueFloor = 3;
+  double currentValueBeds = 6;
+  double currentValueBaths = 5;
+
   List<Models3D> get getModel {
-    return [..._models];
+    return [...models];
+  }
+
+  List<Models3D> get getFilteredModel {
+    print("currentRangeValuesPrice $currentRangeValuesPrice");
+    print("currentRangeValuesArea $currentRangeValuesArea");
+    print("currentValueFloor $currentValueFloor");
+    print("currentValueBeds $currentValueBeds");
+    List<Models3D> w3 = models
+        .where((e) =>
+            (e.modelPrice >= currentRangeValuesPrice.start &&
+                e.modelPrice <= currentRangeValuesPrice.end) &&
+            (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
+                e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+            (e.modelFloors >= currentValueFloor) &&
+            (e.modelNumberOfBedrooms >= currentValueBeds) &&
+            (e.modelNumberOfBaths >= currentValueBaths))
+        .toList();
+    //models = w3;
+    print(w3.length);
+    return w3;
   }
 
   Models3D getModelById(String id) {
-    return _models.firstWhere((prod) => prod.modelId == id);
+    return models.firstWhere((prod) => prod.modelId == id);
   }
 }

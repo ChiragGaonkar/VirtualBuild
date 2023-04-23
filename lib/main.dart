@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import 'package:virtualbuild/screens/auth/otp_screen.dart';
 import 'package:virtualbuild/screens/auth/register_screen.dart';
 import 'package:virtualbuild/screens/auth/resetpassword_screen.dart';
 import 'package:virtualbuild/screens/auth/user_info_screen.dart';
+import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/housemodels/models_detail_screen.dart';
@@ -25,6 +27,7 @@ import 'screens/favorites_screen.dart';
 import 'screens/auth/forgotpassword_screen.dart';
 import 'screens/accounts/edit_profile_screen.dart';
 import 'firebase_options.dart';
+import 'package:page_transition/page_transition.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           // scaffoldBackgroundColor: const Color(0x40404040),
           scaffoldBackgroundColor: Colors.black,
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.teal,
           canvasColor: const Color.fromARGB(64, 161, 157, 157),
           secondaryHeaderColor: Colors.white,
           fontFamily: 'Gilroy',
@@ -89,8 +92,15 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // initialRoute: HomeScreen.routeName,
-        home: WidgetTree(),
+        home: AnimatedSplashScreen(
+          backgroundColor: Colors.black,
+          splash: "assets/Logo.png",
+          splashIconSize: 400,
+          duration: 4000,
+          splashTransition: SplashTransition.fadeTransition,
+          nextScreen: const WidgetTree(),
+          pageTransitionType: PageTransitionType.leftToRightWithFade,
+        ),
         //All routes for navigations.
         routes: {
           HomeScreen.routeName: (ctx) => const HomeScreen(),
@@ -111,6 +121,7 @@ class MyApp extends StatelessWidget {
           ModelsDetailScreen.routeName: (ctx) => const ModelsDetailScreen(),
           ArchitectDetailScreen.routeName: (ctx) =>
               const ArchitectDetailScreen(),
+          ChatWithBotScreen.routeName: (ctx) => const ChatWithBotScreen(),
         },
       ),
     );

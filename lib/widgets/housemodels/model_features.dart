@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../models/models3d_model.dart';
 
-class ModelFeatures extends StatelessWidget {
+class ModelFeatures extends StatefulWidget {
   final Models3D modelData;
   const ModelFeatures({super.key, required this.modelData});
 
+  @override
+  State<ModelFeatures> createState() => _ModelFeaturesState();
+}
+
+class _ModelFeaturesState extends State<ModelFeatures> {
   Widget _descriptionHeading(BuildContext context, String heading) {
     return Row(
       //This row is used to left justify the container.
@@ -13,7 +18,7 @@ class ModelFeatures extends StatelessWidget {
       children: [
         Text(
           heading,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 color: Theme.of(context).primaryColor,
               ),
         ),
@@ -21,24 +26,27 @@ class ModelFeatures extends StatelessWidget {
     );
   }
 
-  Widget _descriptionData(BuildContext context, String heading, String value,
-      {String units = ""}) {
-    return Column(
+  Widget _descriptionData(
+    BuildContext context,
+    String heading,
+    String value,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           heading,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         Text(
-          "$value$units",
+          value,
           style: Theme.of(context).textTheme.titleSmall,
         ),
       ],
     );
   }
+
+  bool isMore = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +57,12 @@ class ModelFeatures extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "By ${modelData.modelArchitectname}",
-              style: Theme.of(context).textTheme.titleLarge,
+              "By ${widget.modelData.modelArchitectname}",
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              "₹${modelData.modelPrice}",
-              style: Theme.of(context).textTheme.titleLarge,
+              "₹${widget.modelData.modelPrice}K",
+              style: Theme.of(context).textTheme.titleMedium,
             )
           ],
         ),
@@ -66,56 +74,120 @@ class ModelFeatures extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Description",
-              style: Theme.of(context).textTheme.headlineSmall,
+              "Design Elements",
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
         ),
         const SizedBox(
           height: 10,
         ),
-        _descriptionHeading(context, "Dimension"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _descriptionData(context, "Depth", "50", units: "'"),
-            _descriptionData(context, "Height", "30", units: "'"),
-            _descriptionData(context, "Width", "40", units: "'"),
-          ],
-        ),
-        _descriptionHeading(context, "Area Occupied"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _descriptionData(context, "Main Floor", "980", units: "sq/ft"),
-            SizedBox(width: size.width * 0.1),
-            _descriptionData(context, "Porch", "200", units: "sq/ft"),
-          ],
-        ),
-        _descriptionHeading(context, "Ceiling"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _descriptionData(context, "Main Ceiling", "9"),
-          ],
-        ),
-        _descriptionHeading(context, "Roof"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _descriptionData(context, "Primary Pitch", "8:12"),
-            _descriptionData(context, "Roof Type", "Concrete"),
-            _descriptionData(context, "Secondary Pitch", "12:12:12"),
-          ],
-        ),
-        _descriptionHeading(context, "Roof"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _descriptionData(context, "Primary Pitch", "8:12"),
-            _descriptionData(context, "Roof Type", "Concrete"),
-            _descriptionData(context, "Secondary Pitch", "12:12:12"),
-          ],
+        //Exterior
+        _descriptionHeading(context, "Exterior Space"),
+        _descriptionData(
+            context, "Color Scheme", widget.modelData.modelColorScheme),
+        _descriptionData(
+            context, "Floor/s", widget.modelData.modelFloors.toString()),
+        _descriptionData(context, "Total Square Footage",
+            "${widget.modelData.modelTotalSquareFootage}sq.ft"),
+        _descriptionData(
+            context, "Roof Style", widget.modelData.modelRoofStyle),
+        SizedBox(height: size.height * 0.05),
+
+        // Interior
+        _descriptionHeading(context, "Interior Space"),
+        _descriptionData(context, "Common Room/s",
+            widget.modelData.modelNumberOfCommonRooms.toString()),
+        _descriptionData(context, "Bedroom/s",
+            widget.modelData.modelNumberOfBedrooms.toString()),
+        _descriptionData(context, "Bathroom/s",
+            widget.modelData.modelNumberOfBaths.toString()),
+        _descriptionData(context, "Flooring",
+            widget.modelData.modelFlooringOfRooms.toString()),
+        _descriptionData(context, "Lighting",
+            widget.modelData.modelLightingOfRooms.toString()),
+        _descriptionData(context, "Ceiling Height",
+            widget.modelData.modelCeilingHeight.toString()),
+        SizedBox(height: size.height * 0.05),
+
+        // Technology and smart features
+        _descriptionHeading(context, "Technology and smart features"),
+        _descriptionData(context, "Smart Tech",
+            widget.modelData.modelTechnologyAndSmartFeatures.toString()),
+        SizedBox(height: size.height * 0.05),
+
+        // Kitchen
+        if (isMore)
+          Column(
+            children: [
+              _descriptionHeading(context, "Kitchen Space"),
+              _descriptionData(context, "Countertops",
+                  widget.modelData.modelKitchenCountertops),
+              _descriptionData(
+                  context, "Cabinetry", widget.modelData.modelKitchenCabinetry),
+              _descriptionData(
+                  context, "Flooring", widget.modelData.modelFlooringOfKitchen),
+              SizedBox(height: size.height * 0.05),
+            ],
+          ),
+
+        // Bathrooms
+        if (isMore)
+          Column(
+            children: [
+              _descriptionHeading(context, "Bathroom Space"),
+              _descriptionData(
+                  context, "Vanity", widget.modelData.modelBathroomVanity),
+              _descriptionData(context, "Flooring",
+                  widget.modelData.modelFlooringOfBathrooms),
+              SizedBox(height: size.height * 0.05),
+            ],
+          ),
+
+        // Outdoor
+        if (isMore)
+          Column(
+            children: [
+              _descriptionHeading(context, "Outdoor Space"),
+              _descriptionData(
+                  context, "Yard", widget.modelData.modelYard ? "Yes" : "No"),
+              _descriptionData(
+                  context, "Deck", widget.modelData.modelDeck ? "Yes" : "No"),
+              _descriptionData(
+                  context, "Patio", widget.modelData.modelPatio ? "Yes" : "No"),
+              _descriptionData(context, "Parkings",
+                  widget.modelData.modelGarageNumOfParkings.toString()),
+              _descriptionData(context, "Swimming Pool",
+                  widget.modelData.modelPool ? "Yes" : "No"),
+              _descriptionData(context, "Landscape",
+                  widget.modelData.modelLandscapingStyle.toString()),
+              SizedBox(height: size.height * 0.05),
+            ],
+          ),
+
+        // EnergyEfficiency
+        if (isMore)
+          Column(
+            children: [
+              _descriptionHeading(context, "Energy Efficiency"),
+              _descriptionData(context, "Energy Efficiency",
+                  widget.modelData.modelEnergyEfficiencyTools.toString()),
+              SizedBox(height: size.height * 0.05),
+            ],
+          ),
+
+        TextButton(
+          onPressed: () {
+            setState(() {
+              isMore = !isMore;
+            });
+          },
+          child: Text(
+            isMore ? "show less" : "show more",
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: Theme.of(context).primaryColor,
+                ),
+          ),
         ),
       ],
     );

@@ -1,6 +1,6 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:virtualbuild/firebase/firestore_database.dart';
 import 'package:virtualbuild/screens/auth/user_info_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
@@ -9,7 +9,6 @@ import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/auth/customsigningoogle.dart';
 import '../../widgets/customloadingspinner.dart';
-import '../../widgets/customsnackbar.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -176,11 +175,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                             } else if (exist == 1) {
                               scaffoldMessengerVar.showSnackBar(
-                                const SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted:
+                                SnackBar(
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Oh snap!',
+                                    message:
                                         "This Email is already used. Go to login page",
-                                    bgColor: Color.fromRGBO(199, 44, 65, 1),
+                                    contentType: ContentType.warning,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,
@@ -189,11 +189,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                             } else {
                               scaffoldMessengerVar.showSnackBar(
-                                const SnackBar(
-                                  content: CustomSnackBar(
-                                    messageToBePrinted:
+                                SnackBar(
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Oh snap!',
+                                    message:
                                         "Register failed. Please try again.",
-                                    bgColor: Color.fromRGBO(199, 44, 65, 1),
+                                    contentType: ContentType.failure,
                                   ),
                                   behavior: SnackBarBehavior.floating,
                                   backgroundColor: Colors.transparent,
