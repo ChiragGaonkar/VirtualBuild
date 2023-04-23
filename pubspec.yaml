@@ -52,6 +52,7 @@ dependencies:
   awesome_snackbar_content: ^0.1.3
   url_launcher: ^6.1.10
   animated_splash_screen: ^1.3.0
+  drop_down_list: ^0.0.5
 
 dev_dependencies:
   flutter_test:
