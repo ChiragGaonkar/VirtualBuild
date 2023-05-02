@@ -23,7 +23,7 @@ import 'screens/accounts/account_screen.dart';
 import 'screens/display_screen.dart';
 import 'screens/architects/explorearchitects_screen.dart';
 import 'screens/housemodels/exploremodels_screen.dart';
-import 'screens/favorites_screen.dart';
+import 'screens/favourites/favorites_screen.dart';
 import 'screens/auth/forgotpassword_screen.dart';
 import 'screens/accounts/edit_profile_screen.dart';
 import 'firebase_options.dart';

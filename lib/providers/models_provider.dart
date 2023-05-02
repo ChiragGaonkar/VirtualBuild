@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
 
@@ -232,6 +234,23 @@ class ModelsProvider with ChangeNotifier {
     //models = w3;
     print(w3.length);
     return w3;
+  }
+
+  Future<List<Models3D>> get getFavModel async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    List favId = [];
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      if (documentSnapshot.exists) {
+        var data = await documentSnapshot.data() as Map<String, dynamic>;
+        favId = data["favorites"];
+      }
+    });
+    print(favId);
+    return [];
   }
 
   Models3D getModelById(String id) {

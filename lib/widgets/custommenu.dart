@@ -9,7 +9,7 @@ import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/screens/architects/explorearchitects_screen.dart';
 import 'package:virtualbuild/screens/housemodels/exploremodels_screen.dart';
-import 'package:virtualbuild/screens/favorites_screen.dart';
+import 'package:virtualbuild/screens/favourites/favorites_screen.dart';
 import '../providers/drawer_nav_provider.dart';
 import '../providers/user_data_provider.dart';
 import '../screens/auth/home_screen.dart';
