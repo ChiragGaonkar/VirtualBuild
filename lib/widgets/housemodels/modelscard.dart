@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardicons.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardbuttons.dart';
 import 'package:virtualbuild/widgets/housemodels/waveclipper.dart';
 
+import '../../providers/user_data_provider.dart';
 import '../../screens/housemodels/models_detail_screen.dart';
 
 class ModelsCard extends StatefulWidget {
@@ -163,8 +165,14 @@ class _ModelsCardState extends State<ModelsCard> {
                                     children: [
                                       ModelsCardButtons(
                                         buttontext: "Favorite",
-                                        whatOnPressed: () {
-                                          //Write a function when add to favorites;
+                                        whatOnPressed: () async {
+                                          print("dddd");
+                                          var fav =
+                                              Provider.of<UserDataProvide>(
+                                                  context,
+                                                  listen: false);
+                                          await fav.removeFavourite(
+                                              widget.modelData.modelId);
                                         },
                                       ),
                                       ModelsCardButtons(
