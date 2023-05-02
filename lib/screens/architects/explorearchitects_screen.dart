@@ -8,6 +8,7 @@ import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
+import '../../widgets/architects/filterarchitects.dart';
 
 class ExploreArchitectsScreen extends StatelessWidget {
   ExploreArchitectsScreen({super.key});
@@ -68,6 +69,7 @@ class ExploreArchitectsScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.02,
             ),
+            const FilterArchitects(),
             StreamBuilder(
               stream: architectData.getArchitects,
               builder: (context, snapshots) {
