@@ -25,33 +25,27 @@ class ArchitectsProvider with ChangeNotifier {
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      await FirebaseFirestore.instance
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
           .collection('users')
           .doc(userId)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) async {
-        if (documentSnapshot.exists) {
-          var data = await documentSnapshot.data() as Map<String, dynamic>;
-          favArch = data["archFav"];
-          print("fav $favArch");
-          favArch.forEach((element) async {
-            var result = await FirebaseFirestore.instance
-                .collection("architects")
-                .doc(element)
-                .get()
-                .then((DocumentSnapshot documentSnapshot) async {
-              var arch = await documentSnapshot.data() as Map<String, dynamic>;
-              print("name ${arch["architectName"]}");
-              r.add(ArchitectModel.fromJson(arch));
-            });
-          });
-          print(r.length);
-        }
-      });
+          .get();
+      favArch = userData["archFav"];
+      for (var element in favArch) {
+        var result = await FirebaseFirestore.instance
+            .collection("architects")
+            .doc(element)
+            .get();
+        //print("name ${result["architectName"]}");
+        r.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
+        //print(r.length);
+      }
+      //print("fav $favArch");
+      return r;
     } catch (e) {
       print(e);
+      return [];
     }
-    return [];
   }
 
   // List<ArchitectModel> get myArchitects {

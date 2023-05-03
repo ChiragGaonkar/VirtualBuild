@@ -79,4 +79,18 @@ class Models3D {
     required this.modelTechnologyAndSmartFeatures,
     required this.modelEnergyEfficiencyTools,
   });
+
+  // static Models3D fromJson(Map<String, dynamic> json) => Models3D(
+  //       architectID: json['architectID'],
+  //       architectName: json['architectName'],
+  //       architectType: json['architectType'],
+  //       architectRegisterNum: json['architectRegisterNum'],
+  //       architectExperience: json['architectExperience'],
+  //       architectOfficeLocation: json['architectOfficeLocation'],
+  //       aboutMe: json['aboutMe'],
+  //       skills: json['skills'],
+  //       architectImageUrl: json['architectImageUrl'],
+  //       architectClientsId: json['architectClientsId'],
+  //       architectProjectsId: json['architectProjectsId'],
+  //     );
 }
