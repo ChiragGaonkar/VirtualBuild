@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
-
 import '../../providers/architects_provider.dart';
 import '../../widgets/architects/architectscard.dart';
 import '../../widgets/customloadingspinner.dart';
@@ -17,13 +16,13 @@ class _ArchFavState extends State<ArchFav> {
   @override
   Widget build(BuildContext context) {
     var architectData = Provider.of<ArchitectsProvider>(context, listen: false);
-    return StreamBuilder(
-      stream: architectData.getArchitects,
+    return FutureBuilder(
+      future: architectData.getFavArchitects(),
       builder: (context, snapshots) {
         if (!snapshots.hasData) {
           return const CustomLoadingSpinner();
         }
-        return Flexible(
+        return Expanded(
           child: ResponsiveGridList(
             rowMainAxisAlignment: MainAxisAlignment.end,
             minItemsPerRow: 1,

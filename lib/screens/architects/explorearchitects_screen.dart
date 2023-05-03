@@ -10,11 +10,19 @@ import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
 import '../../widgets/architects/filterarchitects.dart';
 
-class ExploreArchitectsScreen extends StatelessWidget {
+class ExploreArchitectsScreen extends StatefulWidget {
   ExploreArchitectsScreen({super.key});
 
   static const routeName = "/explorearchitects";
+
+  @override
+  State<ExploreArchitectsScreen> createState() =>
+      _ExploreArchitectsScreenState();
+}
+
+class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isFilterArchitects = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +60,17 @@ class ExploreArchitectsScreen extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
+                      color: isFilterArchitects
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).canvasColor,
                       borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        isFilterArchitects = !isFilterArchitects;
+                      });
+                    },
                     icon: Icon(
                       Icons.filter_alt_outlined,
                       color: Theme.of(context).secondaryHeaderColor,
@@ -69,7 +83,7 @@ class ExploreArchitectsScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.02,
             ),
-            const FilterArchitects(),
+            if (isFilterArchitects) const FilterArchitects(),
             StreamBuilder(
               stream: architectData.getArchitects,
               builder: (context, snapshots) {

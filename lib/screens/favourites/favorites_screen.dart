@@ -30,15 +30,27 @@ class FavoritesScreen extends StatelessWidget {
               ),
               TabBar(
                 tabs: [
-                  Tab(icon: Icon(Icons.directions_car)),
-                  Tab(icon: Icon(Icons.directions_transit)),
+                  Tab(
+                    icon: Icon(
+                      Icons.groups,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    text: "Architects",
+                  ),
+                  Tab(
+                    icon: Icon(
+                      Icons.other_houses_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    text: "Models",
+                  ),
                 ],
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: [
-                    ModelFav(),
                     ArchFav(),
+                    ModelFav(),
                   ],
                 ),
               ),

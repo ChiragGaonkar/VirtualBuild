@@ -17,15 +17,15 @@ class ArchitectsProvider with ChangeNotifier {
     // result.listen((architects) {
     //   _architects.addAll(architects);
     // });
-
     return result;
   }
 
-  Stream<List<ArchitectModel>> get getFavArchitects {
+  Future<List<ArchitectModel>> getFavArchitects() async {
+    List<ArchitectModel> r = [];
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get()
@@ -33,25 +33,25 @@ class ArchitectsProvider with ChangeNotifier {
         if (documentSnapshot.exists) {
           var data = await documentSnapshot.data() as Map<String, dynamic>;
           favArch = data["archFav"];
-          var result = FirebaseFirestore.instance
-              .collection("architects")
-              .where("architectID", whereIn: favArch)
-              .snapshots()
-              .map(
-                (snapshot) => snapshot.docs
-                    .map((docs) => ArchitectModel.fromJson(docs.data()))
-                    .toList(),
-              );
-          return result;
-        }else{
-          return Stream.empty();
+          print("fav $favArch");
+          favArch.forEach((element) async {
+            var result = await FirebaseFirestore.instance
+                .collection("architects")
+                .doc(element)
+                .get()
+                .then((DocumentSnapshot documentSnapshot) async {
+              var arch = await documentSnapshot.data() as Map<String, dynamic>;
+              print("name ${arch["architectName"]}");
+              r.add(ArchitectModel.fromJson(arch));
+            });
+          });
+          print(r.length);
         }
       });
     } catch (e) {
       print(e);
-      rethrow;
     }
-    
+    return [];
   }
 
   // List<ArchitectModel> get myArchitects {
