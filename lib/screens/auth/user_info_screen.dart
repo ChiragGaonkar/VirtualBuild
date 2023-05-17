@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
+import '../../firebase/authentication.dart';
 import '../../widgets/auth/custombuttontonext.dart';
 import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/customloadingspinner.dart';
@@ -150,24 +151,30 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             );
 
                             //Send OTP to the user
-                            localOTP = await sendOtp(args['email']);
+                            //localOTP = await sendOtp(args['email']);
 
                             navigatorVar.pop();
 
                             if (localOTP != "") {
                               //Navigate to OTP Screen for verification.
-                              scaffoldMessengerVar.showSnackBar(
-                                SnackBar(
-                                  content: AwesomeSnackbarContent(
-                                    title: 'Hurray!',
-                                    message: "OTP sent successfully",
-                                    contentType: ContentType.success,
-                                  ),
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                ),
+                              // scaffoldMessengerVar.showSnackBar(
+                              //   SnackBar(
+                              //     content: AwesomeSnackbarContent(
+                              //       title: 'Hurray!',
+                              //       message: "OTP sent successfully",
+                              //       contentType: ContentType.success,
+                              //     ),
+                              //     behavior: SnackBarBehavior.floating,
+                              //     backgroundColor: Colors.transparent,
+                              //     elevation: 0,
+                              //   ),
+                              // );
+
+                                        await Auth().createUserWithEmailAndPassword(
+                                email: args['email'],
+                                password: args['password'],
                               );
+
 
                               navigatorVar.pushNamed(
                                 OTPScreen.routeName,

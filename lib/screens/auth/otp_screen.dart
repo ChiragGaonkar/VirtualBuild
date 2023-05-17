@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,50 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   String otpController = "";
   Map<String, dynamic> errorIfAny = {};
+  bool isEmailVerified = false;
+  Timer? timer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    timer =
+        Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
+  }
+
+  checkEmailVerified() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+
+    setState(() {
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
+
+    if (isEmailVerified) {
+      // TODO: implement your code after email verification
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: AwesomeSnackbarContent(
+            title: 'Hurray!',
+            message: "Created account Successfully.",
+            contentType: ContentType.success,
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+
+      timer?.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,39 +86,57 @@ class _OTPScreenState extends State<OTPScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Header(heading: "OTP Verification"),
+            const Header(heading: "Email Verification"),
             SizedBox(
               height: size.height * 0.05,
             ),
-            OtpTextField(
-              numberOfFields: 5,
-              fieldWidth: size.width * 0.15,
-              showFieldAsBox: true,
-              filled: true,
-              fillColor: Theme.of(context).canvasColor,
-              focusedBorderColor: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(15),
-              enabledBorderColor: Theme.of(context).canvasColor,
-              onSubmit: (String verificationCode) {
-                //Code to perform operation;
-                otpController = verificationCode;
-              },
+            const Center(
+              child: Text(
+                'Check your \n Email',
+                textAlign: TextAlign.center,
+              ),
             ),
-            SizedBox(
-              height: size.height * 0.02,
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: Center(
+                child: Text(
+                  'We have sent you a Email on  ${args['email']}',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-            RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.titleSmall,
-                children: [
-                  TextSpan(
-                    text: "*",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                  TextSpan(
-                    text: " Enter the OTP sent to ${args['email']}",
-                  ),
-                ],
+            const SizedBox(height: 16),
+            isEmailVerified
+                ? Center(
+                    child: Text(
+                      "Go ahead",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  )
+                : const Center(child: CustomLoadingSpinner()),
+            const SizedBox(height: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32.0),
+              child: Center(
+                child: Text(
+                  'Verifying email....',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(height: 57),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: ElevatedButton(
+                child: const Text('Resend'),
+                onPressed: () {
+                  try {
+                    FirebaseAuth.instance.currentUser?.sendEmailVerification();
+                  } catch (e) {
+                    debugPrint('$e');
+                  }
+                },
               ),
             ),
             SizedBox(
@@ -82,7 +146,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 text: "Verify OTP",
                 onPressed: () async {
                   //Compare OTP: if correct createNewUser
-                  if (otpController == args['localOTP']) {
+                  if (isEmailVerified) {
                     //Start CircularProgressIndicator
                     showDialog(
                       context: context,
@@ -92,79 +156,51 @@ class _OTPScreenState extends State<OTPScreen> {
                     );
 
                     //Logic for authentication and create user
-                    errorIfAny = await Auth().createUserWithEmailAndPassword(
+                    // errorIfAny = await Auth().createUserWithEmailAndPassword(
+                    //   email: args['email'],
+                    //   password: args['password'],
+                    // );
+
+                    final User? user = Auth().currentUser;
+                    await FireDatabase().createUser(
+                      uid: user!.uid.toString(),
+                      name: args['name'],
+                      phoneNumber: args['phoneNumber'],
                       email: args['email'],
-                      password: args['password'],
+                      address: args['address'],
                     );
 
-                    if (errorIfAny.isEmpty) {
-                      final User? user = Auth().currentUser;
-                      await FireDatabase().createUser(
-                        uid: user!.uid.toString(),
-                        name: args['name'],
-                        phoneNumber: args['phoneNumber'],
-                        email: args['email'],
-                        address: args['address'],
-                      );
+                    userProvider.setData(
+                      args['name'],
+                      args['email'],
+                      args['address'],
+                      args['phoneNumber'],
+                    );
 
-                      userProvider.setData(
-                        args['name'],
-                        args['email'],
-                        args['address'],
-                        args['phoneNumber'],
-                      );
+                    navigatorVar.pop();
 
-                      navigatorVar.pop();
-
-                      scaffoldMessengerVar.showSnackBar(
-                        SnackBar(
-                          content: AwesomeSnackbarContent(
-                            title: 'Hurray!',
-                            message: "Created account Successfully.",
-                            contentType: ContentType.success,
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                        ),
-                      );
-                      //Clears full stack fo screens.
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return const DisplayScreen();
-                      }), (r) {
-                        return false;
-                      });
-                    } else {
-                      scaffoldMessengerVar.showSnackBar(
-                        SnackBar(
-                          content: AwesomeSnackbarContent(
-                            title: 'Oh snap!',
-                            message: errorIfAny['error'],
-                            contentType: ContentType.failure,
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                        ),
-                      );
-                    }
-                    //Logic for authentication ends here.
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    scaffoldMessengerVar.showSnackBar(
                       SnackBar(
                         content: AwesomeSnackbarContent(
-                          title: 'Oh snap!',
-                          message:
-                              "Sorry, the OTP did not match. Please try again.",
-                          contentType: ContentType.warning,
+                          title: 'Hurray!',
+                          message: "Created account Successfully.",
+                          contentType: ContentType.success,
                         ),
                         behavior: SnackBarBehavior.floating,
                         backgroundColor: Colors.transparent,
                         elevation: 0,
                       ),
                     );
+                    //Clears full stack fo screens.
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const DisplayScreen();
+                    }), (r) {
+                      return false;
+                    });
+
+                    //Logic for authentication ends here.
                   }
                 }),
           ],
