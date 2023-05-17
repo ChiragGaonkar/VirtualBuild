@@ -155,52 +155,51 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
                             navigatorVar.pop();
 
-                            if (localOTP != "") {
-                              //Navigate to OTP Screen for verification.
-                              // scaffoldMessengerVar.showSnackBar(
-                              //   SnackBar(
-                              //     content: AwesomeSnackbarContent(
-                              //       title: 'Hurray!',
-                              //       message: "OTP sent successfully",
-                              //       contentType: ContentType.success,
-                              //     ),
-                              //     behavior: SnackBarBehavior.floating,
-                              //     backgroundColor: Colors.transparent,
-                              //     elevation: 0,
-                              //   ),
-                              // );
+                            // if (localOTP != "") {
+                            //Navigate to OTP Screen for verification.
+                            // scaffoldMessengerVar.showSnackBar(
+                            //   SnackBar(
+                            //     content: AwesomeSnackbarContent(
+                            //       title: 'Hurray!',
+                            //       message: "OTP sent successfully",
+                            //       contentType: ContentType.success,
+                            //     ),
+                            //     behavior: SnackBarBehavior.floating,
+                            //     backgroundColor: Colors.transparent,
+                            //     elevation: 0,
+                            //   ),
+                            // );
 
-                                        await Auth().createUserWithEmailAndPassword(
-                                email: args['email'],
-                                password: args['password'],
-                              );
+                            await Auth().createUserWithEmailAndPassword(
+                              email: args['email'],
+                              password: args['password'],
+                            );
 
-
-                              navigatorVar.pushNamed(
-                                OTPScreen.routeName,
-                                arguments: {
-                                  'email': args['email'],
-                                  'password': args['password'],
-                                  'name': _nameTextController.text,
-                                  'phoneNumber': _phoneNumberController.text,
-                                  'address': _addressController.text,
-                                  'localOTP': localOTP,
-                                },
-                              );
-                            } else {
-                              scaffoldMessengerVar.showSnackBar(
-                                SnackBar(
-                                  content: AwesomeSnackbarContent(
-                                    title: 'Oh snap!',
-                                    message: "Failed to send OTP",
-                                    contentType: ContentType.failure,
-                                  ),
-                                  behavior: SnackBarBehavior.floating,
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                ),
-                              );
-                            }
+                            navigatorVar.pushNamed(
+                              OTPScreen.routeName,
+                              arguments: {
+                                'email': args['email'],
+                                'password': args['password'],
+                                'name': _nameTextController.text,
+                                'phoneNumber': _phoneNumberController.text,
+                                'address': _addressController.text,
+                                'localOTP': localOTP,
+                              },
+                            );
+                            // } else {
+                            //   scaffoldMessengerVar.showSnackBar(
+                            //     SnackBar(
+                            //       content: AwesomeSnackbarContent(
+                            //         title: 'Oh snap!',
+                            //         message: "Failed to send OTP",
+                            //         contentType: ContentType.failure,
+                            //       ),
+                            //       behavior: SnackBarBehavior.floating,
+                            //       backgroundColor: Colors.transparent,
+                            //       elevation: 0,
+                            //     ),
+                            //   );
+                            // }
                           },
                         ),
                         SizedBox(
