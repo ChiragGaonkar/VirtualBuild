@@ -123,9 +123,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Enter Password",
                             Icons.lock_rounded,
                           ),
+                          // validator: (password) {
+                          //   if (password != null && password.length < 6) {
+                          //     return "Enter min 6 char long";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                           validator: (password) {
-                            if (password != null && password.length < 6) {
-                              return "Enter min 6 char long";
+                            if (password == null || password.isEmpty) {
+                              return "Please enter the password";
+                            } else if (password.length < 8) {
+                              return "Enter min 8 char long";
                             } else {
                               return null;
                             }
