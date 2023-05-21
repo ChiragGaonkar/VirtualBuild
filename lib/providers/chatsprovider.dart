@@ -109,6 +109,17 @@ class ChatsProvider with ChangeNotifier {
         onError: (e) => print("Cant Establish Connection"),
       );
 
+      //Add to the hiredArchitects array
+      FirebaseFirestore.instance
+          .collection("architects")
+          .doc(architectId)
+          .update({
+        "architectClientsId": FieldValue.arrayUnion([userId])
+      }).then(
+        (value) => print("Connection Established Sucessfully."),
+        onError: (e) => print("Cant Establish Connection"),
+      );
+
       DocumentReference documentReference = FirebaseFirestore.instance
           .collection("chats")
           .doc(userId + architectId)

@@ -8,6 +8,8 @@ import 'package:virtualbuild/widgets/headerwithphoto.dart';
 import '../../widgets/customscreen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'chats_screen.dart';
+
 class ChatDetail extends StatefulWidget {
   const ChatDetail({super.key});
   static const routeName = "/chatdetail";
@@ -33,11 +35,13 @@ class _ChatDetailState extends State<ChatDetail> {
       chatsProvider.sendMessage(
         message,
         true,
-        Sender.user,
+        sender,
         architectId,
       );
     }
   }
+
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +59,7 @@ class _ChatDetailState extends State<ChatDetail> {
             children: [
               HeaderWithPhoto(
                 heading: args['name'],
-                screenToBeRendered: "None",
+                screenToBeRendered: ChatsScreen.routeName,
                 imageURL: args['imageUrl'],
               ),
               Padding(
@@ -75,6 +79,7 @@ class _ChatDetailState extends State<ChatDetail> {
                           var listMessage = snapshot.data?.docs;
                           return ListView.builder(
                             itemCount: listMessage?.length,
+                            controller: _scrollController,
                             //shrinkWrap: true,
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             physics: const ClampingScrollPhysics(),
@@ -222,6 +227,8 @@ class _ChatDetailState extends State<ChatDetail> {
                               Sender.user,
                               args['aid'],
                             );
+                            Future.delayed(const Duration(milliseconds: 50))
+                                .then((_) => _scrollDown());
                           },
                           icon: Icon(
                             Icons.send,
@@ -238,6 +245,14 @@ class _ChatDetailState extends State<ChatDetail> {
           ),
         ),
       ),
+    );
+  }
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     );
   }
 }

@@ -71,6 +71,7 @@ class _CustomMenuState extends State<CustomMenu> {
     var userData = Provider.of<UserDataProvide>(context, listen: false);
     var highLighter = Provider.of<DrawerNavProvider>(context, listen: false);
     var navigatorVar = Navigator.of(context);
+    String imageUrl = "";
     highLighter.changeHighLighter(ModalRoute.of(context)!.settings.name);
     return SizedBox(
       width: widthOfMenuBar(size.width),
@@ -82,36 +83,42 @@ class _CustomMenuState extends State<CustomMenu> {
             height: size.height,
             child: Column(
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 65,
-                    backgroundImage: AssetImage("assets/Female.png"),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 FutureBuilder(
-                    future: userData.getData(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        String name = snapshot.data["name"];
-                        return Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            name,
-                            style: Theme.of(context).textTheme.titleMedium,
+                  future: userData.getData(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      String name = snapshot.data["name"];
+                      String imageUrl = snapshot.data["imageUrl"];
+                      return Column(
+                        children: [
+                          Center(
+                            child: CircleAvatar(
+                              radius: 65,
+                              backgroundImage: AssetImage(imageUrl),
+                            ),
                           ),
-                        );
-                      } else {
-                        return Center(
-                          child: LoadingAnimationWidget.waveDots(
-                            color: Theme.of(context).secondaryHeaderColor,
-                            size: 20,
+                          const SizedBox(
+                            height: 10,
                           ),
-                        );
-                      }
-                    }),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: LoadingAnimationWidget.waveDots(
+                          color: Theme.of(context).secondaryHeaderColor,
+                          size: 20,
+                        ),
+                      );
+                    }
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),

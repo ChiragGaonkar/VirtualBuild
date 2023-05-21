@@ -19,6 +19,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _nameController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _addressController = TextEditingController();
+  String _imageUrl = "";
   var prefeb;
   bool init = false;
 
@@ -57,6 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       //_emailTextController.text = userData["email"].toString();
       _phoneNoController.text = userData["phoneNumber"].toString();
       _addressController.text = userData["address"].toString();
+      _imageUrl = userData["imageUrl"];
       init = true;
     }
     return Scaffold(
@@ -80,8 +82,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SizedBox(
                         height: size.height * 0.04,
                       ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage("assets/Female.png"),
+                      CircleAvatar(
+                        backgroundImage: AssetImage(_imageUrl),
                         radius: 80,
                       ),
                       SizedBox(

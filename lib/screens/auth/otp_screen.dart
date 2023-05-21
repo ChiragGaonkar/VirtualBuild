@@ -1,14 +1,13 @@
 import 'dart:async';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/firestore_database.dart';
+import 'package:virtualbuild/screens/auth/text_message.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/header.dart';
-
 import '../../firebase/authentication.dart';
 import '../../providers/user_data_provider.dart';
 import '../../widgets/auth/custombuttontonext.dart';
@@ -24,14 +23,12 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  String otpController = "";
   Map<String, dynamic> errorIfAny = {};
   bool isEmailVerified = false;
   Timer? timer;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     FirebaseAuth.instance.currentUser?.sendEmailVerification();
     timer =
@@ -46,7 +43,6 @@ class _OTPScreenState extends State<OTPScreen> {
     });
 
     if (isEmailVerified) {
-      // TODO: implement your code after email verification
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: AwesomeSnackbarContent(
@@ -66,7 +62,6 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     timer?.cancel();
     super.dispose();
   }
@@ -90,119 +85,162 @@ class _OTPScreenState extends State<OTPScreen> {
             SizedBox(
               height: size.height * 0.05,
             ),
-            const Center(
-              child: Text(
-                'Check your \n Email',
-                textAlign: TextAlign.center,
+            Text(
+              emailVerficationMessage1,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Theme.of(context).primaryColor),
+            ),
+            SizedBox(height: size.height * 0.02),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: emailVerficationMessage2,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextSpan(
+                    text: args["email"],
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Theme.of(context).primaryColor),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: Center(
-                child: Text(
-                  'We have sent you a Email on  ${args['email']}',
-                  textAlign: TextAlign.center,
-                ),
+            SizedBox(height: size.height * 0.02),
+            Text(
+              emailVerficationMessage3,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            SizedBox(height: size.height * 0.02),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: emailVerficationMessage4,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextSpan(
+                    text: ' Resend Verification Email',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Theme.of(context).primaryColor),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        try {
+                          FirebaseAuth.instance.currentUser
+                              ?.sendEmailVerification();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: AwesomeSnackbarContent(
+                                title: 'Hurray!',
+                                message: "Sent verification link successfully.",
+                                contentType: ContentType.success,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                          );
+                        } catch (e) {
+                          debugPrint('$e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: AwesomeSnackbarContent(
+                                title: 'Oh snap!',
+                                message: "Failed to send verification link",
+                                contentType: ContentType.failure,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                          );
+                        }
+                      },
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            isEmailVerified
-                ? Center(
-                    child: Text(
-                      "Go ahead",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  )
-                : const Center(child: CustomLoadingSpinner()),
-            const SizedBox(height: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.0),
-              child: Center(
-                child: Text(
-                  'Verifying email....',
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            SizedBox(height: size.height * 0.02),
+            Text(
+              emailVerficationMessage5,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-            const SizedBox(height: 57),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              child: ElevatedButton(
-                child: const Text('Resend'),
-                onPressed: () {
-                  try {
-                    FirebaseAuth.instance.currentUser?.sendEmailVerification();
-                  } catch (e) {
-                    debugPrint('$e');
-                  }
-                },
-              ),
+            SizedBox(height: size.height * 0.02),
+            Text(
+              emailVerficationMessage6,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(
-              height: size.height * 0.07,
+              height: size.height * 0.2,
             ),
-            NextButtonClass(
-                text: "Verify OTP",
-                onPressed: () async {
-                  //Compare OTP: if correct createNewUser
-                  if (isEmailVerified) {
-                    //Start CircularProgressIndicator
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const CustomLoadingSpinner();
-                      },
-                    );
+            if (isEmailVerified)
+              NextButtonClass(
+                  text: "Proceed to Home Page",
+                  onPressed: () async {
+                    //Compare OTP: if correct createNewUser
+                    if (isEmailVerified) {
+                      //Start CircularProgressIndicator
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const CustomLoadingSpinner();
+                        },
+                      );
 
-                    //Logic for authentication and create user
-                    // errorIfAny = await Auth().createUserWithEmailAndPassword(
-                    //   email: args['email'],
-                    //   password: args['password'],
-                    // );
+                      //Logic for authentication and create user
+                      // errorIfAny = await Auth().createUserWithEmailAndPassword(
+                      //   email: args['email'],
+                      //   password: args['password'],
+                      // );
 
-                    final User? user = Auth().currentUser;
-                    await FireDatabase().createUser(
-                      uid: user!.uid.toString(),
-                      name: args['name'],
-                      phoneNumber: args['phoneNumber'],
-                      email: args['email'],
-                      address: args['address'],
-                    );
+                      final User? user = Auth().currentUser;
+                      await FireDatabase().createUser(
+                        uid: user!.uid.toString(),
+                        name: args['name'],
+                        phoneNumber: args['phoneNumber'],
+                        email: args['email'],
+                        address: args['address'],
+                      );
 
-                    userProvider.setData(
-                      args['name'],
-                      args['email'],
-                      args['address'],
-                      args['phoneNumber'],
-                    );
+                      userProvider.setData(
+                        args['name'],
+                        args['email'],
+                        args['address'],
+                        args['phoneNumber'],
+                      );
 
-                    navigatorVar.pop();
+                      navigatorVar.pop();
 
-                    scaffoldMessengerVar.showSnackBar(
-                      SnackBar(
-                        content: AwesomeSnackbarContent(
-                          title: 'Hurray!',
-                          message: "Created account Successfully.",
-                          contentType: ContentType.success,
+                      scaffoldMessengerVar.showSnackBar(
+                        SnackBar(
+                          content: AwesomeSnackbarContent(
+                            title: 'Hurray!',
+                            message: "Created account Successfully.",
+                            contentType: ContentType.success,
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
                         ),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                      ),
-                    );
-                    //Clears full stack fo screens.
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return const DisplayScreen();
-                    }), (r) {
-                      return false;
-                    });
+                      );
+                      //Clears full stack fo screens.
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const DisplayScreen();
+                      }), (r) {
+                        return false;
+                      });
 
-                    //Logic for authentication ends here.
-                  }
-                }),
+                      //Logic for authentication ends here.
+                    }
+                  }),
           ],
         ),
       ),

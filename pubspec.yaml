@@ -87,6 +87,7 @@ flutter:
     - assets/model_viewer.html
     - assets/imagesModels/
     - assets/Logo.png
+    - assets/profile.png
 
   #   - images/a_dot_ham.jpeg
 
