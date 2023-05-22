@@ -3,56 +3,54 @@ class Models3D {
   final String modelId;
   final String modelImageURL;
   final String model3dURL;
+  final String model3dBirdsView;
   final String modelName;
   final double modelPrice;
-  final double modelEstimatedPrice;
+  final double modelEstimatedBuildPrice;
   final String modelArchitectname;
   final String modelArchitectID;
 
   //Exterior
-  final String modelColorScheme;
+  final List modelColorScheme;
   final int modelFloors;
   final int modelTotalSquareFootage;
-  final String modelRoofStyle;
+  final List modelRoofStyle;
 
   //Interior
   final int modelNumberOfCommonRooms;
   final int modelNumberOfBedrooms;
   final int modelNumberOfBaths;
+  final double modelCeilingHeight;
   final List modelFlooringOfRooms;
   final List modelLightingOfRooms;
-  final double modelCeilingHeight;
 
-  //Kitchen
-  final String modelKitchenCountertops;
-  final String modelKitchenCabinetry;
-  final String modelFlooringOfKitchen;
-
-  //Bathrooms
-  final String modelBathroomVanity;
-  final String modelFlooringOfBathrooms;
+  //Kitchen and Bathrooms
+  final List modelKitchenCountertops;
+  final List modelKitchenCabinetry;
+  final List modelFlooringOfKitchen;
+  final List modelBathroomVanity;
 
   //Outdoor Space
   final bool modelYard;
   final bool modelDeck;
   final bool modelPatio;
-  final int modelGarageNumOfParkings;
+  final bool modelParkings;
   final bool modelPool;
-  final String modelLandscapingStyle;
 
-  //Technology and smart features
+  //Technology and smart features & EnergyEfficiency
   final List modelTechnologyAndSmartFeatures;
 
-  //EnergyEfficiency
-  final List modelEnergyEfficiencyTools;
+  //Other Designs
+  // final Map<String, dynamic> modelOtherDesignLinks;
 
   Models3D({
     required this.modelId,
     required this.modelImageURL,
     required this.model3dURL,
+    required this.model3dBirdsView,
     required this.modelName,
     required this.modelPrice,
-    required this.modelEstimatedPrice,
+    required this.modelEstimatedBuildPrice,
     required this.modelArchitectname,
     required this.modelArchitectID,
     required this.modelColorScheme,
@@ -69,28 +67,79 @@ class Models3D {
     required this.modelKitchenCabinetry,
     required this.modelFlooringOfKitchen,
     required this.modelBathroomVanity,
-    required this.modelFlooringOfBathrooms,
     required this.modelYard,
     required this.modelDeck,
     required this.modelPatio,
-    required this.modelGarageNumOfParkings,
+    required this.modelParkings,
     required this.modelPool,
-    required this.modelLandscapingStyle,
     required this.modelTechnologyAndSmartFeatures,
-    required this.modelEnergyEfficiencyTools,
+    // required this.modelOtherDesignLinks,
   });
 
-  // static Models3D fromJson(Map<String, dynamic> json) => Models3D(
-  //       architectID: json['architectID'],
-  //       architectName: json['architectName'],
-  //       architectType: json['architectType'],
-  //       architectRegisterNum: json['architectRegisterNum'],
-  //       architectExperience: json['architectExperience'],
-  //       architectOfficeLocation: json['architectOfficeLocation'],
-  //       aboutMe: json['aboutMe'],
-  //       skills: json['skills'],
-  //       architectImageUrl: json['architectImageUrl'],
-  //       architectClientsId: json['architectClientsId'],
-  //       architectProjectsId: json['architectProjectsId'],
-  //     );
+  Map<String, dynamic> toJson() => {
+        'modelId': modelId,
+        'modelImageURL': modelImageURL,
+        'model3dURL': model3dURL,
+        'model3dBirdsView': model3dBirdsView,
+        'modelName': modelName,
+        'modelPrice': modelPrice,
+        'modelEstimatedBuildPrice': modelEstimatedBuildPrice,
+        'modelArchitectname': modelArchitectname,
+        'modelArchitectID': modelArchitectID,
+        'modelColorScheme': modelColorScheme,
+        'modelFloors': modelFloors,
+        'modelTotalSquareFootage': modelTotalSquareFootage,
+        'modelRoofStyle': modelRoofStyle,
+        'modelNumberOfCommonRooms': modelNumberOfCommonRooms,
+        'modelNumberOfBedrooms': modelNumberOfBedrooms,
+        'modelNumberOfBaths': modelNumberOfBaths,
+        'modelFlooringOfRooms': modelFlooringOfRooms,
+        'modelLightingOfRooms': modelLightingOfRooms,
+        'modelCeilingHeight': modelCeilingHeight,
+        'modelKitchenCountertops': modelKitchenCountertops,
+        'modelKitchenCabinetry': modelKitchenCabinetry,
+        'modelFlooringOfKitchen': modelFlooringOfKitchen,
+        'modelBathroomVanity': modelBathroomVanity,
+        'modelYard': modelYard,
+        'modelDeck': modelDeck,
+        'modelPatio': modelPatio,
+        'modelParkings': modelParkings,
+        'modelPool': modelPool,
+        'modelTechnologyAndSmartFeatures': modelTechnologyAndSmartFeatures,
+        // 'modelOtherDesignLinks': {},
+      };
+
+  static Models3D fromJson(Map<String, dynamic> json) => Models3D(
+        modelId: json['modelId'],
+        modelImageURL: json['modelImageURL'],
+        model3dURL: json['model3dURL'],
+        model3dBirdsView: "",
+        modelName: json['modelName'],
+        modelPrice: json['modelPrice'],
+        modelEstimatedBuildPrice: json['modelEstimatedBuildPrice'],
+        modelArchitectname: json['modelArchitectname'],
+        modelArchitectID: json['modelArchitectID'],
+        modelColorScheme: json['modelColorScheme'],
+        modelFloors: json['modelFloors'],
+        modelTotalSquareFootage: json['modelTotalSquareFootage'],
+        modelRoofStyle: json['modelRoofStyle'],
+        modelNumberOfCommonRooms: json['modelNumberOfCommonRooms'],
+        modelNumberOfBedrooms: json['modelNumberOfBedrooms'],
+        modelNumberOfBaths: json['modelNumberOfBaths'],
+        modelFlooringOfRooms: json['modelFlooringOfRooms'],
+        modelLightingOfRooms: json['modelLightingOfRooms'],
+        modelCeilingHeight: json['modelCeilingHeight'],
+        modelKitchenCountertops: json['modelKitchenCountertops'],
+        modelKitchenCabinetry: json['modelKitchenCabinetry'],
+        modelFlooringOfKitchen: json['modelFlooringOfKitchen'],
+        modelBathroomVanity: json['modelBathroomVanity'],
+        modelYard: json['modelYard'],
+        modelDeck: json['modelDeck'],
+        modelPatio: json['modelPatio'],
+        modelParkings: json['modelParkings'],
+        modelPool: json['modelPool'],
+        modelTechnologyAndSmartFeatures:
+            json['modelTechnologyAndSmartFeatures'],
+        // modelOtherDesignLinks: json['modelOtherDesignLinks'],
+      );
 }

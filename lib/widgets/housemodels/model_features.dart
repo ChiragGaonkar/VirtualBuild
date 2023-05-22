@@ -84,14 +84,14 @@ class _ModelFeaturesState extends State<ModelFeatures> {
         ),
         //Exterior
         _descriptionHeading(context, "Exterior Space"),
-        _descriptionData(
-            context, "Color Scheme", widget.modelData.modelColorScheme),
+        _descriptionData(context, "Color Scheme",
+            widget.modelData.modelColorScheme.toString()),
         _descriptionData(
             context, "Floor/s", widget.modelData.modelFloors.toString()),
         _descriptionData(context, "Total Square Footage",
             "${widget.modelData.modelTotalSquareFootage}sq.ft"),
         _descriptionData(
-            context, "Roof Style", widget.modelData.modelRoofStyle),
+            context, "Roof Style", widget.modelData.modelRoofStyle.toString()),
         SizedBox(height: size.height * 0.05),
 
         // Interior
@@ -122,11 +122,11 @@ class _ModelFeaturesState extends State<ModelFeatures> {
             children: [
               _descriptionHeading(context, "Kitchen Space"),
               _descriptionData(context, "Countertops",
-                  widget.modelData.modelKitchenCountertops),
-              _descriptionData(
-                  context, "Cabinetry", widget.modelData.modelKitchenCabinetry),
-              _descriptionData(
-                  context, "Flooring", widget.modelData.modelFlooringOfKitchen),
+                  widget.modelData.modelKitchenCountertops.toString()),
+              _descriptionData(context, "Cabinetry",
+                  widget.modelData.modelKitchenCabinetry.toString()),
+              _descriptionData(context, "Flooring",
+                  widget.modelData.modelFlooringOfKitchen.toString()),
               SizedBox(height: size.height * 0.05),
             ],
           ),
@@ -136,10 +136,8 @@ class _ModelFeaturesState extends State<ModelFeatures> {
           Column(
             children: [
               _descriptionHeading(context, "Bathroom Space"),
-              _descriptionData(
-                  context, "Vanity", widget.modelData.modelBathroomVanity),
-              _descriptionData(context, "Flooring",
-                  widget.modelData.modelFlooringOfBathrooms),
+              _descriptionData(context, "Vanity",
+                  widget.modelData.modelBathroomVanity.toString()),
               SizedBox(height: size.height * 0.05),
             ],
           ),
@@ -156,11 +154,9 @@ class _ModelFeaturesState extends State<ModelFeatures> {
               _descriptionData(
                   context, "Patio", widget.modelData.modelPatio ? "Yes" : "No"),
               _descriptionData(context, "Parkings",
-                  widget.modelData.modelGarageNumOfParkings.toString()),
+                  widget.modelData.modelParkings ? "Yes" : "No"),
               _descriptionData(context, "Swimming Pool",
                   widget.modelData.modelPool ? "Yes" : "No"),
-              _descriptionData(context, "Landscape",
-                  widget.modelData.modelLandscapingStyle.toString()),
               SizedBox(height: size.height * 0.05),
             ],
           ),
@@ -171,7 +167,7 @@ class _ModelFeaturesState extends State<ModelFeatures> {
             children: [
               _descriptionHeading(context, "Energy Efficiency"),
               _descriptionData(context, "Energy Efficiency",
-                  widget.modelData.modelEnergyEfficiencyTools.toString()),
+                  widget.modelData.modelTechnologyAndSmartFeatures.toString()),
               SizedBox(height: size.height * 0.05),
             ],
           ),

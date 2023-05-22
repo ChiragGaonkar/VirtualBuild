@@ -5,6 +5,7 @@ import 'package:virtualbuild/widgets/customdecorationforinput.dart';
 import 'package:virtualbuild/widgets/housemodels/filtermodels.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 import '../../providers/models_provider.dart';
+import '../../widgets/customloadingspinner.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
 import '../../widgets/headerwithmenu.dart';
@@ -89,20 +90,28 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                 height: size.height * 0.02,
               ),
               if (!init) ...[
-                Flexible(
-                  child: ResponsiveGridList(
-                    rowMainAxisAlignment: MainAxisAlignment.end,
-                    minItemsPerRow: 1,
-                    minItemWidth: 300,
-                    listViewBuilderOptions: ListViewBuilderOptions(
-                      padding: EdgeInsets.zero,
-                    ),
-                    children: List.generate(
-                      modelData.getModel.length,
-                      (index) =>
-                          ModelsCard(modelData: modelData.getModel[index]),
-                    ),
-                  ),
+                StreamBuilder(
+                  stream: modelData.getMyModels,
+                  builder: (context, snapshots) {
+                    if (!snapshots.hasData) {
+                      return const CustomLoadingSpinner();
+                    }
+                    return Flexible(
+                      child: ResponsiveGridList(
+                        rowMainAxisAlignment: MainAxisAlignment.end,
+                        minItemsPerRow: 1,
+                        minItemWidth: 300,
+                        listViewBuilderOptions: ListViewBuilderOptions(
+                          padding: EdgeInsets.zero,
+                        ),
+                        children: List.generate(
+                          snapshots.data!.length,
+                          (index) =>
+                              ModelsCard(modelData: snapshots.data![index]),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ] else ...[
                 Flexible(

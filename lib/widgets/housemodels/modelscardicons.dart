@@ -4,13 +4,13 @@ class ModelsCardIcons extends StatelessWidget {
   final int numOfBeds;
   final int numOfBaths;
   final int numOfFloors;
-  final int numOfGarage;
+  final String parking;
   const ModelsCardIcons({
     super.key,
     required this.numOfBeds,
     required this.numOfBaths,
     required this.numOfFloors,
-    required this.numOfGarage,
+    required this.parking,
   });
 
   Widget iconTextCombine(
@@ -41,6 +41,12 @@ class ModelsCardIcons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           iconTextCombine(
+            Icons.roofing_rounded,
+            numOfFloors.toString(),
+            "Floors",
+            context,
+          ),
+          iconTextCombine(
             Icons.bedroom_parent,
             numOfBeds.toString(),
             "Beds",
@@ -53,14 +59,8 @@ class ModelsCardIcons extends StatelessWidget {
             context,
           ),
           iconTextCombine(
-            Icons.roofing_rounded,
-            numOfFloors.toString(),
-            "Floors",
-            context,
-          ),
-          iconTextCombine(
             Icons.garage_rounded,
-            numOfGarage.toString(),
+            parking,
             "Parkings",
             context,
           ),
