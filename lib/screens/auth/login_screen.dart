@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
     var navigatorVar = Navigator.of(context);
     var userProvider = Provider.of<UserDataProvide>(context, listen: false);
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -183,8 +183,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             //Stop CircularProgressIndicator
                             navigatorVar.pop();
 
+                            //clear all fields
+                            _emailTextController.clear();
+                            _passwordTextController.clear();
+
                             if (errorIfAny.isEmpty &&
-                                user!.displayName == "User") {
+                                FirebaseAuth
+                                        .instance.currentUser!.displayName ==
+                                    "User") {
                               scaffoldMessengerVar.showSnackBar(
                                 SnackBar(
                                   content: AwesomeSnackbarContent(

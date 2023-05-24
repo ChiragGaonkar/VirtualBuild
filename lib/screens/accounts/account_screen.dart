@@ -66,6 +66,7 @@ class _AccountScreenState extends State<AccountScreen>
 
     var size = MediaQuery.of(context).size;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
+    String imageUrl = "";
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -82,13 +83,6 @@ class _AccountScreenState extends State<AccountScreen>
             SizedBox(
               height: size.height * 0.04,
             ),
-            const CircleAvatar(
-              backgroundImage: AssetImage("assets/Female.png"),
-              radius: 80,
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
             FutureBuilder(
                 future: user_data.getData(),
                 builder: (context, AsyncSnapshot snapshot) {
@@ -97,8 +91,16 @@ class _AccountScreenState extends State<AccountScreen>
                     String email = snapshot.data["email"];
                     _addressController.text = snapshot.data["address"];
                     _phoneNoController.text = snapshot.data["phoneNumber"];
+                    imageUrl = snapshot.data["imageUrl"];
                     return Column(
                       children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage(imageUrl),
+                          radius: 80,
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
                         Text(
                           name,
                           style: Theme.of(context).textTheme.titleMedium,
@@ -153,7 +155,8 @@ class _AccountScreenState extends State<AccountScreen>
                       .pushNamed(EditProfileScreen.routeName, arguments: {
                     "name": name,
                     "phoneNumber": _phoneNoController.text,
-                    "address": _addressController.text
+                    "address": _addressController.text,
+                    "imageUrl": imageUrl,
                   }),
                   icon: const Icon(
                     Icons.arrow_forward_ios,

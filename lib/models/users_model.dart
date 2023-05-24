@@ -3,6 +3,7 @@ class UserModel {
   final String name;
   final String address;
   final String email;
+  final String imageUrl;
   final String phoneNumber;
   final List? favorites;
   final List? hiredArchitects;
@@ -14,6 +15,7 @@ class UserModel {
     required this.address,
     required this.email,
     required this.phoneNumber,
+    required this.imageUrl,
     this.favorites,
     this.hiredArchitects,
     this.orderedModels,
@@ -24,6 +26,7 @@ class UserModel {
         'name': name,
         'address': address,
         'email': email,
+        'imageUrl': imageUrl,
         'phoneNumber': phoneNumber,
         'favorites': [],
         'hiredArchitects': [],
@@ -35,6 +38,7 @@ class UserModel {
         name: json['name'],
         address: json['address'],
         email: json['email'],
+        imageUrl: json['imageUrl'],
         phoneNumber: json['phoneNumber'],
         favorites: json['favorites'],
         hiredArchitects: json['hiredArchitects'],

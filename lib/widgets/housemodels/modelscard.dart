@@ -29,7 +29,7 @@ class _ModelsCardState extends State<ModelsCard> {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         ModelsDetailScreen.routeName,
-        arguments: widget.modelData.modelId,
+        arguments: widget.modelData,
       ),
       child: Stack(
         children: [
@@ -40,7 +40,7 @@ class _ModelsCardState extends State<ModelsCard> {
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                image: AssetImage(
+                image: NetworkImage(
                   widget.modelData.modelImageURL,
                 ),
                 fit: BoxFit.cover,
@@ -153,8 +153,9 @@ class _ModelsCardState extends State<ModelsCard> {
                                     numOfBaths:
                                         widget.modelData.modelNumberOfBaths,
                                     numOfFloors: widget.modelData.modelFloors,
-                                    numOfGarage: widget
-                                        .modelData.modelGarageNumOfParkings,
+                                    parking: widget.modelData.modelParkings
+                                        ? "Yes"
+                                        : "No",
                                   ),
                                   const SizedBox(
                                     height: 10,

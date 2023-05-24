@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:virtualbuild/models/users_model.dart';
 
 class FireDatabase {
-
   Future<void> createUser({
     required String uid,
     required String name,
@@ -19,6 +18,7 @@ class FireDatabase {
         address: address,
         email: email,
         phoneNumber: phoneNumber,
+        imageUrl: 'assets/profile.png',
       );
       final json = user.toJson();
       await docUser.set(json);
