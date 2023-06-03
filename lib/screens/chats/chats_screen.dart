@@ -4,6 +4,7 @@ import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
+import '../../widgets/data_not_found.dart';
 import '../../widgets/headerwithmenu.dart';
 import '../../widgets/chats/chatlist.dart';
 import '../../widgets/customdecorationforinput.dart';
@@ -56,27 +57,28 @@ class _ChatsScreenState extends State<ChatsScreen> {
               FutureBuilder(
                 future: chatsArchitectsList.getMessagedArchitectsDetails(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                        child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(top: 25, bottom: 20),
-                      itemBuilder: (context, index) {
-                        return ChatList(
-                          name: snapshot.data![index].name,
-                          message: snapshot.data![index].message,
-                          imageUrl: snapshot.data![index].imageURL,
-                          time: snapshot.data![index].time,
-                          unreadCount: snapshot.data![index].unreadCount,
-                          chatsId: snapshot.data![index].chatId,
-                          isRead: (index == 0 || index == 3) ? true : false,
-                        );
-                      },
-                    ));
-                  } else {
+                  if (!snapshot.hasData) {
                     return const Center(child: CustomLoadingSpinner());
+                  } else if (snapshot.data!.isEmpty) {
+                    return const Center(child: DataNotFound());
                   }
+                  return Expanded(
+                      child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 25, bottom: 20),
+                    itemBuilder: (context, index) {
+                      return ChatList(
+                        name: snapshot.data![index].name,
+                        message: snapshot.data![index].message,
+                        imageUrl: snapshot.data![index].imageURL,
+                        time: snapshot.data![index].time,
+                        unreadCount: snapshot.data![index].unreadCount,
+                        chatsId: snapshot.data![index].chatId,
+                        isRead: (index == 0 || index == 3) ? true : false,
+                      );
+                    },
+                  ));
                 },
               )
             ],

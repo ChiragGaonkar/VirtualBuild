@@ -90,6 +90,8 @@ flutter:
     - assets/Logo.png
     - assets/profile.png
     - assets/fetchModel.png
+    - assets/NoData.png
+    - assets/DataNotFound.png
 
   #   - images/a_dot_ham.jpeg
 

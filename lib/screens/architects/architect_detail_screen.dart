@@ -118,10 +118,24 @@ class ArchitectDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 15),
                             StreamBuilder(
-                              stream: modelData.getMyModels,
+                              stream: modelData
+                                  .getArchitectSpecificModels(args.architectID),
                               builder: (context, snapshots) {
                                 if (!snapshots.hasData) {
                                   return const CustomLoadingSpinner();
+                                } else if (snapshots.data!.isEmpty) {
+                                  return Container(
+                                    width: 400,
+                                    height: 250,
+                                    decoration: BoxDecoration(
+                                      // color: Theme.of(context).canvasColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: const DecorationImage(
+                                        image: AssetImage("assets/NoData.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
                                 }
                                 return Flexible(
                                   child: CarouselSlider.builder(

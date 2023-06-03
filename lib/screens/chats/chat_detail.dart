@@ -8,6 +8,7 @@ import 'package:virtualbuild/widgets/headerwithphoto.dart';
 import '../../widgets/customscreen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../widgets/data_not_found.dart';
 import 'chats_screen.dart';
 
 class ChatDetail extends StatefulWidget {
@@ -75,6 +76,8 @@ class _ChatDetailState extends State<ChatDetail> {
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (!snapshot.hasData) {
                           return const CustomLoadingSpinner();
+                        } else if (snapshot.data!.docs.isEmpty) {
+                          return const Center(child: DataNotFound());
                         } else {
                           var listMessage = snapshot.data?.docs;
                           return ListView.builder(

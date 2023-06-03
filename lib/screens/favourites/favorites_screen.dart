@@ -13,6 +13,7 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -46,10 +47,13 @@ class FavoritesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Flexible(
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Expanded(
                 child: TabBarView(
                   children: [
-                    ModelFav(),
+                    ArchFav(),
                     ModelFav(),
                   ],
                 ),

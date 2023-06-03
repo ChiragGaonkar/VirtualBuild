@@ -7,6 +7,7 @@ import '../../providers/architects_provider.dart';
 import '../../widgets/customdecorationforinput.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
+import '../../widgets/data_not_found.dart';
 import '../../widgets/headerwithmenu.dart';
 import '../../widgets/architects/filterarchitects.dart';
 
@@ -89,6 +90,8 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
                   return const CustomLoadingSpinner();
+                } else if (snapshots.data!.isEmpty) {
+                  return const DataNotFound();
                 }
                 return Flexible(
                   child: ResponsiveGridList(

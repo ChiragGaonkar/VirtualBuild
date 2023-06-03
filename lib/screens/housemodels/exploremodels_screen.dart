@@ -8,6 +8,7 @@ import '../../providers/models_provider.dart';
 import '../../widgets/customloadingspinner.dart';
 import '../../widgets/custommenu.dart';
 import '../../widgets/customscreen.dart';
+import '../../widgets/data_not_found.dart';
 import '../../widgets/headerwithmenu.dart';
 
 class ExploreModelsScreen extends StatefulWidget {
@@ -95,6 +96,8 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                 builder: (context, snapshots) {
                   if (!snapshots.hasData) {
                     return const CustomLoadingSpinner();
+                  } else if (snapshots.data!.isEmpty) {
+                    return const DataNotFound();
                   }
                   return Flexible(
                     child: ResponsiveGridList(

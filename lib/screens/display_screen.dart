@@ -12,6 +12,8 @@ import 'package:virtualbuild/widgets/headerwithmenu.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../widgets/data_not_found.dart';
+
 class DisplayScreen extends StatefulWidget {
   const DisplayScreen({super.key});
   static const routeName = "/display";
@@ -121,6 +123,8 @@ class _DisplayScreenState extends State<DisplayScreen> {
                 if (!snapshots.hasData) {
                   print("From display mare ${snapshots.data}");
                   return const CustomLoadingSpinner();
+                } else if (snapshots.data!.isEmpty) {
+                  return const DataNotFound();
                 }
                 return Flexible(
                   child: ResponsiveGridList(

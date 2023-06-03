@@ -20,8 +20,32 @@ class ArchitectsProvider with ChangeNotifier {
     return result;
   }
 
+  Future<bool> addFavouriteArchitect(String id) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        "favArchitects": FieldValue.arrayUnion([id])
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeFavouriteArchitect(String id) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        "favArchitects": FieldValue.arrayRemove([id])
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<List<ArchitectModel>> getFavArchitects() async {
-    List<ArchitectModel> r = [];
+    List<ArchitectModel> favArchitects = [];
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -30,26 +54,19 @@ class ArchitectsProvider with ChangeNotifier {
           .collection('users')
           .doc(userId)
           .get();
-      favArch = userData["archFav"];
+      favArch = userData["favArchitects"];
       for (var element in favArch) {
         var result = await FirebaseFirestore.instance
             .collection("architects")
             .doc(element)
             .get();
-        //print("name ${result["architectName"]}");
-        r.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
-        //print(r.length);
+        favArchitects.add(
+            ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
       }
-      //print("fav $favArch");
-      return r;
+      return favArchitects;
     } catch (e) {
       print(e);
       return [];
     }
   }
-
-  // List<ArchitectModel> get myArchitects {
-  //   getArchitects;
-  //   return [..._architects];
-  // }
 }

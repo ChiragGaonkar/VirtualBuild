@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
+import 'package:virtualbuild/widgets/data_not_found.dart';
 
 import '../../providers/models_provider.dart';
 import '../../widgets/housemodels/modelscard.dart';
@@ -14,13 +15,14 @@ class ModelFav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var modelsProvider = Provider.of<ModelsProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
     return FutureBuilder(
       future: modelsProvider.getFavModel,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const CustomLoadingSpinner();
-        } else {
-          print("In models Fav ${snapshot.data}");
+        } else if (snapshot.data!.isEmpty) {
+          return const DataNotFound();
         }
         return ResponsiveGridList(
           rowMainAxisAlignment: MainAxisAlignment.end,

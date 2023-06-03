@@ -8,6 +8,7 @@ import 'package:virtualbuild/widgets/headerwithmenu.dart';
 import '../../widgets/botarchitect/chat_message.dart';
 import '../../widgets/custommenu.dart';
 import 'package:http/http.dart' as http;
+import '../../widgets/data_not_found.dart';
 import 'bot_constants.dart';
 
 class ChatWithBotScreen extends StatefulWidget {
@@ -82,6 +83,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                 header: "AI Architect",
                 scaffoldKey: scaffoldKey,
               ),
+              if (_messages.isEmpty) const DataNotFound(),
               Expanded(
                 child: ListView.builder(
                   controller: _scrollController,

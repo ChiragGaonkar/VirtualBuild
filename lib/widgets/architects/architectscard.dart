@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/models/architects_model.dart';
+import 'package:virtualbuild/providers/architects_provider.dart';
 import 'package:virtualbuild/screens/architects/architect_detail_screen.dart';
 import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import '../housemodels/modelscardbuttons.dart';
@@ -155,6 +157,12 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                         buttontext: "Favorite",
                                         whatOnPressed: () {
                                           //Write a function when add to favorites;
+                                          Provider.of<ArchitectsProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .addFavouriteArchitect(
+                                            widget.architectData.architectID,
+                                          );
                                         },
                                       ),
                                       const SizedBox(

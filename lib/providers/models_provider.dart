@@ -27,6 +27,19 @@ class ModelsProvider with ChangeNotifier {
     return result;
   }
 
+  Stream<List<Models3D>> getArchitectSpecificModels(String architectID) {
+    var result = FirebaseFirestore.instance
+        .collection("models")
+        .where("modelArchitectID", isEqualTo: architectID)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => Models3D.fromJson(docs.data()))
+              .toList(),
+        );
+    return result;
+  }
+
   List<Models3D> get getFilteredModel {
     print("currentRangeValuesPrice $currentRangeValuesPrice");
     print("currentRangeValuesArea $currentRangeValuesArea");
@@ -51,7 +64,7 @@ class ModelsProvider with ChangeNotifier {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        "favorites": FieldValue.arrayUnion([id])
+        "favModels": FieldValue.arrayUnion([id])
       }, SetOptions(merge: true));
       return true;
     } catch (e) {
@@ -63,7 +76,7 @@ class ModelsProvider with ChangeNotifier {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        "favorites": FieldValue.arrayRemove([id])
+        "favModels": FieldValue.arrayRemove([id])
       }, SetOptions(merge: true));
       return true;
     } catch (e) {
@@ -71,33 +84,8 @@ class ModelsProvider with ChangeNotifier {
     }
   }
 
-  List<Models3D> favModels = [];
-
-  // Future<List<Models3D>> get getFavModel async {
-  //   try {
-  //     List<Models3D> result = [];
-  //     var favModel = [];
-  //     final userId = FirebaseAuth.instance.currentUser!.uid;
-  //     DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-  //         .instance
-  //         .collection('users')
-  //         .doc(userId)
-  //         .get();
-  //     favModel = userData["favorites"];
-  //     favModel.map((favModelId) async {
-  //       final CollectionReference modelCollection =
-  //           FirebaseFirestore.instance.collection("models");
-  //       final DocumentSnapshot docModelSnapshot =
-  //           await modelCollection.doc(favModelId).get();
-  //     });
-  //     return [];
-  //   } catch (e) {
-  //     return [];
-  //   }
-  // }
-
   Future<List<Models3D>> get getFavModel async {
-    List<Models3D> r = [];
+    List<Models3D> favArchitects = [];
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -106,16 +94,17 @@ class ModelsProvider with ChangeNotifier {
           .collection('users')
           .doc(userId)
           .get();
-      favArch = userData["favorites"];
+      favArch = userData["favModels"];
       for (var element in favArch) {
         var result = await FirebaseFirestore.instance
             .collection("models")
             .doc(element)
             .get();
-        r.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+        favArchitects
+            .add(Models3D.fromJson(result.data() as Map<String, dynamic>));
       }
       print("fav $favArch");
-      return r;
+      return favArchitects;
     } catch (e) {
       print(e);
       return [];

@@ -8,6 +8,7 @@ import 'package:virtualbuild/widgets/customloadingspinner.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import '../../providers/user_data_provider.dart';
 import '../../widgets/custommenu.dart';
+import '../../widgets/data_not_found.dart';
 import '../../widgets/headerwithmenu.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -86,7 +87,11 @@ class _AccountScreenState extends State<AccountScreen>
             FutureBuilder(
                 future: user_data.getData(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
+                  if (!snapshot.hasData) {
+                    return CustomLoadingSpinner();
+                  } else if (snapshot.data!.isEmpty) {
+                    return const DataNotFound();
+                  } else {
                     name = snapshot.data["name"];
                     String email = snapshot.data["email"];
                     _addressController.text = snapshot.data["address"];
@@ -122,8 +127,6 @@ class _AccountScreenState extends State<AccountScreen>
                         ),
                       ],
                     );
-                  } else {
-                    return CustomLoadingSpinner();
                   }
                 }),
             Row(
