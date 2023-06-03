@@ -8,6 +8,7 @@ import 'package:virtualbuild/widgets/architects/architectsproject.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import '../../providers/models_provider.dart';
+import '../../widgets/customloadingspinner.dart';
 
 class ArchitectDetailScreen extends StatelessWidget {
   const ArchitectDetailScreen({super.key});
@@ -116,24 +117,32 @@ class ArchitectDetailScreen extends StatelessWidget {
                                   ),
                             ),
                             const SizedBox(height: 15),
-                            Flexible(
-                              child: CarouselSlider.builder(
-                                itemBuilder:
-                                    (context, itemIndex, pageViewIndex) {
-                                  return ArchitectsProjectsCard(
-                                    modelData: modelData.getModel[itemIndex],
-                                  );
-                                },
-                                itemCount: modelData.getModel.length,
-                                options: CarouselOptions(
-                                  height: isMobile ? 200 : 250,
-                                  autoPlayCurve: Curves.easeInOut,
-                                  viewportFraction: 0.8,
-                                  enlargeCenterPage: true,
-                                  initialPage: 2,
-                                  autoPlay: true,
-                                ),
-                              ),
+                            StreamBuilder(
+                              stream: modelData.getMyModels,
+                              builder: (context, snapshots) {
+                                if (!snapshots.hasData) {
+                                  return const CustomLoadingSpinner();
+                                }
+                                return Flexible(
+                                  child: CarouselSlider.builder(
+                                    itemBuilder:
+                                        (context, itemIndex, pageViewIndex) {
+                                      return ArchitectsProjectsCard(
+                                        modelData: snapshots.data![itemIndex],
+                                      );
+                                    },
+                                    itemCount: snapshots.data!.length,
+                                    options: CarouselOptions(
+                                      height: isMobile ? 200 : 250,
+                                      autoPlayCurve: Curves.easeInOut,
+                                      viewportFraction: 0.8,
+                                      enlargeCenterPage: true,
+                                      initialPage: 2,
+                                      autoPlay: true,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),

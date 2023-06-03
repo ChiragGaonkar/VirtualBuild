@@ -61,7 +61,7 @@ class _ModelFeaturesState extends State<ModelFeatures> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              "₹${widget.modelData.modelPrice}K",
+              "₹${widget.modelData.modelPrice.toString()}K",
               style: Theme.of(context).textTheme.titleMedium,
             )
           ],
@@ -89,7 +89,7 @@ class _ModelFeaturesState extends State<ModelFeatures> {
         _descriptionData(
             context, "Floor/s", widget.modelData.modelFloors.toString()),
         _descriptionData(context, "Total Square Footage",
-            "${widget.modelData.modelTotalSquareFootage}sq.ft"),
+            "${widget.modelData.modelTotalSquareFootage.toString()}sq.ft"),
         _descriptionData(
             context, "Roof Style", widget.modelData.modelRoofStyle.toString()),
         SizedBox(height: size.height * 0.05),

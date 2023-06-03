@@ -8,7 +8,6 @@ import 'package:virtualbuild/screens/housemodels/experience_ar.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import 'package:virtualbuild/widgets/housemodels/model_features.dart';
-
 import '../../models/models3d_model.dart';
 
 class ModelsDetailScreen extends StatefulWidget {
@@ -29,8 +28,11 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
     bool isDesktop = size.width >= 600;
     bool isMobile = size.width < 600;
     final modelData = ModalRoute.of(context)!.settings.arguments as Models3D;
+    final modelsProvider = Provider.of<ModelsProvider>(context);
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
-    print(isBirdsEyeView);
+    print("Model from model3d1 = ${modelData.model3dURL}");
+    print("Model from model3d2 = ${modelData.model3dBirdsView}");
+
     return Scaffold(
       body: MyCustomScreen(
         screenContent: Column(
@@ -105,6 +107,10 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                                         isFavorite = !isFavorite;
                                       });
                                       if (isFavorite) {
+                                        setState(() {
+                                          modelsProvider
+                                            .addFavourite(modelData.modelId);
+                                        });
                                         scaffoldMessengerVar.showSnackBar(
                                           SnackBar(
                                             content: AwesomeSnackbarContent(
@@ -119,6 +125,10 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                                           ),
                                         );
                                       } else {
+                                        setState(() {
+                                          modelsProvider
+                                            .removeFavourite(modelData.modelId);
+                                        });
                                         scaffoldMessengerVar.showSnackBar(
                                           SnackBar(
                                             content: AwesomeSnackbarContent(
@@ -135,13 +145,15 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                                       }
                                     },
                                     icon: isFavorite
-                                        ? const Icon(
+                                        ? Icon(
                                             Icons.favorite,
-                                            color: Colors.red,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           )
-                                        : const Icon(
+                                        : Icon(
                                             Icons.favorite_border,
-                                            color: Colors.red,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           ),
                                   ),
                                 ),

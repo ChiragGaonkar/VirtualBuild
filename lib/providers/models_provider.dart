@@ -5,9 +5,7 @@ import 'package:virtualbuild/models/models3d_model.dart';
 
 class ModelsProvider with ChangeNotifier {
   bool init = false;
-  List<Models3D> models = [
-    
-  ];
+  List<Models3D> models = [];
 
   RangeValues currentRangeValuesPrice = const RangeValues(4000, 12000);
   RangeValues currentRangeValuesArea = const RangeValues(1800, 3000);
@@ -49,6 +47,55 @@ class ModelsProvider with ChangeNotifier {
     return w3;
   }
 
+  Future<bool> addFavourite(String id) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        "favorites": FieldValue.arrayUnion([id])
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeFavourite(String id) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        "favorites": FieldValue.arrayRemove([id])
+      }, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  List<Models3D> favModels = [];
+
+  // Future<List<Models3D>> get getFavModel async {
+  //   try {
+  //     List<Models3D> result = [];
+  //     var favModel = [];
+  //     final userId = FirebaseAuth.instance.currentUser!.uid;
+  //     DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+  //         .instance
+  //         .collection('users')
+  //         .doc(userId)
+  //         .get();
+  //     favModel = userData["favorites"];
+  //     favModel.map((favModelId) async {
+  //       final CollectionReference modelCollection =
+  //           FirebaseFirestore.instance.collection("models");
+  //       final DocumentSnapshot docModelSnapshot =
+  //           await modelCollection.doc(favModelId).get();
+  //     });
+  //     return [];
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
+
   Future<List<Models3D>> get getFavModel async {
     List<Models3D> r = [];
     try {
@@ -65,11 +112,9 @@ class ModelsProvider with ChangeNotifier {
             .collection("models")
             .doc(element)
             .get();
-        //print("name ${result["architectName"]}");
-        //r.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
-        //print(r.length);
+        r.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
       }
-      //print("fav $favArch");
+      print("fav $favArch");
       return r;
     } catch (e) {
       print(e);

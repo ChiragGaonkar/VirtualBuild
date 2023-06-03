@@ -119,6 +119,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
               stream: modelData.getMyModels,
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
+                  print("From display mare ${snapshots.data}");
                   return const CustomLoadingSpinner();
                 }
                 return Flexible(

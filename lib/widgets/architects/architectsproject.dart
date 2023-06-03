@@ -16,7 +16,7 @@ class ArchitectsProjectsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         ModelsDetailScreen.routeName,
-        arguments: modelData.modelId,
+        arguments: modelData,
       ),
       child: Container(
         width: 400,
@@ -25,7 +25,7 @@ class ArchitectsProjectsCard extends StatelessWidget {
           color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-            image: AssetImage(
+            image: NetworkImage(
               modelData.modelImageURL,
             ),
             fit: BoxFit.cover,

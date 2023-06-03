@@ -5,8 +5,8 @@ class Models3D {
   final String model3dURL;
   final String model3dBirdsView;
   final String modelName;
-  final double modelPrice;
-  final double modelEstimatedBuildPrice;
+  final int modelPrice;
+  final int modelEstimatedBuildPrice;
   final String modelArchitectname;
   final String modelArchitectID;
 
@@ -20,7 +20,7 @@ class Models3D {
   final int modelNumberOfCommonRooms;
   final int modelNumberOfBedrooms;
   final int modelNumberOfBaths;
-  final double modelCeilingHeight;
+  final int modelCeilingHeight;
   final List modelFlooringOfRooms;
   final List modelLightingOfRooms;
 
@@ -113,7 +113,7 @@ class Models3D {
         modelId: json['modelId'],
         modelImageURL: json['modelImageURL'],
         model3dURL: json['model3dURL'],
-        model3dBirdsView: "",
+        model3dBirdsView: json['model3dBirdsView'],
         modelName: json['modelName'],
         modelPrice: json['modelPrice'],
         modelEstimatedBuildPrice: json['modelEstimatedBuildPrice'],

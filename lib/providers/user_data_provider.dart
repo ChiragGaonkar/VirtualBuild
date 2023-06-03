@@ -61,30 +61,4 @@ class UserDataProvide with ChangeNotifier {
     this.number = number;
     this.email = email;
   }
-
-  Future<bool> addFavourite(String id) async {
-    try {
-      final userId = FirebaseAuth.instance.currentUser!.uid;
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        "favorites": FieldValue.arrayUnion([id])
-      }, SetOptions(merge: true));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<bool> removeFavourite(String id) async {
-    try {
-      final userId = FirebaseAuth.instance.currentUser!.uid;
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        "favorites": FieldValue.arrayRemove([id])
-      }, SetOptions(merge: true));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-
 }

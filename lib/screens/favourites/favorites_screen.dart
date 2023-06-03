@@ -46,10 +46,10 @@ class FavoritesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const Expanded(
+              Flexible(
                 child: TabBarView(
                   children: [
-                    ArchFav(),
+                    ModelFav(),
                     ModelFav(),
                   ],
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
+import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardicons.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardbuttons.dart';
 import 'package:virtualbuild/widgets/housemodels/waveclipper.dart';
@@ -133,7 +134,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                   ],
                                 ),
                                 Text(
-                                  "₹${widget.modelData.modelPrice}k",
+                                  "₹${widget.modelData.modelPrice.toString()}k",
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
@@ -167,11 +168,9 @@ class _ModelsCardState extends State<ModelsCard> {
                                       ModelsCardButtons(
                                         buttontext: "Favorite",
                                         whatOnPressed: () async {
-                                          print("dddd");
-                                          var fav =
-                                              Provider.of<UserDataProvide>(
-                                                  context,
-                                                  listen: false);
+                                          var fav = Provider.of<ModelsProvider>(
+                                              context,
+                                              listen: false);
                                           await fav.removeFavourite(
                                               widget.modelData.modelId);
                                         },

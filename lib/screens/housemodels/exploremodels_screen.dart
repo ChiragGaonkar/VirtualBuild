@@ -89,47 +89,47 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              if (!init) ...[
-                StreamBuilder(
-                  stream: modelData.getMyModels,
-                  builder: (context, snapshots) {
-                    if (!snapshots.hasData) {
-                      return const CustomLoadingSpinner();
-                    }
-                    return Flexible(
-                      child: ResponsiveGridList(
-                        rowMainAxisAlignment: MainAxisAlignment.end,
-                        minItemsPerRow: 1,
-                        minItemWidth: 300,
-                        listViewBuilderOptions: ListViewBuilderOptions(
-                          padding: EdgeInsets.zero,
-                        ),
-                        children: List.generate(
-                          snapshots.data!.length,
-                          (index) =>
-                              ModelsCard(modelData: snapshots.data![index]),
-                        ),
+              // if (!init) ...[
+              StreamBuilder(
+                stream: modelData.getMyModels,
+                builder: (context, snapshots) {
+                  if (!snapshots.hasData) {
+                    return const CustomLoadingSpinner();
+                  }
+                  return Flexible(
+                    child: ResponsiveGridList(
+                      rowMainAxisAlignment: MainAxisAlignment.end,
+                      minItemsPerRow: 1,
+                      minItemWidth: 300,
+                      listViewBuilderOptions: ListViewBuilderOptions(
+                        padding: EdgeInsets.zero,
                       ),
-                    );
-                  },
-                ),
-              ] else ...[
-                Flexible(
-                  child: ResponsiveGridList(
-                    rowMainAxisAlignment: MainAxisAlignment.end,
-                    minItemsPerRow: 1,
-                    minItemWidth: 300,
-                    listViewBuilderOptions: ListViewBuilderOptions(
-                      padding: EdgeInsets.zero,
+                      children: List.generate(
+                        snapshots.data!.length,
+                        (index) =>
+                            ModelsCard(modelData: snapshots.data![index]),
+                      ),
                     ),
-                    children: List.generate(
-                      modelData.getFilteredModel.length,
-                      (index) => ModelsCard(
-                          modelData: modelData.getFilteredModel[index]),
-                    ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
+              // ] else ...[
+              // Flexible(
+              //   child: ResponsiveGridList(
+              //     rowMainAxisAlignment: MainAxisAlignment.end,
+              //     minItemsPerRow: 1,
+              //     minItemWidth: 300,
+              //     listViewBuilderOptions: ListViewBuilderOptions(
+              //       padding: EdgeInsets.zero,
+              //     ),
+              //     children: List.generate(
+              //       modelData.getFilteredModel.length,
+              //       (index) => ModelsCard(
+              //           modelData: modelData.getFilteredModel[index]),
+              //     ),
+              //   ),
+              // ),
+              // ],
               SizedBox(
                 height: size.height * 0.02,
               ),
