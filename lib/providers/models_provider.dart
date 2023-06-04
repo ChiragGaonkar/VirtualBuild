@@ -111,6 +111,29 @@ class ModelsProvider with ChangeNotifier {
     }
   }
 
+  Future<List<String>> getFavModelList() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      return userData["favModels"];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  bool checkFavModel(List<String> list, String id) {
+    if (list.contains(id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Models3D getModelById(String id) {
     return models.firstWhere((prod) => prod.modelId == id);
   }
