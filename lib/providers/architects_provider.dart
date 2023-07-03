@@ -69,4 +69,27 @@ class ArchitectsProvider with ChangeNotifier {
       return [];
     }
   }
+
+  Future<List<String>> getFavArchList() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      return userData["favArchitects"];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  bool checkFavArch(List<String> list, String id) {
+    if (list.contains(id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
