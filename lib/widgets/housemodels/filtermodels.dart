@@ -94,8 +94,8 @@ class _FilterModelsState extends State<FilterModels> {
                       data: SliderTheme.of(context).copyWith(
                         activeTrackColor: Colors.transparent,
                         inactiveTrackColor: Colors.transparent,
-                        activeTickMarkColor: Colors.orange,
-                        inactiveTickMarkColor: Colors.orange,
+                        activeTickMarkColor: Theme.of(context).primaryColor,
+                        inactiveTickMarkColor: Theme.of(context).primaryColor,
                       ),
                       child: Slider(
                         value: modelData.currentValueFloor,
@@ -128,8 +128,8 @@ class _FilterModelsState extends State<FilterModels> {
                       data: SliderTheme.of(context).copyWith(
                         activeTrackColor: Colors.transparent,
                         inactiveTrackColor: Colors.transparent,
-                        activeTickMarkColor: Colors.orange,
-                        inactiveTickMarkColor: Colors.orange,
+                        activeTickMarkColor: Theme.of(context).primaryColor,
+                        inactiveTickMarkColor: Theme.of(context).primaryColor,
                       ),
                       child: Slider(
                         value: modelData.currentValueBeds,
@@ -162,8 +162,8 @@ class _FilterModelsState extends State<FilterModels> {
                       data: SliderTheme.of(context).copyWith(
                         activeTrackColor: Colors.transparent,
                         inactiveTrackColor: Colors.transparent,
-                        activeTickMarkColor: Colors.orange,
-                        inactiveTickMarkColor: Colors.orange,
+                        activeTickMarkColor: Theme.of(context).primaryColor,
+                        inactiveTickMarkColor: Theme.of(context).primaryColor,
                       ),
                       child: Slider(
                         value: modelData.currentValueBaths,

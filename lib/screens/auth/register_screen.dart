@@ -83,9 +83,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             "Enter Password",
                             Icons.lock_rounded,
                           ),
+                          // validator: (password) {
+                          //   if (password != null && password.length < 6) {
+                          //     return "Enter min 6 char long";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                           validator: (password) {
-                            if (password != null && password.length < 6) {
-                              return "Enter min 6 char long";
+                            if (password == null || password.isEmpty) {
+                              return "Please enter the password";
+                            } else if (password.length < 8) {
+                              return "Enter min 8 char long";
+                            } else if (!RegExp(r'[A-Z]').hasMatch(password)) {
+                              return "Password must have at least one uppercase letter";
+                            } else if (!RegExp(r'[a-z]').hasMatch(password)) {
+                              return "Password must have at least one lowercase letter";
+                            } else if (!RegExp(r'[0-9]').hasMatch(password)) {
+                              return "Password must have at least one digit";
+                            } else if (!RegExp(
+                                    r'[!@#$%^&*-+/=|\(\)\{\}\[\]\<\>\\:;"?,~`]')
+                                .hasMatch(password)) {
+                              return "Password must have at least one special character";
                             } else {
                               return null;
                             }
@@ -102,10 +121,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             "Confirm Password",
                             Icons.lock_rounded,
                           ),
+                          // validator: (confirmPassword) {
+                          //   if (confirmPassword != null &&
+                          //       confirmPassword.length < 6) {
+                          //     return "Enter min 6 char long";
+                          //   } else if (confirmPassword !=
+                          //       _passwordTextController.text) {
+                          //     return "Password doesn't match";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                           validator: (confirmPassword) {
-                            if (confirmPassword != null &&
-                                confirmPassword.length < 6) {
-                              return "Enter min 6 char long";
+                            if (confirmPassword == null ||
+                                confirmPassword.isEmpty) {
+                              return "Please enter the password";
+                            } else if (confirmPassword.length < 8) {
+                              return "Enter min 8 char long";
                             } else if (confirmPassword !=
                                 _passwordTextController.text) {
                               return "Password doesn't match";
