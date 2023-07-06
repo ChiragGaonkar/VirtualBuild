@@ -39,6 +39,7 @@ class _ChatDetailState extends State<ChatDetail> {
         sender,
         architectId,
       );
+      chatsProvider.sendNotification(architectId, message);
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
@@ -12,6 +13,7 @@ import 'package:virtualbuild/widgets/headerwithmenu.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscard.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../firebase/firestore_database.dart';
 import '../widgets/data_not_found.dart';
 
 class DisplayScreen extends StatefulWidget {
@@ -30,10 +32,25 @@ class _DisplayScreenState extends State<DisplayScreen> {
   @override
   void initState() {
     super.initState();
+    FireDatabase.addToken();
     gridController.addListener(() {
       setState(() {
         closeTopContainer = gridController.offset > 50;
       });
+    });
+    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    _firebaseMessaging
+            .getToken()
+            .then((String? token) {
+          assert(token != null);
+        });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
     });
   }
 
