@@ -206,6 +206,24 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
+  TextEditingController _searchTextEditingController = TextEditingController();
+  List<SelectedListItem> _filteredItems = [];
+  List<SelectedListItem>? _originalItems;
+
+  void _buildSearchList(String value) {
+    if (value.isEmpty) {
+      setState(() {
+        _filteredItems = _originalItems ?? [];
+      });
+    } else {
+      setState(() {
+        _filteredItems = widget.itemLists!
+            .where(
+                (item) => item.name.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      });
+    }
+  }
   //////////////////////////////////////////upon uncommenting the code, comment the below void onTextFieldTap() function .run
 
   // void onTextFieldTap() {
@@ -291,6 +309,10 @@ class _AppTextFieldState extends State<AppTextField> {
   // }
 
   void onTextFieldTap() {
+    setState(() {
+      _filteredItems = _originalItems ?? [];
+    });
+    // widget.textEditingController.clear();
     DropDownState(
       DropDown(
         isDismissible: true,
@@ -298,9 +320,11 @@ class _AppTextFieldState extends State<AppTextField> {
         //   widget.title,
         //   style: Theme.of(context).textTheme.titleLarge,
         // ),
-        data: widget.itemLists ?? [],
+        // isSearchVisible: true,
+        // searchHintText: "..............",
+        // data: widget.itemLists ?? [],
         dropDownBackgroundColor: Colors.black,
-        ///////////////////////////////////////////////////////search function not working , upon commenting below searchwidget code default search bar appears with working functionality
+        ///////////////////////////////////////////////////////search function not working(now working) , upon commenting below searchwidget code default search bar appears with working functionality
         searchWidget: TextFormField(
           decoration: InputDecoration(
             floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -323,7 +347,14 @@ class _AppTextFieldState extends State<AppTextField> {
             labelStyle: Theme.of(context).textTheme.titleSmall,
             prefixIcon: const Icon(Icons.search, color: Colors.white),
           ),
+          controller: _searchTextEditingController,
+          onChanged: (String value) {
+            _buildSearchList(
+                value); // Call the search function when the text changes
+          },
         ),
+        data:
+            _filteredItems.isNotEmpty ? _filteredItems : widget.itemLists ?? [],
         selectedItems: (List<dynamic> selectedList) {
           List<String> list = [];
           for (var item in selectedList) {
@@ -331,7 +362,7 @@ class _AppTextFieldState extends State<AppTextField> {
               list.add(item.name);
             }
           }
-          if (widget.onSelect != null) {
+          if (list.isNotEmpty && widget.onSelect != null) {
             widget.onSelect!(list[0]);
           }
         },
