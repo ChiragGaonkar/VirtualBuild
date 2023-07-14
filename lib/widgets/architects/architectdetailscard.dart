@@ -123,7 +123,7 @@ class ArchitectDetailCard extends StatelessWidget {
             radius: 62,
             backgroundColor: Theme.of(context).primaryColor,
             child: CircleAvatar(
-              backgroundImage: AssetImage(
+              backgroundImage: NetworkImage(
                 args.architectImageUrl.toString(),
               ),
               radius: 60,

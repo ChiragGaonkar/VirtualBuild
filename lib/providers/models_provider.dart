@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
 
+import '../firebase/firestore_database.dart';
+
 class ModelsProvider with ChangeNotifier {
   bool init = false;
   List<Models3D> models = [];
@@ -126,7 +128,8 @@ class ModelsProvider with ChangeNotifier {
     }
   }
 
-  bool checkFavModel(List<String> list, String id) {
+  Future<bool> checkFavModel(String id) async {
+    List<dynamic> list = await FireDatabase.getFavList();
     if (list.contains(id)) {
       return true;
     } else {

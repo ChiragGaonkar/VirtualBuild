@@ -40,7 +40,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
               radius: 62,
               backgroundColor: Theme.of(context).primaryColor,
               child: CircleAvatar(
-                backgroundImage: AssetImage(
+                backgroundImage: NetworkImage(
                     widget.architectData.architectImageUrl.toString()),
                 radius: 60,
               ),

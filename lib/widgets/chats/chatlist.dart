@@ -55,7 +55,7 @@ class _ChatListState extends State<ChatList> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(6.5, 0, 0, 0),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(widget.imageUrl),
+                      backgroundImage: NetworkImage(widget.imageUrl),
                       maxRadius: 30,
                     ),
                   ),

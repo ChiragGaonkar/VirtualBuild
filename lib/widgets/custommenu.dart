@@ -94,7 +94,7 @@ class _CustomMenuState extends State<CustomMenu> {
                           Center(
                             child: CircleAvatar(
                               radius: 65,
-                              backgroundImage: AssetImage(imageUrl),
+                              backgroundImage: NetworkImage(imageUrl),
                             ),
                           ),
                           const SizedBox(

@@ -28,21 +28,48 @@ class FireDatabase {
     }
   }
 
+  static Future<List<dynamic>> getFavList() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    var data =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    return data["favModels"];
+  }
+
+  static Future<String> getDPLink() async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    var modelData =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    try {
+      return modelData["imageUrl"];
+    } catch (e) {
+      return "";
+    }
+  }
+
+  static Future<void> updateDP(String url) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .set({"imageUrl": url}, SetOptions(merge: true));
+    print("updating");
+  }
+
   static Future<void> addToken() async {
     late FirebaseMessaging messaging;
-    
+
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       messaging = FirebaseMessaging.instance;
-    //   final settings = await messaging.requestPermission(
-    //     alert: true,
-    //     announcement: false,
-    //     badge: true,
-    //     carPlay: false,
-    //     criticalAlert: false,
-    //     provisional: false,
-    //     sound: true,
-    // );
+      //   final settings = await messaging.requestPermission(
+      //     alert: true,
+      //     announcement: false,
+      //     badge: true,
+      //     carPlay: false,
+      //     criticalAlert: false,
+      //     provisional: false,
+      //     sound: true,
+      // );
       var tokens = await messaging.getToken();
       print("token $tokens");
       await FirebaseFirestore.instance

@@ -100,7 +100,7 @@ class ArchitectAtCarousel extends StatelessWidget {
               radius: 68,
               child: CircleAvatar(
                 backgroundImage:
-                    AssetImage(architectData.architectImageUrl.toString()),
+                    NetworkImage(architectData.architectImageUrl.toString()),
                 radius: 65,
               ),
             ),
