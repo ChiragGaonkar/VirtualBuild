@@ -1,9 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:virtualbuild/firebase/firestore_database.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'dart:io';
 
 class UserDataProvide with ChangeNotifier {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
   String name = "";
   String email = "";
   String address = "";
@@ -60,5 +69,54 @@ class UserDataProvide with ChangeNotifier {
     this.address = address;
     this.number = number;
     this.email = email;
+  }
+
+  Future<void> uploadDP() async {
+    final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ['png', 'jpg']);
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    if (result != null) {
+      String location = "$userId/2d_images/";
+      String fileName = result.files.single.name;
+      location += fileName;
+      deleteModel([await FireDatabase.getDPLink()]);
+      print(fileName);
+      print("iskweb ${kIsWeb}");
+      if (kIsWeb) {
+        Uint8List? uploadFile = result.files.single.bytes;
+        final task = await storage.ref(location).putData(uploadFile!);
+        var url = await task.ref.getDownloadURL();
+        print(url);
+        FireDatabase.updateDP(url);
+        //await FireDatabase.addModelUrl(urlString, "Sample_image", id);
+      } else {
+        String filePath = result.files.single.path.toString();
+        File file = File(filePath);
+        try {
+          final task = await storage.ref(location).putFile(file);
+          final url = await task.ref.getDownloadURL();
+          FireDatabase.updateDP(url);
+          //await FireDatabase.addModelUrl(urlString, "Sample_image", id);
+        } on firebase_core.FirebaseException catch (e) {
+          print(e);
+        }
+      }
+    }
+    return null;
+  }
+
+  Future<void> deleteModel(
+    List<dynamic> url,
+  ) async {
+    for (int i = 0; i < url.length; i++) {
+      try {
+        await storage.refFromURL(url[i]).delete();
+      } catch (e) {
+        print("error");
+      }
+    }
+    // FireDatabase.deleteFromDb(url);
   }
 }
