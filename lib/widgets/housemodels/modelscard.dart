@@ -171,8 +171,17 @@ class _ModelsCardState extends State<ModelsCard> {
                                           var fav = Provider.of<ModelsProvider>(
                                               context,
                                               listen: false);
-                                          await fav.removeFavourite(
-                                              widget.modelData.modelId);
+                                          var list =
+                                              await fav.getFavModelList();
+                                          print(list);
+                                          if (list.contains(
+                                              widget.modelData.modelId)) {
+                                            await fav.removeFavourite(
+                                                widget.modelData.modelId);
+                                          } else {
+                                            await fav.addFavourite(
+                                                widget.modelData.modelId);
+                                          }
                                         },
                                       ),
                                       ModelsCardButtons(

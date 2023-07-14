@@ -113,7 +113,7 @@ class ModelsProvider with ChangeNotifier {
     }
   }
 
-  Future<List<String>> getFavModelList() async {
+  Future<List<dynamic>> getFavModelList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
