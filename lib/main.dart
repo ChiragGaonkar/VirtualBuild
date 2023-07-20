@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
           splashIconSize: 400,
           duration: 4000,
           splashTransition: SplashTransition.fadeTransition,
-          nextScreen: const LoginScreen(),
+          nextScreen: const WidgetTree(),
           pageTransitionType: PageTransitionType.leftToRightWithFade,
         ),
         //All routes for navigations.

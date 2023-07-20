@@ -61,7 +61,7 @@ class _ModelFeaturesState extends State<ModelFeatures> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              "₹${widget.modelData.modelPrice.toString()}K",
+              "₹${widget.modelData.modelPrice.toString()}",
               style: Theme.of(context).textTheme.titleMedium,
             )
           ],

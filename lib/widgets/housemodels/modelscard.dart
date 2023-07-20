@@ -134,7 +134,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                   ],
                                 ),
                                 Text(
-                                  "₹${widget.modelData.modelPrice.toString()}k",
+                                  "₹${widget.modelData.modelPrice.toString()}",
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),

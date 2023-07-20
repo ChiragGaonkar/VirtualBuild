@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
-
 import '../firebase/firestore_database.dart';
 
 class ModelsProvider with ChangeNotifier {
@@ -47,16 +46,16 @@ class ModelsProvider with ChangeNotifier {
     print("currentRangeValuesArea $currentRangeValuesArea");
     print("currentValueFloor $currentValueFloor");
     print("currentValueBeds $currentValueBeds");
-    List<Models3D> w3 = models
-        .where((e) =>
-            (e.modelPrice >= currentRangeValuesPrice.start &&
-                e.modelPrice <= currentRangeValuesPrice.end) &&
-            (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
-                e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
-            (e.modelFloors >= currentValueFloor) &&
-            (e.modelNumberOfBedrooms >= currentValueBeds) &&
-            (e.modelNumberOfBaths >= currentValueBaths))
-        .toList();
+    List<Models3D> w3 = models.where((e) {
+      int price = int.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
+      return (price >= currentRangeValuesPrice.start &&
+              price <= currentRangeValuesPrice.end) &&
+          (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
+              e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+          (e.modelFloors >= currentValueFloor) &&
+          (e.modelNumberOfBedrooms >= currentValueBeds) &&
+          (e.modelNumberOfBaths >= currentValueBaths);
+    }).toList();
     //models = w3;
     print(w3.length);
     return w3;

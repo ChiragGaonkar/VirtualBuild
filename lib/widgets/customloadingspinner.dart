@@ -10,7 +10,7 @@ class CustomLoadingSpinner extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return SizedBox(
-      // height: size.height * 0.6,
+      height: size.height * 0.6,
       child: Center(
         child: LoadingAnimationWidget.threeArchedCircle(
           // leftDotColor: Theme.of(context).primaryColor,

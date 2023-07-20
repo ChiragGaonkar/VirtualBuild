@@ -131,7 +131,10 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   print("From display mare ${snapshots.data}");
                   return const CustomLoadingSpinner();
                 } else if (snapshots.data!.isEmpty) {
-                  return const DataNotFound();
+                  return const Align(
+                    alignment: Alignment.center,
+                    child: DataNotFound(),
+                  );
                 }
                 return Flexible(
                   child: ResponsiveGridList(

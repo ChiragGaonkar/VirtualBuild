@@ -5,8 +5,8 @@ class Models3D {
   final String model3dURL;
   final String model3dBirdsView;
   final String modelName;
-  final int modelPrice;
-  final int modelEstimatedBuildPrice;
+  final String modelPrice;
+  final String modelEstimatedBuildPrice;
   final String modelArchitectname;
   final String modelArchitectID;
   final String modelPassword;
