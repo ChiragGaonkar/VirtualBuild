@@ -28,6 +28,19 @@ class ModelsProvider with ChangeNotifier {
     return result;
   }
 
+  Stream<List<Models3D>> searchModels(String value) {
+    return FirebaseFirestore.instance
+        .collection("models")
+        .where("modelName",
+            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => Models3D.fromJson(docs.data()))
+              .toList(),
+        );
+  }
+
   Stream<List<Models3D>> getArchitectSpecificModels(String architectID) {
     var result = FirebaseFirestore.instance
         .collection("models")

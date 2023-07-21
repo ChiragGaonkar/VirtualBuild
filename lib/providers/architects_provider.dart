@@ -20,6 +20,19 @@ class ArchitectsProvider with ChangeNotifier {
     return result;
   }
 
+  Stream<List<ArchitectModel>> searchArchitects(String value) {
+    return FirebaseFirestore.instance
+        .collection("architects")
+        .where("architectName",
+            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => ArchitectModel.fromJson(docs.data()))
+              .toList(),
+        );
+  }
+
   Future<bool> addFavouriteArchitect(String id) async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
