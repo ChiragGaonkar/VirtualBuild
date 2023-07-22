@@ -21,6 +21,7 @@ class ExploreModelsScreen extends StatefulWidget {
 
 class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchTextController = TextEditingController();
   bool init = false;
   bool isFilterOn = false;
 
@@ -52,6 +53,11 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: _searchTextController,
+                      onChanged: (value) {
+                        setState(
+                            () {}); // Triggers a rebuild to update the stream
+                      },
                       decoration: customDecorationForInput(
                         context,
                         "Search",
@@ -92,7 +98,10 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
               ),
               // if (!init) ...[
               StreamBuilder(
-                stream: modelData.getMyModels,
+                // stream: modelData.getMyModels,
+                stream: _searchTextController.text.isNotEmpty
+                    ? modelData.searchModels(_searchTextController.text)
+                    : modelData.getMyModels,
                 builder: (context, snapshots) {
                   if (!snapshots.hasData) {
                     return const CustomLoadingSpinner();

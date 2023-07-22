@@ -79,10 +79,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           ),
                           validator: (name) {
                             if (name != null && name.isEmpty) {
-                              return "Enter a valid name";
-                            } else {
-                              return null;
+                              return "Please enter your name";
                             }
+                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(name!)) {
+                              return 'Please enter alphabets only(spaces allowed)';
+                            }
+                            return null;
                           },
                         ),
                         SizedBox(
@@ -96,13 +98,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             Icons.phone_android_rounded,
                           ),
                           validator: (phoneNumber) {
-                            if (phoneNumber != null &&
-                                    phoneNumber.length < 10 ||
-                                phoneNumber!.length > 10) {
-                              return "Enter a valid phone number";
-                            } else {
-                              return null;
+                            // if (phoneNumber != null && phoneNumber.length < 10 || phoneNumber!.length > 10) {
+                            //   return "Enter a valid phone number(consisting of 10 digits)";
+                            // }
+                            if (phoneNumber != null && phoneNumber.isEmpty) {
+                              return "Please enter your phone number";
                             }
+                            if (!RegExp(r'^[0-9]{10}$')
+                                .hasMatch(phoneNumber!)) {
+                              return "Phone number should only contain 10 digits";
+                            }
+                            return null;
                           },
                         ),
                         SizedBox(
@@ -120,7 +126,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           enableSuggestions: true,
                           validator: (address) {
                             if (address != null && address.isEmpty) {
-                              return "Enter a valid address";
+                              return "Please enter a valid address";
                             } else {
                               return null;
                             }

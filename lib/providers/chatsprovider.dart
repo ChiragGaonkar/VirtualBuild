@@ -84,6 +84,69 @@ class ChatsProvider with ChangeNotifier {
     return [..._chatArchitectsList];
   }
 
+  Future<List<ChatArchitectsListModel>> searchMessagedArchitects(
+      String value) async {
+    final User? user = Auth().currentUser;
+    var userId = user!.uid;
+    List<dynamic> architectIdArray = await getMessagedArchitectsID();
+    _chatArchitectsList.clear(); //clearing list before searching
+    List<Future<void>> futures = architectIdArray.map((architectId) async {
+      //Write Code to retrieve and update List
+      String chatId = userId + architectId;
+      final CollectionReference architectsCollection =
+          FirebaseFirestore.instance.collection("architects");
+      DocumentSnapshot docArchitectSnapshot =
+          await architectsCollection.doc(architectId).get();
+      if (docArchitectSnapshot.exists) {
+        // String architectName =
+        //     docArchitectSnapshot.get('architectName').toLowerCase();
+        // if (architectName.startsWith(value.toLowerCase())) {
+        String architectName = docArchitectSnapshot.get('architectName');
+        if (architectName.startsWith(value)) {
+          final CollectionReference chatsCollection =
+              FirebaseFirestore.instance.collection("chats");
+          DocumentSnapshot docChatsSnapshot = await chatsCollection
+              .doc(chatId)
+              .collection('messages')
+              .orderBy('time', descending: true)
+              .limit(1)
+              .get()
+              .then((querySnapshot) => querySnapshot.docs.first);
+          if (docChatsSnapshot.exists) {
+            bool isPresentInList = false;
+            for (int i = 0; i < _chatArchitectsList.length; i++) {
+              if (_chatArchitectsList[i].chatId == chatId) {
+                isPresentInList = true;
+                _chatArchitectsList[i].message =
+                    docChatsSnapshot.get('message');
+                _chatArchitectsList[i].time =
+                    convertTimeStampToDate(docChatsSnapshot.get('time'));
+                _chatArchitectsList[i].isRead = docChatsSnapshot.get('read');
+                break;
+              }
+            }
+            if (isPresentInList == false) {
+              _chatArchitectsList.add(
+                ChatArchitectsListModel(
+                  name: docArchitectSnapshot.get('architectName'),
+                  message: docChatsSnapshot.get('message'),
+                  imageURL: docArchitectSnapshot.get('architectImageUrl'),
+                  time: convertTimeStampToDate(docChatsSnapshot.get('time')),
+                  isRead: docChatsSnapshot.get('read'),
+                  unreadCount: 1,
+                  chatId: chatId,
+                ),
+              );
+            }
+          }
+        }
+      }
+      // print("Hello ${docArchitectSnapshot.get('architectName')}");
+    }).toList();
+    await Future.wait(futures);
+    return [..._chatArchitectsList];
+  }
+
   String convertTimeStampToDate(timestamp) {
     return timeago.format(timestamp.toDate(), locale: 'en_short');
   }

@@ -23,6 +23,7 @@ class ExploreArchitectsScreen extends StatefulWidget {
 
 class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchTextController = TextEditingController();
   bool isFilterArchitects = false;
 
   @override
@@ -49,6 +50,11 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _searchTextController,
+                    onChanged: (value) {
+                      setState(
+                          () {}); // Triggers a rebuild to update the stream
+                    },
                     decoration: customDecorationForInput(
                       context,
                       "Search",
@@ -86,7 +92,10 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
             ),
             if (isFilterArchitects) const FilterArchitects(),
             StreamBuilder(
-              stream: architectData.getArchitects,
+              // stream: architectData.getArchitects,
+              stream: _searchTextController.text.isNotEmpty
+                  ? architectData.searchArchitects(_searchTextController.text)
+                  : architectData.getArchitects,
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
                   return const CustomLoadingSpinner();
