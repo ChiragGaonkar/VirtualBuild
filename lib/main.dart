@@ -7,6 +7,7 @@ import 'package:virtualbuild/providers/chatsprovider.dart';
 import 'package:virtualbuild/providers/drawer_nav_provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/providers/user_data_provider.dart';
+import 'package:virtualbuild/screens/accounts/my_projects.dart';
 import 'package:virtualbuild/screens/architects/architect_detail_screen.dart';
 import 'package:virtualbuild/screens/auth/home_screen.dart';
 import 'package:virtualbuild/screens/auth/login_screen.dart';
@@ -17,7 +18,9 @@ import 'package:virtualbuild/screens/auth/user_info_screen.dart';
 import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 import 'package:virtualbuild/screens/chats/chat_detail.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
+import 'package:virtualbuild/screens/housemodels/explore_plans_screen.dart';
 import 'package:virtualbuild/screens/housemodels/models_detail_screen.dart';
+import 'package:virtualbuild/screens/housemodels/plans_detail.dart';
 import 'package:virtualbuild/screens/widgettree.dart';
 import 'screens/accounts/account_screen.dart';
 import 'screens/display_screen.dart';
@@ -119,9 +122,11 @@ class MyApp extends StatelessWidget {
           UserInfoScreen.routeName: (ctx) => const UserInfoScreen(),
           ChatDetail.routeName: (ctx) => const ChatDetail(),
           ModelsDetailScreen.routeName: (ctx) => const ModelsDetailScreen(),
-          ArchitectDetailScreen.routeName: (ctx) =>
-              const ArchitectDetailScreen(),
+          ArchitectDetailScreen.routeName: (ctx) => const ArchitectDetailScreen(),
           ChatWithBotScreen.routeName: (ctx) => const ChatWithBotScreen(),
+          ExplorePlansScreen.routeName: (ctx) => const ExplorePlansScreen(),
+          PlanInDetailScreen.routeName: (ctx) => const PlanInDetailScreen(),
+          MyProjectsScreen.routeName: (ctx) => const MyProjectsScreen(),
         },
       ),
     );

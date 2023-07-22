@@ -155,14 +155,22 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                     children: [
                                       ModelsCardButtons(
                                         buttontext: "Favorite",
-                                        whatOnPressed: () {
-                                          //Write a function when add to favorites;
-                                          Provider.of<ArchitectsProvider>(
+                                        whatOnPressed: () async {
+                                          var fav =
+                                              Provider.of<ArchitectsProvider>(
                                                   context,
-                                                  listen: false)
-                                              .addFavouriteArchitect(
-                                            widget.architectData.architectID,
-                                          );
+                                                  listen: false);
+                                          var list = await fav.getFavArchList();
+                                          if (list.contains(widget
+                                              .architectData.architectID)) {
+                                            await fav.removeFavouriteArchitect(
+                                              widget.architectData.architectID,
+                                            );
+                                          } else {
+                                            await fav.addFavouriteArchitect(
+                                                widget
+                                                    .architectData.architectID);
+                                          }
                                         },
                                       ),
                                       const SizedBox(

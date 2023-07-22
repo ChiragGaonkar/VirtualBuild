@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:virtualbuild/screens/accounts/edit_profile_screen.dart';
+import 'package:virtualbuild/screens/accounts/my_projects.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
 import 'package:virtualbuild/widgets/accounts/customdecorationforaccountinput.dart';
 import 'package:virtualbuild/widgets/customloadingspinner.dart';
@@ -20,8 +21,7 @@ class AccountScreen extends StatefulWidget {
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen>
-    with WidgetsBindingObserver {
+class _AccountScreenState extends State<AccountScreen> with WidgetsBindingObserver {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneNoController = TextEditingController();
@@ -74,9 +74,7 @@ class _AccountScreenState extends State<AccountScreen>
     }
     String imageUrl = "";
     return isErrorOccured
-        ? const ErrorScreen(
-            screenToBeRendered: DisplayScreen.routeName,
-            renderScreenName: "Home Page")
+        ? const ErrorScreen(screenToBeRendered: DisplayScreen.routeName, renderScreenName: "Home Page")
         : Scaffold(
             key: scaffoldKey,
             endDrawer: const CustomMenu(),
@@ -104,8 +102,7 @@ class _AccountScreenState extends State<AccountScreen>
                           name = snapshot.data["name"];
                           String email = snapshot.data["email"];
                           _addressController.text = snapshot.data["address"];
-                          _phoneNoController.text =
-                              snapshot.data["phoneNumber"];
+                          _phoneNoController.text = snapshot.data["phoneNumber"];
                           imageUrl = snapshot.data["imageUrl"];
                           return Column(
                             children: [
@@ -127,13 +124,11 @@ class _AccountScreenState extends State<AccountScreen>
                               SizedBox(
                                 height: size.height * 0.02,
                               ),
-                              _buildTextFormField(
-                                  _addressController, "Address"),
+                              _buildTextFormField(_addressController, "Address"),
                               SizedBox(
                                 height: size.height * 0.02,
                               ),
-                              _buildTextFormField(
-                                  _phoneNoController, "Phone Number"),
+                              _buildTextFormField(_phoneNoController, "Phone Number"),
                               SizedBox(
                                 height: size.height * 0.04,
                               ),
@@ -145,12 +140,13 @@ class _AccountScreenState extends State<AccountScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "My Orders",
+                        "My Projects",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       IconButton(
-                        onPressed: () => Navigator.of(context)
-                            .pushNamed(DisplayScreen.routeName),
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          MyProjectsScreen.routeName,
+                        ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
@@ -166,13 +162,15 @@ class _AccountScreenState extends State<AccountScreen>
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       IconButton(
-                        onPressed: () => Navigator.of(context)
-                            .pushNamed(EditProfileScreen.routeName, arguments: {
-                          "name": name,
-                          "phoneNumber": _phoneNoController.text,
-                          "address": _addressController.text,
-                          "imageUrl": imageUrl,
-                        }),
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          EditProfileScreen.routeName,
+                          arguments: {
+                            "name": name,
+                            "phoneNumber": _phoneNoController.text,
+                            "address": _addressController.text,
+                            "imageUrl": imageUrl,
+                          },
+                        ),
                         icon: const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,

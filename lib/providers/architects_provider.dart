@@ -70,7 +70,7 @@ class ArchitectsProvider with ChangeNotifier {
     }
   }
 
-  Future<List<String>> getFavArchList() async {
+  Future<List<dynamic>> getFavArchList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
       DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore

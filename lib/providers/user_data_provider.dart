@@ -11,26 +11,16 @@ import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'dart:io';
 
 class UserDataProvide with ChangeNotifier {
-  final firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  final firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
   String name = "";
   String email = "";
   String address = "";
   String number = "";
-  Map<String, dynamic> data = {
-    "name": "",
-    "email": "",
-    "address": "",
-    "phoneNumber": ""
-  };
+  Map<String, dynamic> data = {"name": "", "email": "", "address": "", "phoneNumber": ""};
 
   Future<Map<String, dynamic>> getData() async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).get().then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
         data = await documentSnapshot.data() as Map<String, dynamic>;
         extractData();
@@ -53,10 +43,18 @@ class UserDataProvide with ChangeNotifier {
 
   Future<void> updateData(String name, String address, String phone) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .update({"name": name, "address": address, "phoneNumber": phone});
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({"name": name, "address": address, "phoneNumber": phone});
+  }
+
+  addProjectToOrders(String projectId) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection("users").doc(userId).set({
+        "orderedModels": FieldValue.arrayUnion([projectId])
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print(e);
+    }
   }
 
   void setData(
@@ -72,10 +70,7 @@ class UserDataProvide with ChangeNotifier {
   }
 
   Future<void> uploadDP() async {
-    final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['png', 'jpg']);
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false, type: FileType.custom, allowedExtensions: ['png', 'jpg']);
     final userId = FirebaseAuth.instance.currentUser!.uid;
     if (result != null) {
       String location = "$userId/2d_images/";

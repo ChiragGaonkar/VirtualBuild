@@ -173,7 +173,6 @@ class _ModelsCardState extends State<ModelsCard> {
                                               listen: false);
                                           var list =
                                               await fav.getFavModelList();
-                                          print(list);
                                           if (list.contains(
                                               widget.modelData.modelId)) {
                                             await fav.removeFavourite(

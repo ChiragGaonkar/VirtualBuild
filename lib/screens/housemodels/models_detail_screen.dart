@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
@@ -5,10 +7,13 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
 import 'package:virtualbuild/screens/housemodels/experience_ar.dart';
+import 'package:virtualbuild/screens/housemodels/explore_plans_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
 import 'package:virtualbuild/widgets/housemodels/model_features.dart';
 import '../../models/models3d_model.dart';
+import '../../providers/user_data_provider.dart';
+import '../../widgets/customdecorationforinput.dart';
 import '../error_screen.dart';
 import 'exploremodels_screen.dart';
 
@@ -23,6 +28,7 @@ class ModelsDetailScreen extends StatefulWidget {
 class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
   bool isFavorite = false;
   bool isBirdsEyeView = false;
+  final TextEditingController _projectPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +119,7 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                               //   ),
                               // ),
                               Container(
-                                  height: isMobile
-                                      ? size.height * 0.5
-                                      : size.height * 0.8,
+                                  height: isMobile ? size.height * 0.5 : size.height * 0.8,
                                   width: 600,
                                   child: Stack(
                                     children: [
@@ -144,70 +148,129 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                                         ),
                                       Align(
                                         alignment: Alignment.topRight,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isFavorite = !isFavorite;
-                                            });
-                                            if (isFavorite) {
-                                              setState(() {
-                                                modelsProvider.addFavourite(
-                                                    modelData.modelId);
-                                              });
-                                              scaffoldMessengerVar.showSnackBar(
-                                                SnackBar(
-                                                  content:
-                                                      AwesomeSnackbarContent(
-                                                    title:
-                                                        'Added to favorites!',
-                                                    message:
-                                                        "Your favorite items are always at your fingertips.",
-                                                    contentType:
-                                                        ContentType.success,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) => AlertDialog(
+                                                    icon: Icon(
+                                                      Icons.lock_person,
+                                                      color: Theme.of(context).primaryColor,
+                                                    ),
+                                                    title: Text(
+                                                      "Enter Project Password",
+                                                      style: Theme.of(context).textTheme.titleMedium,
+                                                    ),
+                                                    backgroundColor: Theme.of(context).canvasColor.withOpacity(1),
+                                                    content: TextFormField(
+                                                      controller: _projectPassword,
+                                                      decoration: customDecorationForInput(
+                                                        context,
+                                                        "Enter Password",
+                                                        Icons.lock,
+                                                      ),
+                                                    ),
+                                                    actionsAlignment: MainAxisAlignment.center,
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          if (modelData.modelPassword == _projectPassword.text) {
+                                                            _projectPassword.clear();
+                                                            Provider.of<UserDataProvide>(context, listen: false).addProjectToOrders(
+                                                              modelData.modelId,
+                                                            );
+                                                            Navigator.of(context).pop();
+                                                            Navigator.of(context).pushNamed(
+                                                              ExplorePlansScreen.routeName,
+                                                              arguments: modelData.modelOtherDesignLinks,
+                                                            );
+                                                          } else {
+                                                            _projectPassword.clear();
+                                                            scaffoldMessengerVar.showSnackBar(
+                                                              SnackBar(
+                                                                content: AwesomeSnackbarContent(
+                                                                  title: 'Oh snap!',
+                                                                  message: "You entered a wrong password!!",
+                                                                  contentType: ContentType.failure,
+                                                                ),
+                                                                behavior: SnackBarBehavior.floating,
+                                                                backgroundColor: Colors.transparent,
+                                                                elevation: 0,
+                                                              ),
+                                                            );
+                                                            Navigator.of(context).pop();
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                          "Get Layouts",
+                                                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                                                color: Theme.of(context).primaryColor,
+                                                                fontWeight: FontWeight.bold,
+                                                              ),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  elevation: 0,
-                                                ),
-                                              );
-                                            } else {
-                                              setState(() {
-                                                modelsProvider.removeFavourite(
-                                                    modelData.modelId);
-                                              });
-                                              scaffoldMessengerVar.showSnackBar(
-                                                SnackBar(
-                                                  content:
-                                                      AwesomeSnackbarContent(
-                                                    title:
-                                                        'Removed from favorites!',
-                                                    message:
-                                                        "No worries, you can always add it back later.",
-                                                    contentType:
-                                                        ContentType.help,
-                                                  ),
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  elevation: 0,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          icon: isFavorite
-                                              ? Icon(
-                                                  Icons.favorite,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                )
-                                              : Icon(
-                                                  Icons.favorite_border,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                ),
+                                                );
+                                              },
+                                              icon: Icon(
+                                                Icons.info_outline_rounded,
+                                                color: Theme.of(context).primaryColor,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  isFavorite = !isFavorite;
+                                                });
+                                                if (isFavorite) {
+                                                  setState(() {
+                                                    modelsProvider.addFavourite(modelData.modelId);
+                                                  });
+                                                  scaffoldMessengerVar.showSnackBar(
+                                                    SnackBar(
+                                                      content: AwesomeSnackbarContent(
+                                                        title: 'Added to favorites!',
+                                                        message: "Your favorite items are always at your fingertips.",
+                                                        contentType: ContentType.success,
+                                                      ),
+                                                      behavior: SnackBarBehavior.floating,
+                                                      backgroundColor: Colors.transparent,
+                                                      elevation: 0,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  setState(() {
+                                                    modelsProvider.removeFavourite(modelData.modelId);
+                                                  });
+                                                  scaffoldMessengerVar.showSnackBar(
+                                                    SnackBar(
+                                                      content: AwesomeSnackbarContent(
+                                                        title: 'Removed from favorites!',
+                                                        message: "No worries, you can always add it back later.",
+                                                        contentType: ContentType.help,
+                                                      ),
+                                                      behavior: SnackBarBehavior.floating,
+                                                      backgroundColor: Colors.transparent,
+                                                      elevation: 0,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                              icon: isFavorite
+                                                  ? Icon(
+                                                      Icons.favorite,
+                                                      color: Theme.of(context).primaryColor,
+                                                    )
+                                                  : Icon(
+                                                      Icons.favorite_border,
+                                                      color: Theme.of(context).primaryColor,
+                                                    ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -225,8 +288,7 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                                       colorOff: Theme.of(context).canvasColor,
                                       iconOn: Icons.remove_red_eye,
                                       iconOff: Icons.auto_fix_normal,
-                                      animationDuration:
-                                          const Duration(milliseconds: 500),
+                                      animationDuration: const Duration(milliseconds: 500),
                                       onTap: () => null,
                                       onDoubleTap: () => null,
                                       onChanged: (bool state) {
