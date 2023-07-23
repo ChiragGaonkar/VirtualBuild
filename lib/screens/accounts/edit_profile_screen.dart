@@ -20,6 +20,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneNoController = TextEditingController();
   final _addressController = TextEditingController();
@@ -36,6 +37,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     TextEditingController myController,
     TextInputType textType,
     String inputTextlabel,
+    String? Function(String?) validator,
   ) {
     return TextFormField(
       controller: myController,
@@ -48,12 +50,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         inputTextlabel,
         Theme.of(context).textTheme.titleLarge,
       ),
+      validator: validator,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var scaffoldMessengerVar = ScaffoldMessenger.of(context);
     bool isErrorOccured = false;
     var user_data = Provider.of<UserDataProvide>(context, listen: false);
     final navigationVar = Navigator.of(context);
@@ -91,93 +95,126 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.04,
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                print("gesture");
-                                await user_data.uploadDP();
-                                // setState(() {});
-                              },
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(_imageUrl),
-                                radius: 80,
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.04,
                               ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            //TextFormField
-                            _buildTextFormField(
-                              _nameController,
-                              TextInputType.name,
-                              "Name",
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            //TextFormField
-                            _buildTextFormField(
-                              _phoneNoController,
-                              TextInputType.number,
-                              "Phone Number",
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                            //TextFormField
-                            _buildTextFormField(
-                              _addressController,
-                              TextInputType.multiline,
-                              "Address",
-                            ),
-                            SizedBox(
-                              height: size.height * 0.04,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(
-                                  0, 0, 0, size.height * 0.07),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  //Start CircularProgressIndicator
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const CustomLoadingSpinner();
-                                    },
-                                  );
-
-                                  await user_data.updateData(
-                                      _nameController.text,
-                                      _addressController.text,
-                                      _phoneNoController.text);
-                                  navigationVar.pop();
-                                  navigationVar.pop();
-                                  navigationVar.pop();
-                                  navigationVar.pushNamed(
-                                      AccountScreen.routeName,
-                                      arguments: {"reload": true});
+                              GestureDetector(
+                                onTap: () async {
+                                  print("gesture");
+                                  await user_data.uploadDP();
+                                  // setState(() {});
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(
-                                    size.width * 0.8,
-                                    size.height * 0.06,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                child: Text(
-                                  "Save",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(_imageUrl),
+                                  radius: 80,
                                 ),
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              //TextFormField
+                              _buildTextFormField(
+                                _nameController,
+                                TextInputType.name,
+                                "Name",
+                                (value) {
+                                  if (value != null && value.isEmpty) {
+                                    return "Please enter your name";
+                                  }
+                                  if (!RegExp(r'^[a-zA-Z\s]+$')
+                                      .hasMatch(value!)) {
+                                    return 'Please enter alphabets only(spaces allowed)';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              //TextFormField
+                              _buildTextFormField(
+                                _phoneNoController,
+                                TextInputType.number,
+                                "Phone Number",
+                                (value) {
+                                  if (value != null && value.isEmpty) {
+                                    return "Please enter your phone number";
+                                  }
+                                  if (!RegExp(r'^[0-9]{10}$')
+                                      .hasMatch(value!)) {
+                                    return "Phone number should only contain 10 digits";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              //TextFormField
+                              _buildTextFormField(
+                                _addressController,
+                                TextInputType.multiline,
+                                "Address",
+                                (value) {
+                                  if (value != null && value.isEmpty) {
+                                    return "Please enter a valid address";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: size.height * 0.04,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    0, 0, 0, size.height * 0.07),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    final isValid =
+                                        formKey.currentState!.validate();
+                                    if (!isValid) return;
+                                    FocusScope.of(context).unfocus();
+                                    //Start CircularProgressIndicator
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const CustomLoadingSpinner();
+                                      },
+                                    );
+
+                                    await user_data.updateData(
+                                        _nameController.text,
+                                        _addressController.text,
+                                        _phoneNoController.text);
+                                    navigationVar.pop();
+                                    navigationVar.pop();
+                                    navigationVar.pop();
+                                    navigationVar.pushNamed(
+                                        AccountScreen.routeName,
+                                        arguments: {"reload": true});
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(
+                                      size.width * 0.8,
+                                      size.height * 0.06,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Save",
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

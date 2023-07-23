@@ -17,12 +17,12 @@ class ExploreArchitectsScreen extends StatefulWidget {
   static const routeName = "/explorearchitects";
 
   @override
-  State<ExploreArchitectsScreen> createState() =>
-      _ExploreArchitectsScreenState();
+  State<ExploreArchitectsScreen> createState() => _ExploreArchitectsScreenState();
 }
 
 class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchTextController = TextEditingController();
   bool isFilterArchitects = false;
 
   @override
@@ -49,6 +49,10 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    controller: _searchTextController,
+                    onChanged: (value) {
+                      setState(() {}); // Triggers a rebuild to update the stream
+                    },
                     decoration: customDecorationForInput(
                       context,
                       "Search",
@@ -60,11 +64,7 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
                   width: 10,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      color: isFilterArchitects
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.circular(15.0)),
+                  decoration: BoxDecoration(color: isFilterArchitects ? Theme.of(context).primaryColor : Theme.of(context).canvasColor, borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
@@ -86,12 +86,16 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
             ),
             if (isFilterArchitects) const FilterArchitects(),
             StreamBuilder(
-              stream: architectData.getArchitects,
+              // stream: architectData.getArchitects,
+              stream: _searchTextController.text.isNotEmpty ? architectData.searchArchitects(_searchTextController.text) : architectData.getArchitects,
               builder: (context, snapshots) {
                 if (!snapshots.hasData) {
                   return const CustomLoadingSpinner();
                 } else if (snapshots.data!.isEmpty) {
-                  return const DataNotFound();
+                  return const Align(
+                    alignment: Alignment.center,
+                    child: DataNotFound(),
+                  );
                 }
                 return Flexible(
                   child: ResponsiveGridList(

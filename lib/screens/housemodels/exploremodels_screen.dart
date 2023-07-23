@@ -21,6 +21,7 @@ class ExploreModelsScreen extends StatefulWidget {
 
 class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _searchTextController = TextEditingController();
   bool init = false;
   bool isFilterOn = false;
 
@@ -52,6 +53,10 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: _searchTextController,
+                      onChanged: (value) {
+                        setState(() {}); // Triggers a rebuild to update the stream
+                      },
                       decoration: customDecorationForInput(
                         context,
                         "Search",
@@ -63,11 +68,7 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                     width: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                        color: isFilterOn
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).canvasColor,
-                        borderRadius: BorderRadius.circular(15.0)),
+                    decoration: BoxDecoration(color: isFilterOn ? Theme.of(context).primaryColor : Theme.of(context).canvasColor, borderRadius: BorderRadius.circular(15.0)),
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
@@ -92,7 +93,8 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
               ),
               // if (!init) ...[
               StreamBuilder(
-                stream: modelData.getMyModels,
+                // stream: modelData.getMyModels,
+                stream: _searchTextController.text.isNotEmpty ? modelData.searchModels(_searchTextController.text) : modelData.getMyModels,
                 builder: (context, snapshots) {
                   if (!snapshots.hasData) {
                     return const CustomLoadingSpinner();
@@ -112,8 +114,7 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                       ),
                       children: List.generate(
                         snapshots.data!.length,
-                        (index) =>
-                            ModelsCard(modelData: snapshots.data![index]),
+                        (index) => ModelsCard(modelData: snapshots.data![index]),
                       ),
                     ),
                   );

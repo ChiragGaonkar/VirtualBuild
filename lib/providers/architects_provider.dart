@@ -7,17 +7,20 @@ class ArchitectsProvider with ChangeNotifier {
   final List<ArchitectModel> _architects = [];
 
   Stream<List<ArchitectModel>> get getArchitects {
-    var result =
-        FirebaseFirestore.instance.collection("architects").snapshots().map(
-              (snapshot) => snapshot.docs
-                  .map((docs) => ArchitectModel.fromJson(docs.data()))
-                  .toList(),
-            );
+    var result = FirebaseFirestore.instance.collection("architects").snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
+        );
     // add the entire list to the _architects list
     // result.listen((architects) {
     //   _architects.addAll(architects);
     // });
     return result;
+  }
+
+  Stream<List<ArchitectModel>> searchArchitects(String value) {
+    return FirebaseFirestore.instance.collection("architects").where("architectName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
+        );
   }
 
   Future<bool> addFavouriteArchitect(String id) async {
@@ -49,19 +52,11 @@ class ArchitectsProvider with ChangeNotifier {
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       favArch = userData["favArchitects"];
       for (var element in favArch) {
-        var result = await FirebaseFirestore.instance
-            .collection("architects")
-            .doc(element)
-            .get();
-        favArchitects.add(
-            ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
+        var result = await FirebaseFirestore.instance.collection("architects").doc(element).get();
+        favArchitects.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
       }
       return favArchitects;
     } catch (e) {
@@ -73,11 +68,7 @@ class ArchitectsProvider with ChangeNotifier {
   Future<List<dynamic>> getFavArchList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       return userData["favArchitects"];
     } catch (e) {
       print(e);

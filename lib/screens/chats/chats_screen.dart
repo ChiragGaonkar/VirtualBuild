@@ -48,6 +48,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
               ),
               TextFormField(
                 controller: _searchTextController,
+                onChanged: (value) {
+                  setState(() {}); // Triggers a rebuild to update the stream
+                },
                 decoration: customDecorationForInput(
                   context,
                   "Search...",
@@ -55,7 +58,11 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 ),
               ),
               FutureBuilder(
-                future: chatsArchitectsList.getMessagedArchitectsDetails(),
+                // future: chatsArchitectsList.getMessagedArchitectsDetails(),
+                future: _searchTextController.text.isNotEmpty
+                    ? chatsArchitectsList
+                        .searchMessagedArchitects(_searchTextController.text)
+                    : chatsArchitectsList.getMessagedArchitectsDetails(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CustomLoadingSpinner());
