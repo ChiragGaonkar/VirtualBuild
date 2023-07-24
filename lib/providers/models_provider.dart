@@ -8,8 +8,8 @@ class ModelsProvider with ChangeNotifier {
   bool init = false;
   List<Models3D> models = [];
 
-  RangeValues currentRangeValuesPrice = const RangeValues(4000, 12000);
-  RangeValues currentRangeValuesArea = const RangeValues(1800, 3000);
+  RangeValues currentRangeValuesPrice = const RangeValues(4000, 120000);
+  RangeValues currentRangeValuesArea = const RangeValues(1800, 8000);
   double currentValueFloor = 3;
   double currentValueBeds = 6;
   double currentValueBaths = 5;
@@ -19,9 +19,12 @@ class ModelsProvider with ChangeNotifier {
   }
 
   Stream<List<Models3D>> get getMyModels {
-    var result = FirebaseFirestore.instance.collection("models").snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
-        );
+    var result =
+        FirebaseFirestore.instance.collection("models").snapshots().map(
+              (snapshot) => snapshot.docs
+                  .map((docs) => Models3D.fromJson(docs.data()))
+                  .toList(),
+            );
     return result;
   }
 
@@ -30,11 +33,19 @@ class ModelsProvider with ChangeNotifier {
     try {
       var myProjs = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
       myProjs = userData["orderedModels"];
       for (var element in myProjs) {
-        var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
-        myProjects.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+        var result = await FirebaseFirestore.instance
+            .collection("models")
+            .doc(element)
+            .get();
+        myProjects
+            .add(Models3D.fromJson(result.data() as Map<String, dynamic>));
       }
       return myProjects;
     } catch (e) {
@@ -44,35 +55,131 @@ class ModelsProvider with ChangeNotifier {
   }
 
   Stream<List<Models3D>> searchModels(String value) {
-    return FirebaseFirestore.instance.collection("models").where("modelName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
+    return FirebaseFirestore.instance
+        .collection("models")
+        .where("modelName",
+            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => Models3D.fromJson(docs.data()))
+              .toList(),
         );
   }
 
   Stream<List<Models3D>> getArchitectSpecificModels(String architectID) {
-    var result = FirebaseFirestore.instance.collection("models").where("modelArchitectID", isEqualTo: architectID).snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
+    var result = FirebaseFirestore.instance
+        .collection("models")
+        .where("modelArchitectID", isEqualTo: architectID)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => Models3D.fromJson(docs.data()))
+              .toList(),
         );
     return result;
   }
 
-  List<Models3D> get getFilteredModel {
+  Stream<List<Models3D>> getFilter() {
     print("currentRangeValuesPrice $currentRangeValuesPrice");
     print("currentRangeValuesArea $currentRangeValuesArea");
     print("currentValueFloor $currentValueFloor");
     print("currentValueBeds $currentValueBeds");
-    List<Models3D> w3 = models.where((e) {
-      int price = int.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
-      return (price >= currentRangeValuesPrice.start && price <= currentRangeValuesPrice.end) &&
-          (e.modelTotalSquareFootage >= currentRangeValuesArea.start && e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
-          (e.modelFloors >= currentValueFloor) &&
-          (e.modelNumberOfBedrooms >= currentValueBeds) &&
-          (e.modelNumberOfBaths >= currentValueBaths);
+    return FirebaseFirestore.instance
+        .collection("models")
+        .where(Filter.and(
+            Filter("modelEstimatedBuildPrice",
+                isGreaterThanOrEqualTo: currentRangeValuesPrice.start),
+            // Filter("modelEstimatedBuildPrice",
+            //     isLessThan: currentRangeValuesPrice.end),
+            Filter("modelTotalSquareFootage",
+                isGreaterThanOrEqualTo: currentRangeValuesArea.start),
+            // Filter("modelTotalSquareFootage",
+            //     isLessThan: currentRangeValuesArea.end),
+            Filter("modelFloors", isGreaterThan: currentValueFloor),
+            Filter("modelNumberOfBedrooms", isLessThan: currentValueBeds)))
+        // .where("modelEstimatedBuildPrice",
+        //     isGreaterThanOrEqualTo: currentRangeValuesPrice.start)
+        // .where("modelEstimatedBuildPrice",
+        //     isLessThan: currentRangeValuesPrice.end)
+        // .where("modelTotalSquareFootage",
+        //     isGreaterThanOrEqualTo: currentRangeValuesArea.start)
+        // .where("modelTotalSquareFootage",
+        //     isLessThan: currentRangeValuesArea.end)
+        // .where("modelFloors", isGreaterThan: currentValueFloor)
+        // .where("modelNumberOfBedrooms", isLessThan: currentValueBeds)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => Models3D.fromJson(docs.data()))
+              .toList(),
+        );
+  }
+
+  Future<List<Models3D>> getFilteredModel() async {
+    print("currentRangeValuesPrice $currentRangeValuesPrice");
+    print("currentRangeValuesArea $currentRangeValuesArea");
+    print("currentValueFloor $currentValueFloor");
+    print("currentValueBeds $currentValueBeds");
+    var data = await FirebaseFirestore.instance.collection("models").get();
+    var l = data.docs.map((docs) => Models3D.fromJson(docs.data())).toList();
+    print("l.length ${l[0].modelName}");
+    List<Models3D> w3 = l.where((e) {
+      double price =
+          double.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
+      // int price = 0;
+      String ch = e.modelPrice[e.modelPrice.length - 1];
+      switch (ch) {
+        case "k":
+          price *= 1000;
+          break;
+        case "L":
+          price *= 100000;
+          break;
+        case "Cr":
+          price *= 10000000;
+          break;
+      }
+      // print("----------------------------");
+      // print("modelName ${e.modelName} ");
+      // print(
+      //     "price ${price} ch ${ch} ${(price >= currentRangeValuesPrice.start && price <= currentRangeValuesPrice.end)}");
+      // print(
+      //     "area ${e.modelTotalSquareFootage} ${(e.modelTotalSquareFootage >= currentRangeValuesArea.start && e.modelTotalSquareFootage <= currentRangeValuesArea.end)}");
+      // print(
+      //     "modelFloors ${e.modelFloors} ${(e.modelFloors <= currentValueFloor)}");
+      // print(
+      //     "modelNumberOfBedrooms ${e.modelNumberOfBedrooms} ${(e.modelNumberOfBedrooms <= currentValueBeds)}");
+      // print(
+      //     "modelNumberOfBaths ${e.modelNumberOfBaths} ${(e.modelNumberOfBaths <= currentValueBaths)}");
+      // print((price >= currentRangeValuesPrice.start &&
+      //         price <= currentRangeValuesPrice.end) &&
+      //     (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
+      //         e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+      //     (e.modelFloors <= currentValueFloor) &&
+      //     (e.modelNumberOfBedrooms <= currentValueBeds) &&
+      //     (e.modelNumberOfBaths <= currentValueBaths));
+      return (price >= currentRangeValuesPrice.start &&
+              price <= currentRangeValuesPrice.end) &&
+          (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
+              e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+          (e.modelFloors <= currentValueFloor) &&
+          (e.modelNumberOfBedrooms <= currentValueBeds) &&
+          (e.modelNumberOfBaths <= currentValueBaths);
     }).toList();
     //models = w3;
-    print(w3.length);
+    print("w3 ${w3.length}");
     return w3;
   }
+
+  // Future<List<Models3D>> search(String input) async {
+  //   input = input.toLowerCase();
+  //   var data = await FirebaseFirestore.instance.collection("models").get();
+  //   var l = data.docs.map((docs) => Models3D.fromJson(docs.data())).toList();
+  //   List<Models3D> w3 = l.where((e) => ).toList();
+
+  //   return w3;
+  // }
 
   Future<bool> addFavourite(String id) async {
     try {
@@ -103,11 +210,19 @@ class ModelsProvider with ChangeNotifier {
     try {
       var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
       favArch = userData["favModels"];
       for (var element in favArch) {
-        var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
-        favArchitects.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+        var result = await FirebaseFirestore.instance
+            .collection("models")
+            .doc(element)
+            .get();
+        favArchitects
+            .add(Models3D.fromJson(result.data() as Map<String, dynamic>));
       }
       return favArchitects;
     } catch (e) {
@@ -119,7 +234,11 @@ class ModelsProvider with ChangeNotifier {
   Future<List<dynamic>> getFavModelList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
       return userData["favModels"];
     } catch (e) {
       print(e);

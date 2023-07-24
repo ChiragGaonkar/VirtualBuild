@@ -29,6 +29,7 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var modelData = Provider.of<ModelsProvider>(context, listen: false);
+    print("init $init");
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -55,7 +56,8 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                     child: TextFormField(
                       controller: _searchTextController,
                       onChanged: (value) {
-                        setState(() {}); // Triggers a rebuild to update the stream
+                        setState(
+                            () {}); // Triggers a rebuild to update the stream
                       },
                       decoration: customDecorationForInput(
                         context,
@@ -68,7 +70,11 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                     width: 10,
                   ),
                   Container(
-                    decoration: BoxDecoration(color: isFilterOn ? Theme.of(context).primaryColor : Theme.of(context).canvasColor, borderRadius: BorderRadius.circular(15.0)),
+                    decoration: BoxDecoration(
+                        color: isFilterOn
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).canvasColor,
+                        borderRadius: BorderRadius.circular(15.0)),
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
@@ -91,52 +97,100 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              // if (!init) ...[
-              StreamBuilder(
-                // stream: modelData.getMyModels,
-                stream: _searchTextController.text.isNotEmpty ? modelData.searchModels(_searchTextController.text) : modelData.getMyModels,
-                builder: (context, snapshots) {
-                  if (!snapshots.hasData) {
-                    return const CustomLoadingSpinner();
-                  } else if (snapshots.data!.isEmpty) {
-                    return const Align(
-                      alignment: Alignment.center,
-                      child: DataNotFound(),
+              if (!init) ...[
+                StreamBuilder(
+                  // stream: modelData.getMyModels,
+                  stream: _searchTextController.text.isNotEmpty
+                      ? modelData.searchModels(_searchTextController.text)
+                      : modelData.getMyModels,
+                  builder: (context, snapshots) {
+                    init = !init;
+                    if (!snapshots.hasData) {
+                      return const CustomLoadingSpinner();
+                    } else if (snapshots.data!.isEmpty) {
+                      return const Align(
+                        alignment: Alignment.center,
+                        child: DataNotFound(),
+                      );
+                    }
+                    return Flexible(
+                      child: ResponsiveGridList(
+                        rowMainAxisAlignment: MainAxisAlignment.end,
+                        minItemsPerRow: 1,
+                        minItemWidth: 300,
+                        listViewBuilderOptions: ListViewBuilderOptions(
+                          padding: EdgeInsets.zero,
+                        ),
+                        children: List.generate(
+                          snapshots.data!.length,
+                          (index) =>
+                              ModelsCard(modelData: snapshots.data![index]),
+                        ),
+                      ),
                     );
-                  }
-                  return Flexible(
-                    child: ResponsiveGridList(
-                      rowMainAxisAlignment: MainAxisAlignment.end,
-                      minItemsPerRow: 1,
-                      minItemWidth: 300,
-                      listViewBuilderOptions: ListViewBuilderOptions(
-                        padding: EdgeInsets.zero,
+                  },
+                ),
+              ] else ...[
+                _searchTextController.text.isNotEmpty
+                    ? StreamBuilder(
+                        // stream: modelData.getMyModels,
+                        stream:
+                            modelData.searchModels(_searchTextController.text),
+                        builder: (context, snapshots) {
+                          if (!snapshots.hasData) {
+                            return const CustomLoadingSpinner();
+                          } else if (snapshots.data!.isEmpty) {
+                            return const Align(
+                              alignment: Alignment.center,
+                              child: DataNotFound(),
+                            );
+                          }
+                          return Flexible(
+                            child: ResponsiveGridList(
+                              rowMainAxisAlignment: MainAxisAlignment.end,
+                              minItemsPerRow: 1,
+                              minItemWidth: 300,
+                              listViewBuilderOptions: ListViewBuilderOptions(
+                                padding: EdgeInsets.zero,
+                              ),
+                              children: List.generate(
+                                snapshots.data!.length,
+                                (index) => ModelsCard(
+                                    modelData: snapshots.data![index]),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : FutureBuilder(
+                        future: modelData.getFilteredModel(),
+                        builder: (context, snapshots) {
+                          if (!snapshots.hasData) {
+                            return const CustomLoadingSpinner();
+                          } else if (snapshots.data!.isEmpty) {
+                            return const Align(
+                              alignment: Alignment.center,
+                              child: DataNotFound(),
+                            );
+                          }
+                          return Flexible(
+                            child: ResponsiveGridList(
+                              rowMainAxisAlignment: MainAxisAlignment.end,
+                              minItemsPerRow: 1,
+                              minItemWidth: 300,
+                              listViewBuilderOptions: ListViewBuilderOptions(
+                                padding: EdgeInsets.zero,
+                              ),
+                              children: List.generate(
+                                snapshots.data!.length,
+                                (index) => ModelsCard(
+                                    modelData: snapshots.data![index]),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      children: List.generate(
-                        snapshots.data!.length,
-                        (index) => ModelsCard(modelData: snapshots.data![index]),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // ] else ...[
-              // Flexible(
-              //   child: ResponsiveGridList(
-              //     rowMainAxisAlignment: MainAxisAlignment.end,
-              //     minItemsPerRow: 1,
-              //     minItemWidth: 300,
-              //     listViewBuilderOptions: ListViewBuilderOptions(
-              //       padding: EdgeInsets.zero,
-              //     ),
-              //     children: List.generate(
-              //       modelData.getFilteredModel.length,
-              //       (index) => ModelsCard(
-              //           modelData: modelData.getFilteredModel[index]),
-              //     ),
-              //   ),
-              // ),
-              // ],
+              ],
               SizedBox(
                 height: size.height * 0.02,
               ),

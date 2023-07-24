@@ -36,7 +36,7 @@ class _FilterModelsState extends State<FilterModels> {
                   Expanded(
                     child: RangeSlider(
                       values: modelData.currentRangeValuesPrice,
-                      max: 20000,
+                      max: 1000000,
                       divisions: 5,
                       labels: RangeLabels(
                         '₹${modelData.currentRangeValuesPrice.start.round().toString()}',
@@ -64,7 +64,7 @@ class _FilterModelsState extends State<FilterModels> {
                   Expanded(
                     child: RangeSlider(
                       values: modelData.currentRangeValuesArea,
-                      max: 3000,
+                      max: 30000,
                       divisions: 5,
                       labels: RangeLabels(
                         '${modelData.currentRangeValuesArea.start.round().toString()} sqft',
@@ -175,6 +175,7 @@ class _FilterModelsState extends State<FilterModels> {
                           setState(() {
                             _currentValueBaths = val;
                             modelData.currentValueBaths = val;
+                            // print(modelData.currentValueBaths);
                           });
                         },
                       ),
