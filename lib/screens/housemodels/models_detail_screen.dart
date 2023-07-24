@@ -31,6 +31,20 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
   final TextEditingController _projectPassword = TextEditingController();
 
   @override
+  void initState() {
+    checkIfFav();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  checkIfFav() async {
+    isFavorite = await Provider.of<ModelsProvider>(context, listen: false).checkFavModel("svkvXGlLTX2JaC5B4IaU");
+    print("from outside $isFavorite");
+    setState(() {});
+    return isFavorite;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     bool isDesktop = size.width >= 600;
@@ -76,6 +90,8 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
     }
     final modelsProvider = Provider.of<ModelsProvider>(context);
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
+    print("From indside = $isFavorite");
+    // isFavorite = checkIfFav(modelData.modelId);
 
     return isErrorOccured
         ? const ErrorScreen(

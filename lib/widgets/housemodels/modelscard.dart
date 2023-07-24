@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/models/models3d_model.dart';
+import 'package:virtualbuild/providers/architects_provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
+import 'package:virtualbuild/screens/architects/architect_detail_screen.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardicons.dart';
 import 'package:virtualbuild/widgets/housemodels/modelscardbuttons.dart';
 import 'package:virtualbuild/widgets/housemodels/waveclipper.dart';
-
-import '../../providers/user_data_provider.dart';
 import '../../screens/housemodels/models_detail_screen.dart';
 
 class ModelsCard extends StatefulWidget {
@@ -23,10 +23,25 @@ class ModelsCard extends StatefulWidget {
 
 class _ModelsCardState extends State<ModelsCard> {
   bool isExpanded = false;
+  bool isContactPressed = false;
+  bool isFav = false;
+  @override
+  void initState() {
+    checkIfFav();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  checkIfFav() async {
+    isFav = await Provider.of<ModelsProvider>(context, listen: false).checkFavModel(widget.modelData.modelId);
+    return isFav;
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var navigator = Navigator.of(context);
+    var modelProvider = Provider.of<ModelsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         ModelsDetailScreen.routeName,
@@ -52,8 +67,7 @@ class _ModelsCardState extends State<ModelsCard> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ClipPath(
-                  clipper:
-                      isExpanded == true ? WaveClipperUp() : WaveClipperDown(),
+                  clipper: isExpanded == true ? WaveClipperUp() : WaveClipperDown(),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
                     height: isExpanded == true ? 250 : 120,
@@ -63,17 +77,13 @@ class _ModelsCardState extends State<ModelsCard> {
                       borderRadius: 20,
                       blur: 26,
                       border: 0,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                            const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                          ],
-                          stops: const [
-                            0.1,
-                            1,
-                          ]),
+                      linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+                        const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                        const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                      ], stops: const [
+                        0.1,
+                        1,
+                      ]),
                       borderGradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -96,9 +106,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                 });
                               },
                               icon: Icon(
-                                isExpanded == true
-                                    ? Icons.keyboard_double_arrow_down
-                                    : Icons.keyboard_double_arrow_up_rounded,
+                                isExpanded == true ? Icons.keyboard_double_arrow_down : Icons.keyboard_double_arrow_up_rounded,
                                 color: Theme.of(context).primaryColor,
                                 size: 25,
                               ),
@@ -113,9 +121,7 @@ class _ModelsCardState extends State<ModelsCard> {
                                       children: [
                                         Text(
                                           widget.modelData.modelName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium,
+                                          style: Theme.of(context).textTheme.titleMedium,
                                         ),
                                         // Text(
                                         //   "(${widget.modelData.modelArea} sq.ft)",
@@ -127,16 +133,13 @@ class _ModelsCardState extends State<ModelsCard> {
                                     ),
                                     Text(
                                       "By Arch. ${widget.modelData.modelArchitectname}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall,
+                                      style: Theme.of(context).textTheme.titleSmall,
                                     ),
                                   ],
                                 ),
                                 Text(
                                   "₹${widget.modelData.modelPrice.toString()}",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context).textTheme.titleMedium,
                                 ),
                               ],
                             ),
@@ -149,44 +152,42 @@ class _ModelsCardState extends State<ModelsCard> {
                                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                 children: [
                                   ModelsCardIcons(
-                                    numOfBeds:
-                                        widget.modelData.modelNumberOfBedrooms,
-                                    numOfBaths:
-                                        widget.modelData.modelNumberOfBaths,
+                                    numOfBeds: widget.modelData.modelNumberOfBedrooms,
+                                    numOfBaths: widget.modelData.modelNumberOfBaths,
                                     numOfFloors: widget.modelData.modelFloors,
-                                    parking: widget.modelData.modelParkings
-                                        ? "Yes"
-                                        : "No",
+                                    parking: widget.modelData.modelParkings ? "Yes" : "No",
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       ModelsCardButtons(
-                                        buttontext: "Favorite",
+                                        buttontext: isFav ? "Unfavorite" : "Favorite",
                                         whatOnPressed: () async {
-                                          var fav = Provider.of<ModelsProvider>(
-                                              context,
-                                              listen: false);
-                                          var list =
-                                              await fav.getFavModelList();
-                                          if (list.contains(
-                                              widget.modelData.modelId)) {
-                                            await fav.removeFavourite(
-                                                widget.modelData.modelId);
+                                          setState(() {
+                                            isFav = !isFav;
+                                          });
+                                          var list = await modelProvider.getFavModelList();
+                                          if (list.contains(widget.modelData.modelId)) {
+                                            await modelProvider.removeFavourite(widget.modelData.modelId);
                                           } else {
-                                            await fav.addFavourite(
-                                                widget.modelData.modelId);
+                                            await modelProvider.addFavourite(widget.modelData.modelId);
                                           }
                                         },
                                       ),
                                       ModelsCardButtons(
-                                        buttontext: "Buy",
-                                        whatOnPressed: () {
-                                          //Write a function to navigate Payment Page;
+                                        buttontext: isContactPressed ? "Contacting..." : "Contact",
+                                        whatOnPressed: () async {
+                                          setState(() {
+                                            isContactPressed = true;
+                                          });
+                                          final architectData = await Provider.of<ArchitectsProvider>(context, listen: false).showParticularArchitect(widget.modelData.modelArchitectID);
+                                          setState(() {
+                                            isContactPressed = false;
+                                          });
+                                          navigator.pushNamed(ArchitectDetailScreen.routeName, arguments: architectData);
                                         },
                                       )
                                     ],

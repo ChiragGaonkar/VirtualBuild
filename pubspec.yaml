@@ -89,9 +89,7 @@ flutter:
     - assets/Female.png
     - assets/Holi.png
     - assets/starbg.png
-    - assets/3dModels/
     - assets/model_viewer.html
-    - assets/imagesModels/
     - assets/Logo.png
     - assets/profile.png
     - assets/fetchModel.png

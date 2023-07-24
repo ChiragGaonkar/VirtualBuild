@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:virtualbuild/models/architects_model.dart';
 
@@ -32,6 +33,16 @@ class ArchitectsProvider with ChangeNotifier {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  showParticularArchitect(String architectId) async {
+    try {
+      final architectDetail = await FirebaseFirestore.instance.collection("architects").doc(architectId).get();
+      final data = ArchitectModel.fromJson(architectDetail.data() as Map<String, dynamic>);
+      return data;
+    } catch (e) {
+      print(e);
     }
   }
 

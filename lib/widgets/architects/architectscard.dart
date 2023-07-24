@@ -24,6 +24,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    print(widget.architectData);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -40,8 +41,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
               radius: 62,
               backgroundColor: Theme.of(context).primaryColor,
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    widget.architectData.architectImageUrl.toString()),
+                backgroundImage: NetworkImage(widget.architectData.architectImageUrl.toString()),
                 radius: 60,
               ),
             ),
@@ -64,8 +64,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ClipPath(
-                  clipper:
-                      isExpanded == true ? WaveClipperUp() : WaveClipperDown(),
+                  clipper: isExpanded == true ? WaveClipperUp() : WaveClipperDown(),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
                     height: isExpanded == true ? 250 : 120,
@@ -75,17 +74,13 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                       borderRadius: 20,
                       blur: 26,
                       border: 0,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                            const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                          ],
-                          stops: const [
-                            0.1,
-                            1,
-                          ]),
+                      linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+                        const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                        const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                      ], stops: const [
+                        0.1,
+                        1,
+                      ]),
                       borderGradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -108,9 +103,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                 });
                               },
                               icon: Icon(
-                                isExpanded == true
-                                    ? Icons.keyboard_double_arrow_down
-                                    : Icons.keyboard_double_arrow_up_rounded,
+                                isExpanded == true ? Icons.keyboard_double_arrow_down : Icons.keyboard_double_arrow_up_rounded,
                                 color: Theme.of(context).primaryColor,
                                 size: 25,
                               ),
@@ -120,8 +113,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                               children: [
                                 Text(
                                   widget.architectData.architectName,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context).textTheme.titleMedium,
                                 ),
                                 Text(
                                   "${widget.architectData.architectOfficeLocation['city']}, ${widget.architectData.architectOfficeLocation['state']}",
@@ -139,13 +131,11 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                 children: [
                                   Text(
                                     "Registration No. ${widget.architectData.architectRegisterNum}",
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
+                                    style: Theme.of(context).textTheme.titleSmall,
                                   ),
                                   Text(
                                     "${widget.architectData.architectType} Architect (${widget.architectData.architectExperience} years)",
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
+                                    style: Theme.of(context).textTheme.titleSmall,
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -156,20 +146,14 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                       ModelsCardButtons(
                                         buttontext: "Favorite",
                                         whatOnPressed: () async {
-                                          var fav =
-                                              Provider.of<ArchitectsProvider>(
-                                                  context,
-                                                  listen: false);
+                                          var fav = Provider.of<ArchitectsProvider>(context, listen: false);
                                           var list = await fav.getFavArchList();
-                                          if (list.contains(widget
-                                              .architectData.architectID)) {
+                                          if (list.contains(widget.architectData.architectID)) {
                                             await fav.removeFavouriteArchitect(
                                               widget.architectData.architectID,
                                             );
                                           } else {
-                                            await fav.addFavouriteArchitect(
-                                                widget
-                                                    .architectData.architectID);
+                                            await fav.addFavouriteArchitect(widget.architectData.architectID);
                                           }
                                         },
                                       ),
@@ -181,8 +165,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                         buttontext: "Message",
                                         whatOnPressed: () {
                                           //Get the Architects Id
-                                          var aid =
-                                              widget.architectData.architectID;
+                                          var aid = widget.architectData.architectID;
 
                                           //Get the Users Id
                                           final User? user = Auth().currentUser;
@@ -194,10 +177,8 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                             arguments: {
                                               'aid': aid,
                                               'uid': uid,
-                                              'name': widget
-                                                  .architectData.architectName,
-                                              'imageUrl': widget.architectData
-                                                  .architectImageUrl,
+                                              'name': widget.architectData.architectName,
+                                              'imageUrl': widget.architectData.architectImageUrl,
                                             },
                                           );
                                         },
