@@ -6,7 +6,8 @@ import '../firebase/firestore_database.dart';
 
 class ModelsProvider with ChangeNotifier {
   bool init = false;
-  List<Models3D> models = [];
+  List<Models3D> _models = [];
+  List<Models3D> _allModels = [];
 
   RangeValues currentRangeValuesPrice = const RangeValues(4000, 12000);
   RangeValues currentRangeValuesArea = const RangeValues(1800, 3000);
@@ -15,30 +16,59 @@ class ModelsProvider with ChangeNotifier {
   double currentValueBaths = 5;
 
   List<Models3D> get getModel {
-    return [...models];
+    return [..._models];
   }
 
   Stream<List<Models3D>> get getMyModels {
-    var result =
-        FirebaseFirestore.instance.collection("models").snapshots().map(
-              (snapshot) => snapshot.docs
-                  .map((docs) => Models3D.fromJson(docs.data()))
-                  .toList(),
-            );
+    var result = FirebaseFirestore.instance
+        .collection("models")
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((docs) =>
+                Models3D.fromJson(docs.data() as Map<String, dynamic>))
+            .toList());
+
+    // Store all models in the local _allModels list
+    result.listen((models) {
+      _allModels = models;
+      _models.clear(); // Clear the previous models and add the new ones
+      _models.addAll(models);
+      notifyListeners(); // Notify listeners about the updated models list
+    });
+
     return result;
   }
 
   Stream<List<Models3D>> searchModels(String value) {
-    return FirebaseFirestore.instance
-        .collection("models")
-        .where("modelName",
-            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((docs) => Models3D.fromJson(docs.data()))
-              .toList(),
-        );
+    value = value.toLowerCase();
+
+    // Filter models whose names start with the search query
+    var startsWithQuery = _allModels.where((model) {
+      var name = model.modelName.toLowerCase();
+      return name.startsWith(value);
+    }).toList();
+
+    // Filters remaining models by name or any other searchable fields
+    var filteredModels = _allModels.where((model) {
+      var name = model.modelName.toLowerCase();
+      // Check for case-insensitive matches in name or other fields you want to search in
+      return !name.startsWith(value) &&
+          (name.contains(value) ||
+              containsIgnoreCase(model.modelArchitectname, value) ||
+              containsIgnoreCase(model.modelPrice, value));
+      // Add more fields if you want to include them in the search
+    }).toList();
+
+    // Combines the two filtered lists, giving priority to names that start with the search query
+    var finalModels = [...startsWithQuery, ...filteredModels];
+
+    // Returns the filtered models as a stream
+    return Stream.value(finalModels);
+  }
+
+  bool containsIgnoreCase(String? source, String query) {
+    if (source == null) return false;
+    return source.toLowerCase().contains(query);
   }
 
   Stream<List<Models3D>> getArchitectSpecificModels(String architectID) {
@@ -51,6 +81,7 @@ class ModelsProvider with ChangeNotifier {
               .map((docs) => Models3D.fromJson(docs.data()))
               .toList(),
         );
+
     return result;
   }
 
@@ -59,7 +90,7 @@ class ModelsProvider with ChangeNotifier {
     print("currentRangeValuesArea $currentRangeValuesArea");
     print("currentValueFloor $currentValueFloor");
     print("currentValueBeds $currentValueBeds");
-    List<Models3D> w3 = models.where((e) {
+    List<Models3D> w3 = _models.where((e) {
       int price = int.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
       return (price >= currentRangeValuesPrice.start &&
               price <= currentRangeValuesPrice.end) &&
@@ -150,6 +181,6 @@ class ModelsProvider with ChangeNotifier {
   }
 
   Models3D getModelById(String id) {
-    return models.firstWhere((prod) => prod.modelId == id);
+    return _models.firstWhere((prod) => prod.modelId == id);
   }
 }
