@@ -63,6 +63,7 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
             decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Theme.of(context).canvasColor),
               image: const DecorationImage(
                 image: AssetImage(
                   "assets/starbg.png",

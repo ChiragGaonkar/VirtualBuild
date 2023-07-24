@@ -58,21 +58,43 @@ class ArchitectsProvider with ChangeNotifier {
     }
   }
 
-  Future<List<ArchitectModel>> getFavArchitects() async {
-    List<ArchitectModel> favArchitects = [];
+  // Future<List<ArchitectModel>> getFavArchitects() async {
+  //   List<ArchitectModel> favArchitects = [];
+  //   try {
+  //     var favArch = [];
+  //     final userId = FirebaseAuth.instance.currentUser!.uid;
+  //     DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  //     favArch = userData["favArchitects"];
+  //     for (var element in favArch) {
+  //       var result = await FirebaseFirestore.instance.collection("architects").doc(element).get();
+  //       favArchitects.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
+  //     }
+  //     return favArchitects;
+  //   } catch (e) {
+  //     print(e);
+  //     return [];
+  //   }
+  // }
+
+  Stream<List<ArchitectModel>> getFavArchitectsStream() async* {
     try {
-      var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      favArch = userData["favArchitects"];
-      for (var element in favArch) {
-        var result = await FirebaseFirestore.instance.collection("architects").doc(element).get();
-        favArchitects.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
+      Stream<DocumentSnapshot<Map<String, dynamic>>> userStream = FirebaseFirestore.instance.collection('users').doc(userId).snapshots();
+
+      await for (DocumentSnapshot<Map<String, dynamic>> userData in userStream) {
+        var favArch = userData["favArchitects"];
+        List<ArchitectModel> favArchitects = [];
+
+        for (var element in favArch) {
+          var result = await FirebaseFirestore.instance.collection("architects").doc(element).get();
+          favArchitects.add(ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
+        }
+
+        yield favArchitects;
       }
-      return favArchitects;
     } catch (e) {
       print(e);
-      return [];
+      yield [];
     }
   }
 

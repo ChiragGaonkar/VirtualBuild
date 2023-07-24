@@ -16,8 +16,8 @@ class ModelFav extends StatelessWidget {
   Widget build(BuildContext context) {
     var modelsProvider = Provider.of<ModelsProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return FutureBuilder(
-      future: modelsProvider.getFavModel,
+    return StreamBuilder(
+      stream: modelsProvider.getFavModelStream(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const CustomLoadingSpinner();

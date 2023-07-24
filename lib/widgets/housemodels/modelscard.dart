@@ -55,6 +55,7 @@ class _ModelsCardState extends State<ModelsCard> {
             decoration: BoxDecoration(
               color: Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Theme.of(context).canvasColor),
               image: DecorationImage(
                 image: NetworkImage(
                   widget.modelData.modelImageURL,

@@ -98,21 +98,43 @@ class ModelsProvider with ChangeNotifier {
     }
   }
 
-  Future<List<Models3D>> get getFavModel async {
-    List<Models3D> favArchitects = [];
+  // Future<List<Models3D>> get getFavModel async {
+  //   List<Models3D> favArchitects = [];
+  //   try {
+  //     var favArch = [];
+  //     final userId = FirebaseAuth.instance.currentUser!.uid;
+  //     DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  //     favArch = userData["favModels"];
+  //     for (var element in favArch) {
+  //       var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
+  //       favArchitects.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+  //     }
+  //     return favArchitects;
+  //   } catch (e) {
+  //     print(e);
+  //     return [];
+  //   }
+  // }
+
+  Stream<List<Models3D>> getFavModelStream() async* {
     try {
-      var favArch = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      favArch = userData["favModels"];
-      for (var element in favArch) {
-        var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
-        favArchitects.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+      Stream<DocumentSnapshot<Map<String, dynamic>>> userStream = FirebaseFirestore.instance.collection('users').doc(userId).snapshots();
+
+      await for (DocumentSnapshot<Map<String, dynamic>> userData in userStream) {
+        var favArch = userData["favModels"];
+        List<Models3D> favModels = [];
+
+        for (var element in favArch) {
+          var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
+          favModels.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+        }
+
+        yield favModels;
       }
-      return favArchitects;
     } catch (e) {
       print(e);
-      return [];
+      yield [];
     }
   }
 
