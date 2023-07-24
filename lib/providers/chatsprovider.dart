@@ -89,20 +89,32 @@ class ChatsProvider with ChangeNotifier {
     final User? user = Auth().currentUser;
     var userId = user!.uid;
     List<dynamic> architectIdArray = await getMessagedArchitectsID();
-    _chatArchitectsList.clear(); //clearing list before searching
+    _chatArchitectsList.clear(); // Clearing list before searching
+
     List<Future<void>> futures = architectIdArray.map((architectId) async {
-      //Write Code to retrieve and update List
       String chatId = userId + architectId;
       final CollectionReference architectsCollection =
           FirebaseFirestore.instance.collection("architects");
       DocumentSnapshot docArchitectSnapshot =
           await architectsCollection.doc(architectId).get();
+
       if (docArchitectSnapshot.exists) {
-        // String architectName =
-        //     docArchitectSnapshot.get('architectName').toLowerCase();
-        // if (architectName.startsWith(value.toLowerCase())) {
-        String architectName = docArchitectSnapshot.get('architectName');
-        if (architectName.startsWith(value)) {
+        String architectName =
+            docArchitectSnapshot.get('architectName').toLowerCase();
+        List<String> nameParts = architectName.split(' ');
+        String architectFullName = architectName.replaceAll(' ', '');
+
+        bool startsWithSearchQuery(String name) {
+          return name.startsWith(value.toLowerCase());
+        }
+
+        bool containsSearchQuery(String name) {
+          return name.contains(value.toLowerCase());
+        }
+
+        if (startsWithSearchQuery(nameParts.first) ||
+            startsWithSearchQuery(nameParts.last)) {
+          // If either first or last name starts with the search query, adds to the list
           final CollectionReference chatsCollection =
               FirebaseFirestore.instance.collection("chats");
           DocumentSnapshot docChatsSnapshot = await chatsCollection
@@ -112,6 +124,7 @@ class ChatsProvider with ChangeNotifier {
               .limit(1)
               .get()
               .then((querySnapshot) => querySnapshot.docs.first);
+
           if (docChatsSnapshot.exists) {
             bool isPresentInList = false;
             for (int i = 0; i < _chatArchitectsList.length; i++) {
@@ -125,7 +138,48 @@ class ChatsProvider with ChangeNotifier {
                 break;
               }
             }
-            if (isPresentInList == false) {
+
+            if (!isPresentInList) {
+              _chatArchitectsList.add(
+                ChatArchitectsListModel(
+                  name: docArchitectSnapshot.get('architectName'),
+                  message: docChatsSnapshot.get('message'),
+                  imageURL: docArchitectSnapshot.get('architectImageUrl'),
+                  time: convertTimeStampToDate(docChatsSnapshot.get('time')),
+                  isRead: docChatsSnapshot.get('read'),
+                  unreadCount: 1,
+                  chatId: chatId,
+                ),
+              );
+            }
+          }
+        } else if (containsSearchQuery(architectFullName)) {
+          // If the full name (without spaces) contains the search query, adds to the list
+          final CollectionReference chatsCollection =
+              FirebaseFirestore.instance.collection("chats");
+          DocumentSnapshot docChatsSnapshot = await chatsCollection
+              .doc(chatId)
+              .collection('messages')
+              .orderBy('time', descending: true)
+              .limit(1)
+              .get()
+              .then((querySnapshot) => querySnapshot.docs.first);
+
+          if (docChatsSnapshot.exists) {
+            bool isPresentInList = false;
+            for (int i = 0; i < _chatArchitectsList.length; i++) {
+              if (_chatArchitectsList[i].chatId == chatId) {
+                isPresentInList = true;
+                _chatArchitectsList[i].message =
+                    docChatsSnapshot.get('message');
+                _chatArchitectsList[i].time =
+                    convertTimeStampToDate(docChatsSnapshot.get('time'));
+                _chatArchitectsList[i].isRead = docChatsSnapshot.get('read');
+                break;
+              }
+            }
+
+            if (!isPresentInList) {
               _chatArchitectsList.add(
                 ChatArchitectsListModel(
                   name: docArchitectSnapshot.get('architectName'),
@@ -141,9 +195,25 @@ class ChatsProvider with ChangeNotifier {
           }
         }
       }
-      // print("Hello ${docArchitectSnapshot.get('architectName')}");
     }).toList();
     await Future.wait(futures);
+
+    // Sorts the _chatArchitectsList based on custom comparison
+    _chatArchitectsList.sort((architect1, architect2) {
+      String fullName1 = architect1.name.toLowerCase();
+      String fullName2 = architect2.name.toLowerCase();
+      if (fullName1.startsWith(value.toLowerCase()) &&
+          !fullName2.startsWith(value.toLowerCase())) {
+        return -1; // architect1 comes first
+      } else if (!fullName1.startsWith(value.toLowerCase()) &&
+          fullName2.startsWith(value.toLowerCase())) {
+        return 1; // architect2 comes first
+      } else {
+        return fullName1.compareTo(
+            fullName2); // both start with or neither starts with, uses regular alphabetical order
+      }
+    });
+
     return [..._chatArchitectsList];
   }
 
