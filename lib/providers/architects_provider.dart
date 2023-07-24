@@ -87,7 +87,8 @@ class ArchitectsProvider with ChangeNotifier {
     }
   }
 
-  bool checkFavArch(List<String> list, String id) {
+  Future<bool> checkFavArch(String id) async {
+    var list = await getFavArchList();
     if (list.contains(id)) {
       return true;
     } else {

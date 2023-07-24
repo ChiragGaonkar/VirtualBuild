@@ -1,12 +1,10 @@
 import 'dart:ui';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/providers/models_provider.dart';
-import 'package:virtualbuild/screens/housemodels/experience_ar.dart';
 import 'package:virtualbuild/screens/housemodels/explore_plans_screen.dart';
 import 'package:virtualbuild/widgets/customscreen.dart';
 import 'package:virtualbuild/widgets/headerwithnavigation.dart';
@@ -32,13 +30,12 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
 
   @override
   void initState() {
-    checkIfFav();
     // TODO: implement initState
     super.initState();
   }
 
-  checkIfFav() async {
-    isFavorite = await Provider.of<ModelsProvider>(context, listen: false).checkFavModel("svkvXGlLTX2JaC5B4IaU");
+  checkIfFav(String modelId) async {
+    isFavorite = await Provider.of<ModelsProvider>(context, listen: false).checkFavModel(modelId);
     print("from outside $isFavorite");
     setState(() {});
     return isFavorite;
@@ -90,7 +87,8 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
     }
     final modelsProvider = Provider.of<ModelsProvider>(context);
     var scaffoldMessengerVar = ScaffoldMessenger.of(context);
-    print("From indside = $isFavorite");
+    String modelIndentity = modelData.modelId;
+    checkIfFav(modelIndentity);
     // isFavorite = checkIfFav(modelData.modelId);
 
     return isErrorOccured
@@ -137,159 +135,163 @@ class _ModelsDetailScreenState extends State<ModelsDetailScreen> {
                               Container(
                                   height: isMobile ? size.height * 0.5 : size.height * 0.8,
                                   width: 600,
-                                  child: Stack(
-                                    children: [
-                                      ModelViewer(
-                                        backgroundColor: Colors.black,
-                                        src: modelData.model3dURL,
-                                        alt: "A 3d model of astronaut",
-                                        ar: true,
-                                        autoPlay: true,
-                                        autoRotate: true,
-                                        cameraControls: true,
-                                        loading: Loading.eager,
-                                        poster: "assets/fetchModel.png",
-                                      ),
-                                      if (isBirdsEyeView)
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Stack(
+                                      children: [
                                         ModelViewer(
-                                          backgroundColor: Colors.black,
-                                          src: modelData.model3dBirdsView,
-                                          alt: "A 3d model of astronaut",
+                                          backgroundColor: Theme.of(context).canvasColor.withOpacity(1),
+                                          src: modelData.model3dURL,
+                                          alt: "A 3d model",
                                           ar: true,
                                           autoPlay: true,
                                           autoRotate: true,
                                           cameraControls: true,
                                           loading: Loading.eager,
                                           poster: "assets/fetchModel.png",
+                                          shadowIntensity: 1,
                                         ),
-                                      Align(
-                                        alignment: Alignment.topRight,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            IconButton(
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    icon: Icon(
-                                                      Icons.lock_person,
-                                                      color: Theme.of(context).primaryColor,
-                                                    ),
-                                                    title: Text(
-                                                      "Enter Project Password",
-                                                      style: Theme.of(context).textTheme.titleMedium,
-                                                    ),
-                                                    backgroundColor: Theme.of(context).canvasColor.withOpacity(1),
-                                                    content: TextFormField(
-                                                      controller: _projectPassword,
-                                                      decoration: customDecorationForInput(
-                                                        context,
-                                                        "Enter Password",
-                                                        Icons.lock,
+                                        if (isBirdsEyeView)
+                                          ModelViewer(
+                                            backgroundColor: Theme.of(context).canvasColor.withOpacity(1),
+                                            src: modelData.model3dBirdsView,
+                                            alt: "A 3d model",
+                                            ar: true,
+                                            autoPlay: true,
+                                            autoRotate: true,
+                                            cameraControls: true,
+                                            loading: Loading.eager,
+                                            poster: "assets/fetchModel.png",
+                                          ),
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => AlertDialog(
+                                                      icon: Icon(
+                                                        Icons.lock_person,
+                                                        color: Theme.of(context).primaryColor,
                                                       ),
-                                                    ),
-                                                    actionsAlignment: MainAxisAlignment.center,
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          if (modelData.modelPassword == _projectPassword.text) {
-                                                            _projectPassword.clear();
-                                                            Provider.of<UserDataProvide>(context, listen: false).addProjectToOrders(
-                                                              modelData.modelId,
-                                                            );
-                                                            Navigator.of(context).pop();
-                                                            Navigator.of(context).pushNamed(
-                                                              ExplorePlansScreen.routeName,
-                                                              arguments: modelData.modelOtherDesignLinks,
-                                                            );
-                                                          } else {
-                                                            _projectPassword.clear();
-                                                            scaffoldMessengerVar.showSnackBar(
-                                                              SnackBar(
-                                                                content: AwesomeSnackbarContent(
-                                                                  title: 'Oh snap!',
-                                                                  message: "You entered a wrong password!!",
-                                                                  contentType: ContentType.failure,
-                                                                ),
-                                                                behavior: SnackBarBehavior.floating,
-                                                                backgroundColor: Colors.transparent,
-                                                                elevation: 0,
-                                                              ),
-                                                            );
-                                                            Navigator.of(context).pop();
-                                                          }
-                                                        },
-                                                        child: Text(
-                                                          "Get Layouts",
-                                                          style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                                                                color: Theme.of(context).primaryColor,
-                                                                fontWeight: FontWeight.bold,
-                                                              ),
+                                                      title: Text(
+                                                        "Enter Project Password",
+                                                        style: Theme.of(context).textTheme.titleMedium,
+                                                      ),
+                                                      backgroundColor: Theme.of(context).canvasColor.withOpacity(1),
+                                                      content: TextFormField(
+                                                        controller: _projectPassword,
+                                                        decoration: customDecorationForInput(
+                                                          context,
+                                                          "Enter Password",
+                                                          Icons.lock,
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              icon: Icon(
-                                                Icons.info_outline_rounded,
-                                                color: Theme.of(context).primaryColor,
+                                                      ),
+                                                      actionsAlignment: MainAxisAlignment.center,
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            if (modelData.modelPassword == _projectPassword.text) {
+                                                              _projectPassword.clear();
+                                                              Provider.of<UserDataProvide>(context, listen: false).addProjectToOrders(
+                                                                modelData.modelId,
+                                                              );
+                                                              Navigator.of(context).pop();
+                                                              Navigator.of(context).pushNamed(
+                                                                ExplorePlansScreen.routeName,
+                                                                arguments: modelData.modelOtherDesignLinks,
+                                                              );
+                                                            } else {
+                                                              _projectPassword.clear();
+                                                              scaffoldMessengerVar.showSnackBar(
+                                                                SnackBar(
+                                                                  content: AwesomeSnackbarContent(
+                                                                    title: 'Oh snap!',
+                                                                    message: "You entered a wrong password!!",
+                                                                    contentType: ContentType.failure,
+                                                                  ),
+                                                                  behavior: SnackBarBehavior.floating,
+                                                                  backgroundColor: Colors.transparent,
+                                                                  elevation: 0,
+                                                                ),
+                                                              );
+                                                              Navigator.of(context).pop();
+                                                            }
+                                                          },
+                                                          child: Text(
+                                                            "Get Layouts",
+                                                            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                                                  color: Theme.of(context).primaryColor,
+                                                                  fontWeight: FontWeight.bold,
+                                                                ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.info_outline_rounded,
+                                                  color: Theme.of(context).primaryColor,
+                                                ),
                                               ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  isFavorite = !isFavorite;
-                                                });
-                                                if (isFavorite) {
+                                              IconButton(
+                                                onPressed: () {
                                                   setState(() {
-                                                    modelsProvider.addFavourite(modelData.modelId);
+                                                    isFavorite = !isFavorite;
                                                   });
-                                                  scaffoldMessengerVar.showSnackBar(
-                                                    SnackBar(
-                                                      content: AwesomeSnackbarContent(
-                                                        title: 'Added to favorites!',
-                                                        message: "Your favorite items are always at your fingertips.",
-                                                        contentType: ContentType.success,
+                                                  if (isFavorite) {
+                                                    setState(() {
+                                                      modelsProvider.addFavourite(modelData.modelId);
+                                                    });
+                                                    scaffoldMessengerVar.showSnackBar(
+                                                      SnackBar(
+                                                        content: AwesomeSnackbarContent(
+                                                          title: 'Added to favorites!',
+                                                          message: "Your favorite items are always at your fingertips.",
+                                                          contentType: ContentType.success,
+                                                        ),
+                                                        behavior: SnackBarBehavior.floating,
+                                                        backgroundColor: Colors.transparent,
+                                                        elevation: 0,
                                                       ),
-                                                      behavior: SnackBarBehavior.floating,
-                                                      backgroundColor: Colors.transparent,
-                                                      elevation: 0,
-                                                    ),
-                                                  );
-                                                } else {
-                                                  setState(() {
-                                                    modelsProvider.removeFavourite(modelData.modelId);
-                                                  });
-                                                  scaffoldMessengerVar.showSnackBar(
-                                                    SnackBar(
-                                                      content: AwesomeSnackbarContent(
-                                                        title: 'Removed from favorites!',
-                                                        message: "No worries, you can always add it back later.",
-                                                        contentType: ContentType.help,
+                                                    );
+                                                  } else {
+                                                    setState(() {
+                                                      modelsProvider.removeFavourite(modelData.modelId);
+                                                    });
+                                                    scaffoldMessengerVar.showSnackBar(
+                                                      SnackBar(
+                                                        content: AwesomeSnackbarContent(
+                                                          title: 'Removed from favorites!',
+                                                          message: "No worries, you can always add it back later.",
+                                                          contentType: ContentType.help,
+                                                        ),
+                                                        behavior: SnackBarBehavior.floating,
+                                                        backgroundColor: Colors.transparent,
+                                                        elevation: 0,
                                                       ),
-                                                      behavior: SnackBarBehavior.floating,
-                                                      backgroundColor: Colors.transparent,
-                                                      elevation: 0,
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                              icon: isFavorite
-                                                  ? Icon(
-                                                      Icons.favorite,
-                                                      color: Theme.of(context).primaryColor,
-                                                    )
-                                                  : Icon(
-                                                      Icons.favorite_border,
-                                                      color: Theme.of(context).primaryColor,
-                                                    ),
-                                            ),
-                                          ],
+                                                    );
+                                                  }
+                                                },
+                                                icon: isFavorite
+                                                    ? Icon(
+                                                        Icons.favorite,
+                                                        color: Theme.of(context).primaryColor,
+                                                      )
+                                                    : Icon(
+                                                        Icons.favorite_border,
+                                                        color: Theme.of(context).primaryColor,
+                                                      ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   )),
                               SizedBox(
                                 width: 500,

@@ -20,11 +20,22 @@ class ArchitectsCard extends StatefulWidget {
 
 class _ArchitectsCardState extends State<ArchitectsCard> {
   bool isExpanded = false;
+  bool isFav = false;
+  @override
+  void initState() {
+    checkIfFav();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  checkIfFav() async {
+    isFav = await Provider.of<ArchitectsProvider>(context, listen: false).checkFavArch(widget.architectData.architectID);
+    return isFav;
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(widget.architectData);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -144,8 +155,11 @@ class _ArchitectsCardState extends State<ArchitectsCard> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       ModelsCardButtons(
-                                        buttontext: "Favorite",
+                                        buttontext: isFav ? "Unfavorite" : "Favorite",
                                         whatOnPressed: () async {
+                                          setState(() {
+                                            isFav = !isFav;
+                                          });
                                           var fav = Provider.of<ArchitectsProvider>(context, listen: false);
                                           var list = await fav.getFavArchList();
                                           if (list.contains(widget.architectData.architectID)) {

@@ -4,6 +4,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:virtualbuild/firebase/authentication.dart';
 import 'package:virtualbuild/screens/accounts/account_screen.dart';
+import 'package:virtualbuild/screens/auth/login_screen.dart';
 import 'package:virtualbuild/screens/botarchitect/bot_chats_screen.dart';
 import 'package:virtualbuild/screens/chats/chats_screen.dart';
 import 'package:virtualbuild/screens/display_screen.dart';
@@ -50,8 +51,7 @@ class _CustomMenuState extends State<CustomMenu> {
           color: isSelected ? theme.primaryColor : theme.secondaryHeaderColor,
         ),
       ),
-      tileColor:
-          isSelected ? Colors.black.withOpacity(0.3) : Colors.transparent,
+      tileColor: isSelected ? Colors.black.withOpacity(0.3) : Colors.transparent,
     );
   }
 
@@ -76,8 +76,7 @@ class _CustomMenuState extends State<CustomMenu> {
     return SizedBox(
       width: widthOfMenuBar(size.width),
       child: Scaffold(
-        backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor.withOpacity(1),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(1),
         body: SafeArea(
           child: SizedBox(
             height: size.height,
@@ -139,8 +138,7 @@ class _CustomMenuState extends State<CustomMenu> {
                   onTap: () {
                     //highLighter.highlightDrawerMenu(2);
                     Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .pushNamed(ExploreModelsScreen.routeName);
+                    Navigator.of(context).pushNamed(ExploreModelsScreen.routeName);
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
@@ -154,8 +152,7 @@ class _CustomMenuState extends State<CustomMenu> {
                     //highLighter.highlightDrawerMenu(3);
 
                     Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .pushNamed(ExploreArchitectsScreen.routeName);
+                    Navigator.of(context).pushNamed(ExploreArchitectsScreen.routeName);
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
@@ -193,8 +190,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .pushNamed(ChatWithBotScreen.routeName);
+                    Navigator.of(context).pushNamed(ChatWithBotScreen.routeName);
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
@@ -208,8 +204,7 @@ class _CustomMenuState extends State<CustomMenu> {
                     //highLighter.highlightDrawerMenu(6);
 
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(AccountScreen.routeName,
-                        arguments: {"": ""});
+                    Navigator.of(context).pushNamed(AccountScreen.routeName, arguments: {"": ""});
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: _buildListTile(
@@ -222,7 +217,7 @@ class _CustomMenuState extends State<CustomMenu> {
                 InkWell(
                   onTap: () async {
                     await Auth().signOut();
-                    navigatorVar.pushNamed(HomeScreen.routeName);
+                    navigatorVar.pushNamed(LoginScreen.routeName);
                   },
                   splashColor: Theme.of(context).primaryColor,
                   child: Container(
