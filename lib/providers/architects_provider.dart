@@ -13,12 +13,9 @@ class ArchitectsProvider with ChangeNotifier {
   }
 
   Stream<List<ArchitectModel>> get getArchitects {
-    var result =
-        FirebaseFirestore.instance.collection("architects").snapshots().map(
-              (snapshot) => snapshot.docs
-                  .map((docs) => ArchitectModel.fromJson(docs.data()))
-                  .toList(),
-            );
+    var result = FirebaseFirestore.instance.collection("architects").snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
+        );
     // add the entire list to the _architects list
     // result.listen((architects) {
     //   _architects.addAll(architects);
@@ -27,15 +24,8 @@ class ArchitectsProvider with ChangeNotifier {
   }
 
   Stream<List<ArchitectModel>> searchArchitects(String value) {
-    return FirebaseFirestore.instance
-        .collection("architects")
-        .where("architectName",
-            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((docs) => ArchitectModel.fromJson(docs.data()))
-              .toList(),
+    return FirebaseFirestore.instance.collection("architects").where("architectName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
         );
   }
 
@@ -53,12 +43,8 @@ class ArchitectsProvider with ChangeNotifier {
 
   showParticularArchitect(String architectId) async {
     try {
-      final architectDetail = await FirebaseFirestore.instance
-          .collection("architects")
-          .doc(architectId)
-          .get();
-      final data = ArchitectModel.fromJson(
-          architectDetail.data() as Map<String, dynamic>);
+      final architectDetail = await FirebaseFirestore.instance.collection("architects").doc(architectId).get();
+      final data = ArchitectModel.fromJson(architectDetail.data() as Map<String, dynamic>);
       return data;
     } catch (e) {
       print(e);
@@ -134,11 +120,7 @@ class ArchitectsProvider with ChangeNotifier {
   Future<List<dynamic>> getFavArchList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       return userData["favArchitects"];
     } catch (e) {
       print(e);
@@ -157,12 +139,10 @@ class ArchitectsProvider with ChangeNotifier {
 
   Future<List<ArchitectModel>> filter() async {
     var data = await FirebaseFirestore.instance.collection("architects").get();
-    var l =
-        data.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList();
+    var l = data.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList();
     List<ArchitectModel> w3 = l.where((e) {
       int exp = int.parse(e.architectExperience);
-      return exp >= currentRangeValuesExperience.start &&
-          exp <= currentRangeValuesExperience.end;
+      return exp >= currentRangeValuesExperience.start && exp <= currentRangeValuesExperience.end;
     }).toList();
     return w3;
   }

@@ -27,12 +27,9 @@ class ModelsProvider with ChangeNotifier {
   }
 
   Stream<List<Models3D>> get getMyModels {
-    var result =
-        FirebaseFirestore.instance.collection("models").snapshots().map(
-              (snapshot) => snapshot.docs
-                  .map((docs) => Models3D.fromJson(docs.data()))
-                  .toList(),
-            );
+    var result = FirebaseFirestore.instance.collection("models").snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
+        );
     return result;
   }
 
@@ -41,19 +38,11 @@ class ModelsProvider with ChangeNotifier {
     try {
       var myProjs = [];
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       myProjs = userData["orderedModels"];
       for (var element in myProjs) {
-        var result = await FirebaseFirestore.instance
-            .collection("models")
-            .doc(element)
-            .get();
-        myProjects
-            .add(Models3D.fromJson(result.data() as Map<String, dynamic>));
+        var result = await FirebaseFirestore.instance.collection("models").doc(element).get();
+        myProjects.add(Models3D.fromJson(result.data() as Map<String, dynamic>));
       }
       return myProjects;
     } catch (e) {
@@ -63,27 +52,14 @@ class ModelsProvider with ChangeNotifier {
   }
 
   Stream<List<Models3D>> searchModels(String value) {
-    return FirebaseFirestore.instance
-        .collection("models")
-        .where("modelName",
-            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((docs) => Models3D.fromJson(docs.data()))
-              .toList(),
+    return FirebaseFirestore.instance.collection("models").where("modelName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
         );
   }
 
   Stream<List<Models3D>> getArchitectSpecificModels(String architectID) {
-    var result = FirebaseFirestore.instance
-        .collection("models")
-        .where("modelArchitectID", isEqualTo: architectID)
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((docs) => Models3D.fromJson(docs.data()))
-              .toList(),
+    var result = FirebaseFirestore.instance.collection("models").where("modelArchitectID", isEqualTo: architectID).snapshots().map(
+          (snapshot) => snapshot.docs.map((docs) => Models3D.fromJson(docs.data())).toList(),
         );
     return result;
   }
@@ -97,8 +73,7 @@ class ModelsProvider with ChangeNotifier {
     var l = data.docs.map((docs) => Models3D.fromJson(docs.data())).toList();
     print("l.length ${l[0].modelName}");
     List<Models3D> w3 = l.where((e) {
-      double price =
-          double.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
+      double price = double.parse(e.modelPrice.substring(0, e.modelPrice.length - 1));
       // int price = 0;
       String ch = e.modelPrice[e.modelPrice.length - 1];
       switch (ch) {
@@ -131,10 +106,8 @@ class ModelsProvider with ChangeNotifier {
       //     (e.modelFloors <= currentValueFloor) &&
       //     (e.modelNumberOfBedrooms <= currentValueBeds) &&
       //     (e.modelNumberOfBaths <= currentValueBaths));
-      return (price >= currentRangeValuesPrice.start &&
-              price <= currentRangeValuesPrice.end) &&
-          (e.modelTotalSquareFootage >= currentRangeValuesArea.start &&
-              e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
+      return (price >= currentRangeValuesPrice.start && price <= currentRangeValuesPrice.end) &&
+          (e.modelTotalSquareFootage >= currentRangeValuesArea.start && e.modelTotalSquareFootage <= currentRangeValuesArea.end) &&
           (e.modelFloors <= currentValueFloor) &&
           (e.modelNumberOfBedrooms <= currentValueBeds) &&
           (e.modelNumberOfBaths <= currentValueBaths);
@@ -212,7 +185,7 @@ class ModelsProvider with ChangeNotifier {
 //             .get();
 //         favArchitects
 //             .add(Models3D.fromJson(result.data() as Map<String, dynamic>));
-      
+
       Stream<DocumentSnapshot<Map<String, dynamic>>> userStream = FirebaseFirestore.instance.collection('users').doc(userId).snapshots();
 
       await for (DocumentSnapshot<Map<String, dynamic>> userData in userStream) {
@@ -235,11 +208,7 @@ class ModelsProvider with ChangeNotifier {
   Future<List<dynamic>> getFavModelList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
-          .instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
       return userData["favModels"];
     } catch (e) {
       print(e);
