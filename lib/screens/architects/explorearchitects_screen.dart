@@ -92,7 +92,19 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
             SizedBox(
               height: size.height * 0.02,
             ),
-            if (isFilterArchitects) const FilterArchitects(),
+            if (isFilterArchitects)
+              FilterArchitects(
+                reset: TextButton(
+                  child: const Text('Reset'),
+                  onPressed: () {
+                    setState(() {
+                      isFilterArchitects = false;
+                      init = false;
+                      architectData.resetValues();
+                    });
+                  },
+                ),
+              ),
             if (!init) ...[
               StreamBuilder(
                 // stream: architectData.getArchitects,

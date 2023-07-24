@@ -8,11 +8,19 @@ class ModelsProvider with ChangeNotifier {
   bool init = false;
   List<Models3D> models = [];
 
-  RangeValues currentRangeValuesPrice = const RangeValues(4000, 120000);
-  RangeValues currentRangeValuesArea = const RangeValues(1800, 8000);
+  RangeValues currentRangeValuesPrice = const RangeValues(0, 200000);
+  RangeValues currentRangeValuesArea = const RangeValues(6000, 12000);
   double currentValueFloor = 3;
   double currentValueBeds = 6;
   double currentValueBaths = 5;
+
+  void resetValues() {
+    currentRangeValuesPrice = const RangeValues(0, 120000);
+    currentRangeValuesArea = const RangeValues(6000, 12000);
+    currentValueFloor = 3;
+    currentValueBeds = 6;
+    currentValueBaths = 5;
+  }
 
   List<Models3D> get getModel {
     return [...models];

@@ -8,6 +8,10 @@ class ArchitectsProvider with ChangeNotifier {
   final List<ArchitectModel> _architects = [];
   RangeValues currentRangeValuesExperience = const RangeValues(30, 50);
 
+  void resetValues() {
+    currentRangeValuesExperience = RangeValues(30, 50);
+  }
+
   Stream<List<ArchitectModel>> get getArchitects {
     var result =
         FirebaseFirestore.instance.collection("architects").snapshots().map(

@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/models_provider.dart';
 
 class FilterModels extends StatefulWidget {
-  const FilterModels({super.key});
+  final TextButton reset;
+  const FilterModels({super.key, required this.reset});
 
   @override
   State<FilterModels> createState() => _FilterModelsState();
@@ -183,6 +184,16 @@ class _FilterModelsState extends State<FilterModels> {
                   ),
                 ],
               )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.reset,
+              SizedBox(
+                width: size.width * 0.02,
+              )
+            ],
+          )
         ],
       ),
     );

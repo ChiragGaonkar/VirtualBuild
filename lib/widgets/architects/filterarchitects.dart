@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../../providers/architects_provider.dart';
 
 class FilterArchitects extends StatefulWidget {
-  const FilterArchitects({super.key});
+  final TextButton reset;
+  const FilterArchitects({super.key, required this.reset});
 
   @override
   State<FilterArchitects> createState() => _FilterArchitectsState();
@@ -181,6 +182,16 @@ class _FilterArchitectsState extends State<FilterArchitects> {
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.reset,
+              SizedBox(
+                width: size.width * 0.02,
+              )
+            ],
+          )
         ],
       ),
     );

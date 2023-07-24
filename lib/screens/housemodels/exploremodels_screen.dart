@@ -81,7 +81,9 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                         setState(() {
                           print(isFilterOn);
                           isFilterOn = !isFilterOn;
-                          init = true;
+                          if (isFilterOn == false) {
+                            init = true;
+                          }
                         });
                       },
                       icon: Icon(
@@ -93,7 +95,19 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                   ),
                 ],
               ),
-              if (isFilterOn) const FilterModels(),
+              if (isFilterOn)
+                FilterModels(
+                  reset: TextButton(
+                    child: const Text('Reset'),
+                    onPressed: () {
+                      setState(() {
+                        isFilterOn = false;
+                        init = false;
+                        modelData.resetValues();
+                      });
+                    },
+                  ),
+                ),
               SizedBox(
                 height: size.height * 0.02,
               ),
@@ -104,7 +118,7 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
                       ? modelData.searchModels(_searchTextController.text)
                       : modelData.getMyModels,
                   builder: (context, snapshots) {
-                    init = !init;
+                    // init = !init;
                     if (!snapshots.hasData) {
                       return const CustomLoadingSpinner();
                     } else if (snapshots.data!.isEmpty) {
