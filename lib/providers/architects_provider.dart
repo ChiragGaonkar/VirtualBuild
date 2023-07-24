@@ -6,11 +6,19 @@ import 'package:virtualbuild/models/architects_model.dart';
 
 class ArchitectsProvider with ChangeNotifier {
   final List<ArchitectModel> _architects = [];
+  RangeValues currentRangeValuesExperience = const RangeValues(30, 50);
+
+  void resetValues() {
+    currentRangeValuesExperience = RangeValues(30, 50);
+  }
 
   Stream<List<ArchitectModel>> get getArchitects {
-    var result = FirebaseFirestore.instance.collection("architects").snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
-        );
+    var result =
+        FirebaseFirestore.instance.collection("architects").snapshots().map(
+              (snapshot) => snapshot.docs
+                  .map((docs) => ArchitectModel.fromJson(docs.data()))
+                  .toList(),
+            );
     // add the entire list to the _architects list
     // result.listen((architects) {
     //   _architects.addAll(architects);
@@ -19,8 +27,15 @@ class ArchitectsProvider with ChangeNotifier {
   }
 
   Stream<List<ArchitectModel>> searchArchitects(String value) {
-    return FirebaseFirestore.instance.collection("architects").where("architectName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
+    return FirebaseFirestore.instance
+        .collection("architects")
+        .where("architectName",
+            isGreaterThanOrEqualTo: value, isLessThan: value + 'z')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((docs) => ArchitectModel.fromJson(docs.data()))
+              .toList(),
         );
   }
 
@@ -38,8 +53,12 @@ class ArchitectsProvider with ChangeNotifier {
 
   showParticularArchitect(String architectId) async {
     try {
-      final architectDetail = await FirebaseFirestore.instance.collection("architects").doc(architectId).get();
-      final data = ArchitectModel.fromJson(architectDetail.data() as Map<String, dynamic>);
+      final architectDetail = await FirebaseFirestore.instance
+          .collection("architects")
+          .doc(architectId)
+          .get();
+      final data = ArchitectModel.fromJson(
+          architectDetail.data() as Map<String, dynamic>);
       return data;
     } catch (e) {
       print(e);
@@ -79,6 +98,20 @@ class ArchitectsProvider with ChangeNotifier {
   Stream<List<ArchitectModel>> getFavArchitectsStream() async* {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
+
+//       DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+//           .instance
+//           .collection('users')
+//           .doc(userId)
+//           .get();
+//       favArch = userData["favArchitects"];
+//       for (var element in favArch) {
+//         var result = await FirebaseFirestore.instance
+//             .collection("architects")
+//             .doc(element)
+//             .get();
+//         favArchitects.add(
+//             ArchitectModel.fromJson(result.data() as Map<String, dynamic>));
       Stream<DocumentSnapshot<Map<String, dynamic>>> userStream = FirebaseFirestore.instance.collection('users').doc(userId).snapshots();
 
       await for (DocumentSnapshot<Map<String, dynamic>> userData in userStream) {
@@ -101,7 +134,11 @@ class ArchitectsProvider with ChangeNotifier {
   Future<List<dynamic>> getFavArchList() async {
     try {
       final userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(userId)
+          .get();
       return userData["favArchitects"];
     } catch (e) {
       print(e);
@@ -116,5 +153,17 @@ class ArchitectsProvider with ChangeNotifier {
     } else {
       return false;
     }
+  }
+
+  Future<List<ArchitectModel>> filter() async {
+    var data = await FirebaseFirestore.instance.collection("architects").get();
+    var l =
+        data.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList();
+    List<ArchitectModel> w3 = l.where((e) {
+      int exp = int.parse(e.architectExperience);
+      return exp >= currentRangeValuesExperience.start &&
+          exp <= currentRangeValuesExperience.end;
+    }).toList();
+    return w3;
   }
 }

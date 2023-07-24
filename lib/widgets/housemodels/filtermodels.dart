@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/models_provider.dart';
 
 class FilterModels extends StatefulWidget {
-  const FilterModels({super.key});
+  final TextButton reset;
+  const FilterModels({super.key, required this.reset});
 
   @override
   State<FilterModels> createState() => _FilterModelsState();
@@ -36,7 +37,7 @@ class _FilterModelsState extends State<FilterModels> {
                   Expanded(
                     child: RangeSlider(
                       values: modelData.currentRangeValuesPrice,
-                      max: 20000,
+                      max: 1000000,
                       divisions: 5,
                       labels: RangeLabels(
                         '₹${modelData.currentRangeValuesPrice.start.round().toString()}',
@@ -64,7 +65,7 @@ class _FilterModelsState extends State<FilterModels> {
                   Expanded(
                     child: RangeSlider(
                       values: modelData.currentRangeValuesArea,
-                      max: 3000,
+                      max: 30000,
                       divisions: 5,
                       labels: RangeLabels(
                         '${modelData.currentRangeValuesArea.start.round().toString()} sqft',
@@ -175,6 +176,7 @@ class _FilterModelsState extends State<FilterModels> {
                           setState(() {
                             _currentValueBaths = val;
                             modelData.currentValueBaths = val;
+                            // print(modelData.currentValueBaths);
                           });
                         },
                       ),
@@ -182,6 +184,16 @@ class _FilterModelsState extends State<FilterModels> {
                   ),
                 ],
               )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.reset,
+              SizedBox(
+                width: size.width * 0.02,
+              )
+            ],
+          )
         ],
       ),
     );
