@@ -24,10 +24,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final chatsArchitectsList =
-        Provider.of<ChatsProvider>(context, listen: false);
+    final chatsArchitectsList = Provider.of<ChatsProvider>(context, listen: false);
     return Scaffold(
       key: scaffoldKey,
+      resizeToAvoidBottomInset: false,
       endDrawer: const CustomMenu(),
       body: GestureDetector(
         onTap: () {
@@ -59,10 +59,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
               ),
               FutureBuilder(
                 // future: chatsArchitectsList.getMessagedArchitectsDetails(),
-                future: _searchTextController.text.isNotEmpty
-                    ? chatsArchitectsList
-                        .searchMessagedArchitects(_searchTextController.text)
-                    : chatsArchitectsList.getMessagedArchitectsDetails(),
+                future: _searchTextController.text.isNotEmpty ? chatsArchitectsList.searchMessagedArchitects(_searchTextController.text) : chatsArchitectsList.getMessagedArchitectsDetails(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CustomLoadingSpinner());

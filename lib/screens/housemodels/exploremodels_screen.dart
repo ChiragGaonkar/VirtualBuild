@@ -32,10 +32,11 @@ class _ExploreModelsScreenState extends State<ExploreModelsScreen> {
     print("init $init");
     return Scaffold(
       key: scaffoldKey,
+      resizeToAvoidBottomInset: false,
       endDrawer: const CustomMenu(),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus();
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: MyCustomScreen(
           // customColor: Colors.blue,

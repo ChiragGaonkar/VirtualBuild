@@ -12,8 +12,8 @@ class ArchFav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var architectData = Provider.of<ArchitectsProvider>(context, listen: false);
-    return FutureBuilder(
-      future: architectData.getFavArchitects(),
+    return StreamBuilder(
+      stream: architectData.getFavArchitectsStream(),
       builder: (context, snapshots) {
         if (!snapshots.hasData) {
           return const CustomLoadingSpinner();

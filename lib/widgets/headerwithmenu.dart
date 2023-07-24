@@ -25,6 +25,7 @@ class HeaderWithMenu extends StatelessWidget {
         IconButton(
           onPressed: () {
             scaffoldKey.currentState!.openEndDrawer();
+            // FocusScope.of(context).unfocus();
           },
           padding: const EdgeInsets.all(0),
           icon: Icon(

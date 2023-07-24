@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/accounts/account_screen.dart';
-
 class HeaderWithNavigation extends StatelessWidget {
   final String heading;
   final String screenToBeRendered;
@@ -17,7 +15,7 @@ class HeaderWithNavigation extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
             if (screenToBeRendered == "None") {
               Navigator.of(context).pop();
             }
@@ -28,8 +26,7 @@ class HeaderWithNavigation extends StatelessWidget {
             //   //     arguments: {"reload": true});
             // }
             else {
-              Navigator.of(context)
-                  .pushNamed(screenToBeRendered, arguments: {"": ""});
+              Navigator.of(context).pushNamed(screenToBeRendered, arguments: {"": ""});
             }
           },
           icon: const Icon(

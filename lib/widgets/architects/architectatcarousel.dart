@@ -15,8 +15,7 @@ class ArchitectAtCarousel extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(ArchitectDetailScreen.routeName,
-            arguments: architectData);
+        Navigator.of(context).pushNamed(ArchitectDetailScreen.routeName, arguments: architectData);
       },
       child: Stack(
         alignment: AlignmentDirectional.center,
@@ -46,17 +45,13 @@ class ArchitectAtCarousel extends StatelessWidget {
                     borderRadius: 20,
                     blur: 26,
                     border: 0,
-                    linearGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                        ],
-                        stops: const [
-                          0.1,
-                          1,
-                        ]),
+                    linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+                      const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6),
+                      const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                    ], stops: const [
+                      0.1,
+                      1,
+                    ]),
                     borderGradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -99,8 +94,7 @@ class ArchitectAtCarousel extends StatelessWidget {
             child: CircleAvatar(
               radius: 68,
               child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(architectData.architectImageUrl.toString()),
+                backgroundImage: NetworkImage(architectData.architectImageUrl.toString()),
                 radius: 65,
               ),
             ),

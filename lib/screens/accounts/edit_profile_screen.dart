@@ -76,14 +76,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       isErrorOccured = true;
     }
     return isErrorOccured
-        ? const ErrorScreen(
-            screenToBeRendered: DisplayScreen.routeName,
-            renderScreenName: "Home Page")
+        ? const ErrorScreen(screenToBeRendered: DisplayScreen.routeName, renderScreenName: "Home Page")
         : Scaffold(
             // resizeToAvoidBottomInset: true,
             body: GestureDetector(
               onTap: () {
-                FocusScope.of(context).unfocus();
+                FocusManager.instance.primaryFocus?.unfocus();
               },
               child: MyCustomScreen(
                 customColor: Theme.of(context).primaryColor,
@@ -125,8 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   if (value != null && value.isEmpty) {
                                     return "Please enter your name";
                                   }
-                                  if (!RegExp(r'^[a-zA-Z\s]+$')
-                                      .hasMatch(value!)) {
+                                  if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value!)) {
                                     return 'Please enter alphabets only(spaces allowed)';
                                   }
                                   return null;
@@ -144,8 +141,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   if (value != null && value.isEmpty) {
                                     return "Please enter your phone number";
                                   }
-                                  if (!RegExp(r'^[0-9]{10}$')
-                                      .hasMatch(value!)) {
+                                  if (!RegExp(r'^[0-9]{10}$').hasMatch(value!)) {
                                     return "Phone number should only contain 10 digits";
                                   }
                                   return null;
@@ -170,12 +166,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 height: size.height * 0.04,
                               ),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    0, 0, 0, size.height * 0.07),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, size.height * 0.07),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    final isValid =
-                                        formKey.currentState!.validate();
+                                    final isValid = formKey.currentState!.validate();
                                     if (!isValid) return;
                                     FocusScope.of(context).unfocus();
                                     //Start CircularProgressIndicator
@@ -186,16 +180,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       },
                                     );
 
-                                    await user_data.updateData(
-                                        _nameController.text,
-                                        _addressController.text,
-                                        _phoneNoController.text);
+                                    await user_data.updateData(_nameController.text, _addressController.text, _phoneNoController.text);
                                     navigationVar.pop();
                                     navigationVar.pop();
                                     navigationVar.pop();
-                                    navigationVar.pushNamed(
-                                        AccountScreen.routeName,
-                                        arguments: {"reload": true});
+                                    navigationVar.pushNamed(AccountScreen.routeName, arguments: {"reload": true});
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(
@@ -208,8 +197,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
                                   child: Text(
                                     "Save",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
+                                    style: Theme.of(context).textTheme.titleMedium,
                                   ),
                                 ),
                               )

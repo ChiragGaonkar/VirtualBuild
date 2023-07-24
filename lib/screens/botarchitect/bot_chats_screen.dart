@@ -49,9 +49,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
 
     Map<String, dynamic> decodedResponse = json.decode(response.body);
 
-    if (!decodedResponse.containsKey('choices') ||
-        decodedResponse['choices'].isEmpty ||
-        !decodedResponse['choices'][0].containsKey('text')) {
+    if (!decodedResponse.containsKey('choices') || decodedResponse['choices'].isEmpty || !decodedResponse['choices'][0].containsKey('text')) {
       print('Error: unexpected response structure');
       print(decodedResponse);
       return ''; // or throw an exception
@@ -69,6 +67,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom == 0 ? true : false;
     return Scaffold(
       key: scaffoldKey,
       endDrawer: const CustomMenu(),
@@ -83,7 +82,8 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                 header: "AI Architect",
                 scaffoldKey: scaffoldKey,
               ),
-              if (_messages.isEmpty) const DataNotFound(),
+              if (_messages.isEmpty)
+                if (isKeyboardOpen) const DataNotFound(),
               Expanded(
                 child: ListView.builder(
                   controller: _scrollController,
@@ -139,14 +139,11 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "Are you sure you wish to proceed with deleting the message?",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
+                                            style: Theme.of(context).textTheme.titleMedium,
                                           ),
                                           InkWell(
                                             onTap: () {
@@ -155,14 +152,11 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                                             child: ListTile(
                                               leading: Icon(
                                                 Icons.cancel_rounded,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                               ),
                                               title: Text(
                                                 "Cancel",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall,
+                                                style: Theme.of(context).textTheme.titleSmall,
                                               ),
                                             ),
                                           ),
@@ -176,14 +170,11 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                                             child: ListTile(
                                               leading: Icon(
                                                 Icons.delete_forever,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                               ),
                                               title: Text(
                                                 "Delete",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall,
+                                                style: Theme.of(context).textTheme.titleSmall,
                                               ),
                                             ),
                                           ),
@@ -202,8 +193,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                     onPressed: _questionTextController.text.isEmpty
                         ? null
                         : () {
-                            String input =
-                                "$promptConstant ${_questionTextController.text}.";
+                            String input = "$promptConstant ${_questionTextController.text}.";
                             setState(() {
                               _messages.add(ChatBotMessage(
                                 text: _questionTextController.text,
@@ -212,8 +202,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                               isResponseLoaded = true;
                             });
                             _questionTextController.clear();
-                            Future.delayed(const Duration(milliseconds: 50))
-                                .then((_) => _scrollDown());
+                            Future.delayed(const Duration(milliseconds: 50)).then((_) => _scrollDown());
                             generateResponse(input).then((value) {
                               setState(() {
                                 _messages.add(ChatBotMessage(
@@ -223,8 +212,7 @@ class _ChatWithBotScreenState extends State<ChatWithBotScreen> {
                                 isResponseLoaded = false;
                               });
                               _questionTextController.clear();
-                              Future.delayed(const Duration(milliseconds: 50))
-                                  .then((_) => _scrollDown());
+                              Future.delayed(const Duration(milliseconds: 50)).then((_) => _scrollDown());
                             });
                           },
                     icon: Icon(

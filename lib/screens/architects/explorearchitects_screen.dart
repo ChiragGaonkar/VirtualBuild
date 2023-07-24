@@ -33,6 +33,7 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
     var architectData = Provider.of<ArchitectsProvider>(context, listen: false);
     return Scaffold(
       key: scaffoldKey,
+      resizeToAvoidBottomInset: false,
       endDrawer: const CustomMenu(),
       body: MyCustomScreen(
         // customColor: Colors.blue,
