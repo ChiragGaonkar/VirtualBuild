@@ -80,42 +80,6 @@ class ModelsProvider with ChangeNotifier {
     return result;
   }
 
-  Stream<List<Models3D>> getFilter() {
-    print("currentRangeValuesPrice $currentRangeValuesPrice");
-    print("currentRangeValuesArea $currentRangeValuesArea");
-    print("currentValueFloor $currentValueFloor");
-    print("currentValueBeds $currentValueBeds");
-    return FirebaseFirestore.instance
-        .collection("models")
-        .where(Filter.and(
-            Filter("modelEstimatedBuildPrice",
-                isGreaterThanOrEqualTo: currentRangeValuesPrice.start),
-            // Filter("modelEstimatedBuildPrice",
-            //     isLessThan: currentRangeValuesPrice.end),
-            Filter("modelTotalSquareFootage",
-                isGreaterThanOrEqualTo: currentRangeValuesArea.start),
-            // Filter("modelTotalSquareFootage",
-            //     isLessThan: currentRangeValuesArea.end),
-            Filter("modelFloors", isGreaterThan: currentValueFloor),
-            Filter("modelNumberOfBedrooms", isLessThan: currentValueBeds)))
-        // .where("modelEstimatedBuildPrice",
-        //     isGreaterThanOrEqualTo: currentRangeValuesPrice.start)
-        // .where("modelEstimatedBuildPrice",
-        //     isLessThan: currentRangeValuesPrice.end)
-        // .where("modelTotalSquareFootage",
-        //     isGreaterThanOrEqualTo: currentRangeValuesArea.start)
-        // .where("modelTotalSquareFootage",
-        //     isLessThan: currentRangeValuesArea.end)
-        // .where("modelFloors", isGreaterThan: currentValueFloor)
-        // .where("modelNumberOfBedrooms", isLessThan: currentValueBeds)
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs
-              .map((docs) => Models3D.fromJson(docs.data()))
-              .toList(),
-        );
-  }
-
   Future<List<Models3D>> getFilteredModel() async {
     print("currentRangeValuesPrice $currentRangeValuesPrice");
     print("currentRangeValuesArea $currentRangeValuesArea");

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/architects_provider.dart';
 
 class FilterArchitects extends StatefulWidget {
   const FilterArchitects({super.key});
@@ -116,6 +119,7 @@ class _FilterArchitectsState extends State<FilterArchitects> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var arch = Provider.of<ArchitectsProvider>(context, listen: false);
     return Container(
       child: Column(
         children: [
@@ -160,16 +164,16 @@ class _FilterArchitectsState extends State<FilterArchitects> {
                 SizedBox(width: size.width * 0.1),
                 Expanded(
                   child: RangeSlider(
-                    values: _currentRangeValuesExperience,
+                    values: arch.currentRangeValuesExperience,
                     max: 50,
                     divisions: 5,
                     labels: RangeLabels(
-                      '${_currentRangeValuesExperience.start.round().toString()} yrs',
-                      '${_currentRangeValuesExperience.end.round().toString()} yrs',
+                      '${arch.currentRangeValuesExperience.start.round().toString()} yrs',
+                      '${arch.currentRangeValuesExperience.end.round().toString()} yrs',
                     ),
                     onChanged: (RangeValues values) {
                       setState(() {
-                        _currentRangeValuesExperience = values;
+                        arch.currentRangeValuesExperience = values;
                       });
                     },
                   ),

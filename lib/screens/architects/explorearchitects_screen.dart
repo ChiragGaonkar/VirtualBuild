@@ -17,13 +17,15 @@ class ExploreArchitectsScreen extends StatefulWidget {
   static const routeName = "/explorearchitects";
 
   @override
-  State<ExploreArchitectsScreen> createState() => _ExploreArchitectsScreenState();
+  State<ExploreArchitectsScreen> createState() =>
+      _ExploreArchitectsScreenState();
 }
 
 class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchTextController = TextEditingController();
   bool isFilterArchitects = false;
+  bool init = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,8 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
                   child: TextFormField(
                     controller: _searchTextController,
                     onChanged: (value) {
-                      setState(() {}); // Triggers a rebuild to update the stream
+                      setState(
+                          () {}); // Triggers a rebuild to update the stream
                     },
                     decoration: customDecorationForInput(
                       context,
@@ -64,12 +67,17 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
                   width: 10,
                 ),
                 Container(
-                  decoration: BoxDecoration(color: isFilterArchitects ? Theme.of(context).primaryColor : Theme.of(context).canvasColor, borderRadius: BorderRadius.circular(15.0)),
+                  decoration: BoxDecoration(
+                      color: isFilterArchitects
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).canvasColor,
+                      borderRadius: BorderRadius.circular(15.0)),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       setState(() {
                         isFilterArchitects = !isFilterArchitects;
+                        init = true;
                       });
                     },
                     icon: Icon(
@@ -85,36 +93,103 @@ class _ExploreArchitectsScreenState extends State<ExploreArchitectsScreen> {
               height: size.height * 0.02,
             ),
             if (isFilterArchitects) const FilterArchitects(),
-            StreamBuilder(
-              // stream: architectData.getArchitects,
-              stream: _searchTextController.text.isNotEmpty ? architectData.searchArchitects(_searchTextController.text) : architectData.getArchitects,
-              builder: (context, snapshots) {
-                if (!snapshots.hasData) {
-                  return const CustomLoadingSpinner();
-                } else if (snapshots.data!.isEmpty) {
-                  return const Align(
-                    alignment: Alignment.center,
-                    child: DataNotFound(),
-                  );
-                }
-                return Flexible(
-                  child: ResponsiveGridList(
-                    rowMainAxisAlignment: MainAxisAlignment.end,
-                    minItemsPerRow: 1,
-                    minItemWidth: 300,
-                    listViewBuilderOptions: ListViewBuilderOptions(
-                      padding: EdgeInsets.zero,
-                    ),
-                    children: List.generate(
-                      snapshots.data!.length,
-                      (index) => ArchitectsCard(
-                        architectData: snapshots.data![index],
+            if (!init) ...[
+              StreamBuilder(
+                // stream: architectData.getArchitects,
+                stream: _searchTextController.text.isNotEmpty
+                    ? architectData.searchArchitects(_searchTextController.text)
+                    : architectData.getArchitects,
+                builder: (context, snapshots) {
+                  if (!snapshots.hasData) {
+                    return const CustomLoadingSpinner();
+                  } else if (snapshots.data!.isEmpty) {
+                    return const Align(
+                      alignment: Alignment.center,
+                      child: DataNotFound(),
+                    );
+                  }
+                  return Flexible(
+                    child: ResponsiveGridList(
+                      rowMainAxisAlignment: MainAxisAlignment.end,
+                      minItemsPerRow: 1,
+                      minItemWidth: 300,
+                      listViewBuilderOptions: ListViewBuilderOptions(
+                        padding: EdgeInsets.zero,
+                      ),
+                      children: List.generate(
+                        snapshots.data!.length,
+                        (index) => ArchitectsCard(
+                          architectData: snapshots.data![index],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+            ] else ...[
+              _searchTextController.text.isNotEmpty
+                  ? StreamBuilder(
+                      // stream: architectData.getArchitects,
+                      stream: architectData
+                          .searchArchitects(_searchTextController.text),
+                      builder: (context, snapshots) {
+                        if (!snapshots.hasData) {
+                          return const CustomLoadingSpinner();
+                        } else if (snapshots.data!.isEmpty) {
+                          return const Align(
+                            alignment: Alignment.center,
+                            child: DataNotFound(),
+                          );
+                        }
+                        return Flexible(
+                          child: ResponsiveGridList(
+                            rowMainAxisAlignment: MainAxisAlignment.end,
+                            minItemsPerRow: 1,
+                            minItemWidth: 300,
+                            listViewBuilderOptions: ListViewBuilderOptions(
+                              padding: EdgeInsets.zero,
+                            ),
+                            children: List.generate(
+                              snapshots.data!.length,
+                              (index) => ArchitectsCard(
+                                architectData: snapshots.data![index],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : FutureBuilder(
+                      // stream: architectData.getArchitects,
+                      future: architectData.filter(),
+                      builder: (context, snapshots) {
+                        if (!snapshots.hasData) {
+                          return const CustomLoadingSpinner();
+                        } else if (snapshots.data!.isEmpty) {
+                          return const Align(
+                            alignment: Alignment.center,
+                            child: DataNotFound(),
+                          );
+                        }
+                        return Flexible(
+                          child: ResponsiveGridList(
+                            rowMainAxisAlignment: MainAxisAlignment.end,
+                            minItemsPerRow: 1,
+                            minItemWidth: 300,
+                            listViewBuilderOptions: ListViewBuilderOptions(
+                              padding: EdgeInsets.zero,
+                            ),
+                            children: List.generate(
+                              snapshots.data!.length,
+                              (index) => ArchitectsCard(
+                                architectData: snapshots.data![index],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ],
             SizedBox(
               height: size.height * 0.02,
             ),
