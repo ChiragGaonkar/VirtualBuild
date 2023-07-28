@@ -16,8 +16,7 @@ class FilterArchitects extends StatefulWidget {
 class _FilterArchitectsState extends State<FilterArchitects> {
   RangeValues _currentRangeValuesExperience = const RangeValues(30, 50);
   final TextEditingController _locationTextController = TextEditingController();
-  final TextEditingController _architectTypeTextController =
-      TextEditingController();
+  final TextEditingController _architectTypeTextController = TextEditingController();
   void updateLocation(String selectedLocation) {
     _locationTextController.text = selectedLocation;
   }
@@ -124,36 +123,36 @@ class _FilterArchitectsState extends State<FilterArchitects> {
     return Container(
       child: Column(
         children: [
-          Container(
-            // padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Row(
-              children: [
-                SizedBox(height: size.height * 0.09),
-                Flexible(
-                  child: AppTextField(
-                    textEditingController: _locationTextController,
-                    title: "Available Location",
-                    hint: "Available Location",
-                    selected: true,
-                    itemLists: _listOfLocations,
-                    onSelect: updateLocation,
-                  ),
-                ),
-                SizedBox(width: size.width * 0.05),
-                Flexible(
-                  child: AppTextField(
-                    textEditingController: _architectTypeTextController,
-                    title: "Architect Type",
-                    hint: "Architect Type",
-                    selected: true,
-                    itemLists: _listOfArchitectTypes,
-                    onSelect: updateArchitectType,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   // padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
+          //   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          //   child: Row(
+          //     children: [
+          //       SizedBox(height: size.height * 0.09),
+          //       Flexible(
+          //         child: AppTextField(
+          //           textEditingController: _locationTextController,
+          //           title: "Available Location",
+          //           hint: "Available Location",
+          //           selected: true,
+          //           itemLists: _listOfLocations,
+          //           onSelect: updateLocation,
+          //         ),
+          //       ),
+          //       SizedBox(width: size.width * 0.05),
+          //       Flexible(
+          //         child: AppTextField(
+          //           textEditingController: _architectTypeTextController,
+          //           title: "Architect Type",
+          //           hint: "Architect Type",
+          //           selected: true,
+          //           itemLists: _listOfArchitectTypes,
+          //           onSelect: updateArchitectType,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Container(
             padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
             child: Row(
@@ -232,10 +231,7 @@ class _AppTextFieldState extends State<AppTextField> {
       });
     } else {
       setState(() {
-        _filteredItems = widget.itemLists!
-            .where(
-                (item) => item.name.toLowerCase().contains(value.toLowerCase()))
-            .toList();
+        _filteredItems = widget.itemLists!.where((item) => item.name.toLowerCase().contains(value.toLowerCase())).toList();
       });
     }
   }
@@ -364,12 +360,10 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           controller: _searchTextEditingController,
           onChanged: (String value) {
-            _buildSearchList(
-                value); // Call the search function when the text changes
+            _buildSearchList(value); // Call the search function when the text changes
           },
         ),
-        data:
-            _filteredItems.isNotEmpty ? _filteredItems : widget.itemLists ?? [],
+        data: _filteredItems.isNotEmpty ? _filteredItems : widget.itemLists ?? [],
         selectedItems: (List<dynamic> selectedList) {
           List<String> list = [];
           for (var item in selectedList) {

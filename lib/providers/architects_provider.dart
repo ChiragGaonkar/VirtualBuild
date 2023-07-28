@@ -7,6 +7,7 @@ import 'package:virtualbuild/models/architects_model.dart';
 class ArchitectsProvider with ChangeNotifier {
   final List<ArchitectModel> _architects = [];
   RangeValues currentRangeValuesExperience = const RangeValues(30, 50);
+  List<ArchitectModel> _allArchitects = [];
 
   void resetValues() {
     currentRangeValuesExperience = RangeValues(30, 50);
@@ -16,17 +17,54 @@ class ArchitectsProvider with ChangeNotifier {
     var result = FirebaseFirestore.instance.collection("architects").snapshots().map(
           (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
         );
-    // add the entire list to the _architects list
-    // result.listen((architects) {
-    //   _architects.addAll(architects);
-    // });
+    result.listen((architects) {
+      _allArchitects = architects;
+    });
     return result;
   }
 
+  // Stream<List<ArchitectModel>> searchArchitects(String value) {
+  //   return FirebaseFirestore.instance.collection("architects").where("architectName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
+  //         (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
+  //       );
+  // }
+
   Stream<List<ArchitectModel>> searchArchitects(String value) {
-    return FirebaseFirestore.instance.collection("architects").where("architectName", isGreaterThanOrEqualTo: value, isLessThan: value + 'z').snapshots().map(
-          (snapshot) => snapshot.docs.map((docs) => ArchitectModel.fromJson(docs.data())).toList(),
-        );
+    value = value.toLowerCase();
+
+    // Filter architects whose names start with the search query
+    var startsWithQuery = _allArchitects.where((architect) {
+      var name = architect.architectName.toLowerCase();
+      return name.startsWith(value);
+    }).toList();
+
+    // Filters remaining architects by name or any element of location
+    var filteredArchitects = _allArchitects.where((architect) {
+      var name = architect.architectName.toLowerCase();
+      var officeLocation = architect.architectOfficeLocation;
+
+      // Check for case-insensitive matches in name and elements of office location
+      return !name.startsWith(value) &&
+          (name.contains(value) ||
+              containsIgnoreCase(officeLocation['city']?.toString(), value) ||
+              containsIgnoreCase(officeLocation['companyName']?.toString(), value) ||
+              containsIgnoreCase(officeLocation['companyStreetAddress']?.toString(), value) ||
+              containsIgnoreCase(officeLocation['country']?.toString(), value) ||
+              containsIgnoreCase(officeLocation['state']?.toString(), value) ||
+              containsIgnoreCase(officeLocation['zipCode']?.toString(), value));
+    }).toList();
+
+    // Combines the two filtered lists, giving priority to names that start with the search query
+    var finalArchitects = [...startsWithQuery, ...filteredArchitects];
+
+    // Returns the filtered architects as a stream
+    return Stream.value(finalArchitects);
+  }
+
+  // Helper method for case-insensitive search
+  bool containsIgnoreCase(String? source, String query) {
+    if (source == null) return false;
+    return source.toLowerCase().contains(query);
   }
 
   Future<bool> addFavouriteArchitect(String id) async {
